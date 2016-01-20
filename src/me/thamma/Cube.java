@@ -54,14 +54,21 @@ public class Cube {
         this.pieces = DEFAULT_CUBE.clone();
     }
 
-    public void test() {
-        cyclePieces(2, new int[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0,0, 0, 0, 0});
-        System.out.println("  " + Arrays.toString(DEFAULT_CUBE));
-        System.out.println("->" + Arrays.toString(this.pieces));
+    public boolean isSolved() {
+        return this.equals(new Cube());
+    }
+
+    public void print() {
+        System.out.println(Arrays.toString(this.pieces));
     }
 
     public void turn(Turn t) {
-        this.cyclePieces(t.getOffset(),t.getTarget(),t.getRotation());
+        if (t.hasChildren()) {
+            for (Turn child : t.getChildren())
+                turn(t);
+        } else {
+            this.cyclePieces(t.getOffset(), t.getTarget(), t.getRotation());
+        }
     }
 
     private void cyclePieces(int offset, int[] target, int[] rotation) {
@@ -75,16 +82,38 @@ public class Cube {
         this.pieces = piecesClone;
     }
 
-    private int rotate(int movedPiece, int rotation) {
-        assert movedPiece != 0;
-        assert ("" + movedPiece).length() < 5;
-        String s = new String(new char[4 - ("" + movedPiece).length()]).replace("\0", "0") + movedPiece;
-        int[] arr = s.chars().map(a -> a - '0').toArray();
-        assert arr.length == 4;
-        int order = (arr[0] == 0 ? 0 : 1) + (arr[2] == 0 ? 0 : 1) + (arr[1] == 0 ? 0 : 1);
-        arr[3] += rotation;
+    public static int rotate(int movedPiece, int rotation) {
+        int[] arr = pieceToArray(movedPiece);
+        int order = order(arr);
+        arr[3] += rotation + order;
         arr[3] %= order;
         return (((arr[0] * 10) + arr[1]) * 10 + arr[2]) * 10 + arr[3];
     }
+
+    private static int[] pieceToArray(int piece) {
+        assert piece != 0;
+        assert ("" + piece).length() < 5;
+        String s = new String(new char[4 - ("" + piece).length()]).replace("\0", "0") + piece;
+        int[] arr = s.chars().map(a -> a - '0').toArray();
+        assert arr.length == 4;
+        return arr;
+    }
+
+    private static int order(int[] pieceArray) {
+        assert pieceArray.length == 4;
+        return (pieceArray[0] == 0 ? 0 : 1) + (pieceArray[2] == 0 ? 0 : 1) + (pieceArray[1] == 0 ? 0 : 1);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Cube))
+            return false;
+        Cube ref = (Cube) o;
+        for (int i = 0; i < pieces.length;i++)
+            if (ref.pieces[i]!=this.pieces[i])
+                return false;
+        return true;
+    }
+
 
 }
