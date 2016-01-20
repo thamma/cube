@@ -16,7 +16,8 @@ public class Cube {
      * (null color is provided if the piece consists of less than three facelets)
      * leading zeros are omitted to prevent confusion with octal numbers
      * Rotation:
-     *   TODO
+     * implemented, hard recognition.
+     * edge rotation is ZZ edge orientation
      */
 
     public static final int ULB = 0;
@@ -65,7 +66,7 @@ public class Cube {
     public void turn(Turn t) {
         if (t.hasChildren()) {
             for (Turn child : t.getChildren())
-                turn(t);
+                turn(child);
         } else {
             this.cyclePieces(t.getOffset(), t.getTarget(), t.getRotation());
         }
