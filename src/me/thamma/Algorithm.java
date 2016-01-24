@@ -5,6 +5,7 @@ import me.thamma.cube.Turn;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 public class Algorithm extends ArrayList<Turn> {
 
@@ -24,13 +25,20 @@ public class Algorithm extends ArrayList<Turn> {
         return clone;
     }
 
+    @Override
+    public String toString() {
+        return Arrays.toString(this.toArray());
+    }
+
     public int order() {
         Cube c = new Cube();
-        int i = 0;
-        do {
+        c.turn(this);
+        if (c.isSolved()) return 0;
+        int i = 1;
+        while (!c.isSolved()) {
             c.turn(this);
             i++;
-        } while (!c.isSolved());
+        }
         return i;
     }
 
