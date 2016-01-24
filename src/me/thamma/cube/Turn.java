@@ -1,22 +1,18 @@
-package me.thamma; /**
- * Created by Dominic on 1/20/2016.
- */
+package me.thamma.cube;
 
-import java.util.Arrays;
-
-import static me.thamma.Cube.*;
+import static me.thamma.cube.Cube.*;
 
 public enum Turn {
     UP(2, new int[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
     UP_PRIME(-2, new int[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-    FRONT(2, new int[]{UFL, UF, URF, RF, DFR, DF, DLF, LF}, new int[]{1, 1, -1, 1, 1, 1, -1, 1}),
-    FRONT_PRIME(-2, new int[]{UFL, UF, URF, RF, DFR, DF, DLF, LF}, new int[]{1, 1, -1, 1, 1, 1, -1, 1}),
+    FRONT(2, new int[]{UFL, UF, URF, RF, DFR, DF, DLF, LF}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
+    FRONT_PRIME(-2, new int[]{UFL, UF, URF, RF, DFR, DF, DLF, LF}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
     RIGHT(2, new int[]{URF, UR, UBR, RB, DRB, DR, DFR, RF}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
     RIGHT_PRIME(-2, new int[]{URF, UR, UBR, RB, DRB, DR, DFR, RF}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
-    DOWN(2, new int[]{DBL, DB, DRB, DR, DFR, DF, DLF, DL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
+    DOWN(2, new int[]{DLF, DF, DFR, DR, DRB, DB, DBL, DL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
     DOWN_PRIME(-2, new int[]{DBL, DB, DRB, DR, DFR, DF, DLF, DL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-    BACK(2, new int[]{UBR, UB, ULB, LB, DBL, DB, DRB, RB}, new int[]{1, 1, -1, 1, 1, 1, -1, 1}),
-    BACK_PRIME(-2, new int[]{UBR, UB, ULB, LB, DBL, DB, DRB, RB}, new int[]{1, 1, -1, 1, 1, 1, -1, 1}),
+    BACK(2, new int[]{UBR, UB, ULB, LB, DBL, DB, DRB, RB}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
+    BACK_PRIME(-2, new int[]{UBR, UB, ULB, LB, DBL, DB, DRB, RB}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
     LEFT(2, new int[]{ULB, UL, UFL, LF, DLF, DL, DBL, LB}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
     LEFT_PRIME(-2, new int[]{ULB, UL, UFL, LF, DLF, DL, DBL, LB}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
     MIDDLE(2, new int[]{UF, F, DF, D, DB, B, UB, U}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),

@@ -1,10 +1,10 @@
-package me.thamma;
+package me.thamma.cube;
 
+import me.thamma.Algorithm;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by Dominic on 19.01.2016.
- */
 public class Cube {
 
     /*
@@ -47,11 +47,15 @@ public class Cube {
     public static final int DB = 24;
     public static final int DRB = 25;
 
-    public static final int[] DEFAULT_CUBE = {5610, 510, 3510, 610, 10, 310, 6210, 210, 2310, 560, 60, 260, 20, 230, 30, 530, 50, 2640, 240, 3240, 640, 40, 340, 6540, 540, 3540};
+    public static final int[] DEFAULT_CUBE = {5610, 510, 3510, 610, 10, 310, 6210, 210, 2310, 560, 60, 260, 20, 230, 30, 530, 50, 2640, 240, 3240, 640, 40, 340, 6540, 540, 5340};
 
-    private int[] pieces;
+    public int[] pieces;
 
     public Cube() {
+        this.pieces = DEFAULT_CUBE.clone();
+    }
+
+    public void solve() {
         this.pieces = DEFAULT_CUBE.clone();
     }
 
@@ -70,6 +74,10 @@ public class Cube {
         } else {
             this.cyclePieces(t.getOffset(), t.getTarget(), t.getRotation());
         }
+    }
+
+    public void turn(Algorithm a) {
+        a.forEach(this::turn);
     }
 
     private void cyclePieces(int offset, int[] target, int[] rotation) {
@@ -91,6 +99,10 @@ public class Cube {
         return (((arr[0] * 10) + arr[1]) * 10 + arr[2]) * 10 + arr[3];
     }
 
+    public int[] getPiece(int piece) {
+        return pieceToArray(this.pieces[piece]);
+    }
+
     private static int[] pieceToArray(int piece) {
         assert piece != 0;
         assert ("" + piece).length() < 5;
@@ -110,11 +122,9 @@ public class Cube {
         if (!(o instanceof Cube))
             return false;
         Cube ref = (Cube) o;
-        for (int i = 0; i < pieces.length;i++)
-            if (ref.pieces[i]!=this.pieces[i])
+        for (int i = 0; i < pieces.length; i++)
+            if (ref.pieces[i] != this.pieces[i])
                 return false;
         return true;
     }
-
-
 }
