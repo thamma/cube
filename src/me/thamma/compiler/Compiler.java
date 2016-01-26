@@ -1,6 +1,13 @@
 package me.thamma.compiler;
 
 import me.thamma.Algorithm;
+import me.thamma.Evaluator;
+import me.thamma.compiler.lexer.Lexer;
+import me.thamma.compiler.lexer.Token;
+import me.thamma.compiler.lexer.tokens.TokenTurn;
+import me.thamma.cube.Turn;
+
+import java.util.List;
 
 public class Compiler {
 
@@ -10,17 +17,23 @@ public class Compiler {
      * turn::= ...
      * num ::= ...
      * */
-    public static Algorithm compile(String input) {
-        return new Algorithm();
+    public static List<Turn> compile(String input) {
+        List<Token> tokenList = Lexer.lex(input);
+        tokenList.stream().forEach(t -> {
+            System.out.print(t+ " ");
+        });
+        System.out.println();
+        List<TokenTurn> turnTokenList = Parser.parse(tokenList);
+        turnTokenList.stream().forEach(t -> {
+            System.out.print(t + "  ");
+        });
+        System.out.println();
+        List<Turn> turnList = Evaluator.eval(turnTokenList);
+        turnList.stream().forEach(t -> {
+            System.out.print(t+ " ");
+        });
+        System.out.println();
+        return turnList;
     }
 
-    public boolean lexer(String s) {
-
-        for (int i = 0; i < s.length(); i++) {
-            switch (s.charAt(i)) {
-
-            }
-        }
-        return false;
-    }
 }

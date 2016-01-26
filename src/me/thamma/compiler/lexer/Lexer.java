@@ -36,12 +36,24 @@ public class Lexer {
                         add += "w";
                         input = input.substring(1);
                     }
+                    System.out.println(input);
+                    boolean num = false;
+                    if ('1' <= input.charAt(0) && input.charAt(0) <= '9') {
+                        System.out.println(input);
+                        input = lexNumber(input.charAt(0), input.substring(1), tokenList);
+                        num = true;
+                    }
+                    System.out.println(input);
                     if (input.length() > 0 && input.charAt(0) == '\'') {
                         add += "'";
                         input = input.substring(1);
                     }
                     Turn t = Turn.byString(c + add);
-                    tokenList.add(new TokenTurn(t));
+                    if (num) {
+                        tokenList.add(tokenList.size() - 1, new TokenTurn(t));
+                    } else {
+                        tokenList.add(new TokenTurn(t));
+                    }
                     break;
                 }
                 case 'X':
@@ -50,13 +62,22 @@ public class Lexer {
                 case 'x':
                 case 'y':
                 case 'z': {
+                    boolean num = false;
+                    if (input.length() > 0 && '1' <= input.charAt(0) && input.charAt(0) >= '9') {
+                        input = lexNumber(c, input, tokenList);
+                        num = true;
+                    }
                     String add = "";
                     if (input.length() > 0 && input.charAt(0) == '\'') {
                         add += "'";
                         input = input.substring(1);
                     }
                     Turn t = Turn.byString(c + add);
-                    tokenList.add(new TokenTurn(t));
+                    if (num) {
+                        tokenList.add(tokenList.size() - 1, new TokenTurn(t));
+                    } else {
+                        tokenList.add(new TokenTurn(t));
+                    }
                     break;
                 }
                 case '1':
@@ -108,7 +129,7 @@ public class Lexer {
 
     public static String lexNumber(char lead, String rest, List<Token> tokenList) {
         int out = (lead - '0');
-        while ('0' <= rest.charAt(0) && rest.charAt(0) <= '9') {
+        while (rest.length()> 0 && '0' <= rest.charAt(0) && rest.charAt(0) <= '9') {
             out = out * 10 + (rest.charAt(0) - '0');
             rest = rest.substring(1);
         }

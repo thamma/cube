@@ -1,5 +1,8 @@
 package me.thamma;
 
+import me.thamma.compiler.Compiler;
+import me.thamma.compiler.Parser;
+import me.thamma.compiler.lexer.Lexer;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Turn;
 
@@ -16,6 +19,10 @@ public class Algorithm extends ArrayList<Turn> {
     public Algorithm(Turn... turns) {
         this();
         this.addAll(Arrays.asList(turns));
+    }
+
+    public Algorithm(String input) {
+        super(Compiler.compile(input));
     }
 
     public Algorithm inverse() {
