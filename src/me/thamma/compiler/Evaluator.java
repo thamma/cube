@@ -1,4 +1,4 @@
-package me.thamma;
+package me.thamma.compiler;
 
 import me.thamma.compiler.lexer.tokens.TokenTurn;
 import me.thamma.cube.Turn;

@@ -17,10 +17,11 @@ public class Main {
 
         String in = "R U R' U' R' F R2 U' R' U' R U R' F'";
 //        in = "y2 (L' B L') (F2 L B' L') (F2 L2)";
-        in = "(rUw') x (UFR)R2'";
+        in = "(r2M3)2 R2 [R,U]";
+        //in = "U F";
         System.out.println("Compiling algorithm: " + in);
+
         Algorithm alg = new Algorithm(in);
-        System.out.println(alg);
 
     }
 

@@ -38,7 +38,7 @@ public class Lexer {
                     }
                     System.out.println(input);
                     boolean num = false;
-                    if ('1' <= input.charAt(0) && input.charAt(0) <= '9') {
+                    if (input.length() > 0 &&'1' <= input.charAt(0) && input.charAt(0) <= '9') {
                         System.out.println(input);
                         input = lexNumber(input.charAt(0), input.substring(1), tokenList);
                         num = true;
@@ -61,7 +61,10 @@ public class Lexer {
                 case 'Z':
                 case 'x':
                 case 'y':
-                case 'z': {
+                case 'z':
+                case 'M':
+                case 'E':
+                case 'S': {
                     boolean num = false;
                     if (input.length() > 0 && '1' <= input.charAt(0) && input.charAt(0) >= '9') {
                         input = lexNumber(c, input, tokenList);

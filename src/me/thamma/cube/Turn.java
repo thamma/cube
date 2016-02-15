@@ -144,6 +144,18 @@ public enum Turn {
             case "l'":
             case "Lw'":
                 return Turn.LEFT_WIDE_PRIME;
+            case "M":
+                return Turn.MIDDLE;
+            case "M'":
+                return Turn.MIDDLE_PRIME;
+            case "E":
+                return Turn.EQUATORIAL;
+            case "E'":
+                return Turn.EQUATORIAL_PRIME;
+            case "S":
+                return Turn.STANDING;
+            case "S'":
+                return Turn.STANDING_PRIME;
             case "X":
                 return Turn.X;
             case "Y":

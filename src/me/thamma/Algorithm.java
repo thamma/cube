@@ -1,14 +1,11 @@
 package me.thamma;
 
 import me.thamma.compiler.Compiler;
-import me.thamma.compiler.Parser;
-import me.thamma.compiler.lexer.Lexer;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Turn;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 public class Algorithm extends ArrayList<Turn> {
 
