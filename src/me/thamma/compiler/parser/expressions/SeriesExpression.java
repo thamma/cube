@@ -1,24 +1,24 @@
 package me.thamma.compiler.parser.expressions;
 
-import jdk.nashorn.internal.ir.debug.ASTWriter;
 import me.thamma.compiler.parser.Expression;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Dominic on 2/15/2016.
  */
-public class ASTExpression extends Expression {
+public class SeriesExpression extends Expression implements Iterable<Expression>{
 
     List<Expression> expressions;
 
-    public ASTExpression() {
+    public SeriesExpression() {
         this.expressions = new CopyOnWriteArrayList<Expression>();
     }
 
-    public ASTExpression(List<Expression> expressions) {
+    public SeriesExpression(List<Expression> expressions) {
         this();
         this.expressions = expressions;
     }
@@ -40,5 +40,8 @@ public class ASTExpression extends Expression {
         return "AST_EXPRESSION(" + inner + ")";
     }
 
-
+    @Override
+    public Iterator<Expression> iterator() {
+        return this.expressions.iterator();
+    }
 }

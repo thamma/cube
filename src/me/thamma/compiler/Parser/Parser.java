@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Parser {
 
-    public static ASTExpression parse(List<Token> tokenList) {
-        ASTExpression out = new ASTExpression();
+    public static SeriesExpression parse(List<Token> tokenList) {
+        SeriesExpression out = new SeriesExpression();
         while (!tokenList.isEmpty())
             out.add(parseExp(tokenList));
         return out;
@@ -23,7 +23,7 @@ public class Parser {
             assert tokenList.remove(0) instanceof TokenRPAR;
             if (tokenList.get(0) instanceof TokenNumber) {
                 int number = ((TokenNumber) tokenList.remove(0)).getNumber();
-                return new NumberedExpression(exp, number);
+                return new ParenthesesExpression(exp, number);
             } else {
                 return exp;
             }
@@ -52,7 +52,7 @@ public class Parser {
             } else if (head instanceof TokenColon) {
                 Expression exp2 = parseExp(tokenList);
                 head = tokenList.remove(0);
-                if (head instanceof TokenLBRAC) {
+                if (head instanceof TokenRBRAC) {
                     //only conjugate
                     return new CommutatorExpression(exp1, exp2, null);
                 } else if (head instanceof TokenComma) {

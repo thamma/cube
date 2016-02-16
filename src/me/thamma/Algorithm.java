@@ -29,6 +29,17 @@ public class Algorithm extends ArrayList<Turn> {
         return clone;
     }
 
+    public void power(int i) {
+        if (i<1) return;
+        Algorithm clone = new Algorithm();
+        for (int j = 0; j < i; j++)
+            clone.addAll(this);
+        this.clear();
+        this.addAll(clone);
+    }
+
+
+
     @Override
     public String toString() {
         return Arrays.toString(this.toArray());

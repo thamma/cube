@@ -20,6 +20,22 @@ public class CommutatorExpression extends Expression {
         this.exp3 = exp3;
     }
 
+    public CommutatorType getType() {
+        if (exp1 == null) return CommutatorType.COMMUTATOR;
+        if (exp3 == null) return CommutatorType.CONJUGATE;
+        return CommutatorType.MIXED;
+    }
+
+    public Expression getFirst() {
+        return this.exp1;
+    }
+    public Expression getSecond() {
+        return this.exp2;
+    }
+    public Expression getThird() {
+        return this.exp3;
+    }
+
     @Override
     public String toString() {
         return "COMMUTATOR_EXPRESSION(" + this.exp1 + ":" + this.exp2 + "," + this.exp3 + ")";

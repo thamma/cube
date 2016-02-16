@@ -29,6 +29,18 @@ public class TurnExpression extends Expression {
         this(turn, 1);
     }
 
+    public TurnExpression getChild() {
+        return this.turnExpression;
+    }
+
+    public Turn getTurn() {
+        return this.turn;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
     @Override
     public String toString() {
         if (this.inner == null) {

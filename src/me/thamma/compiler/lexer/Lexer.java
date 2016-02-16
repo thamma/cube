@@ -36,14 +36,11 @@ public class Lexer {
                         add += "w";
                         input = input.substring(1);
                     }
-                    System.out.println(input);
                     boolean num = false;
                     if (input.length() > 0 &&'1' <= input.charAt(0) && input.charAt(0) <= '9') {
-                        System.out.println(input);
                         input = lexNumber(input.charAt(0), input.substring(1), tokenList);
                         num = true;
                     }
-                    System.out.println(input);
                     if (input.length() > 0 && input.charAt(0) == '\'') {
                         add += "'";
                         input = input.substring(1);
