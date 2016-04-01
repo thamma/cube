@@ -82,6 +82,86 @@ public enum Turn {
         return Turn.values()[id];
     }
 
+    @Override
+    public String toString() {
+        switch (this) {
+            case UP:
+                return "U";
+            case FRONT:
+                return "F";
+            case RIGHT:
+                return "R";
+            case DOWN:
+                return "D";
+            case BACK:
+                return "B";
+            case LEFT:
+                return "L";
+            case UP_PRIME:
+                return "U'";
+            case FRONT_PRIME:
+                return "F'";
+            case RIGHT_PRIME:
+                return "R'";
+            case DOWN_PRIME:
+                return "D'";
+            case BACK_PRIME:
+                return "B'";
+            case LEFT_PRIME:
+                return "L'";
+            case UP_WIDE:
+                return "u";
+            case FRONT_WIDE:
+                return "f";
+            case RIGHT_WIDE:
+                return "r";
+            case DOWN_WIDE:
+                return "d";
+            case BACK_WIDE:
+                return "b";
+            case LEFT_WIDE:
+                return "";
+            case UP_WIDE_PRIME:
+                return "u'";
+            case FRONT_WIDE_PRIME:
+                return "f'";
+            case RIGHT_WIDE_PRIME:
+                return "r'";
+            case DOWN_WIDE_PRIME:
+                return "d'";
+            case BACK_WIDE_PRIME:
+                return "b'";
+            case LEFT_WIDE_PRIME:
+                return "l'";
+            case MIDDLE:
+                return "M";
+            case MIDDLE_PRIME:
+                return "M'";
+            case EQUATORIAL:
+                return "E";
+            case EQUATORIAL_PRIME:
+                return "E'";
+            case STANDING:
+                return "S";
+            case STANDING_PRIME:
+                return "S'";
+            case X:
+                return "X";
+            case Y:
+                return "Y";
+            case Z:
+                return "Z";
+            case X_PRIME:
+                return "X'";
+            case Y_PRIME:
+                return "Y'";
+            case Z_PRIME:
+                return "Z'";
+            default:
+                return null;
+        }
+    }
+
     public static Turn byString(String s) {
         switch (s) {
             case "U":

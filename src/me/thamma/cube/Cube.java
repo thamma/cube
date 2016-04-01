@@ -1,8 +1,9 @@
 package me.thamma.cube;
 
-import me.thamma.Algorithm;
+import me.thamma.cube.compiler.lexer.IllegalCharacterException;
+import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Cube {
@@ -67,6 +68,10 @@ public class Cube {
         System.out.println(Arrays.toString(this.pieces));
     }
 
+    public void turn(String s) throws IllegalCharacterException, UnexpectedTokenException, UnexpectedEndOfLineException {
+        this.turn(new Algorithm(s));
+    }
+
     public void turn(Turn t) {
         if (t.hasChildren()) {
             for (Turn child : t.getChildren())
@@ -78,6 +83,11 @@ public class Cube {
 
     public void turn(Algorithm a) {
         a.forEach(this::turn);
+    }
+
+    public int getColor(Sticker s) {
+        int[] piece = this.getPiece(s.getSide());
+        return piece[ 2- s.getOffset()];
     }
 
     private void cyclePieces(int offset, int[] target, int[] rotation) {

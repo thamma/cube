@@ -1,6 +1,6 @@
 package tests;
 
-import me.thamma.Algorithm;
+import me.thamma.cube.Algorithm;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Turn;
 import org.junit.Before;
@@ -12,18 +12,17 @@ public class AlgorithmTests {
 
 
     private Cube cube;
-    private Algorithm[] algSet;
+    private Algorithm[] algSet = new Algorithm[]{
+            new Algorithm(Turn.DOWN),
+            new Algorithm(Turn.DOWN, Turn.RIGHT),
+            new Algorithm(Turn.DOWN, Turn.X, Turn.RIGHT),
+            new Algorithm(Turn.DOWN, Turn.X, Turn.EQUATORIAL),
+            new Algorithm(Turn.UP, Turn.EQUATORIAL, Turn.FRONT, Turn.UP)
+    };;
 
     @Before
     public void setupSolvedCube() {
         cube = new Cube();
-        algSet = new Algorithm[]{
-                new Algorithm(Turn.DOWN),
-                new Algorithm(Turn.DOWN, Turn.RIGHT),
-                new Algorithm(Turn.DOWN, Turn.X, Turn.RIGHT),
-                new Algorithm(Turn.DOWN, Turn.X, Turn.EQUATORIAL),
-                new Algorithm(Turn.UP, Turn.EQUATORIAL, Turn.FRONT, Turn.UP)
-        };
     }
 
     @Test
