@@ -13,12 +13,6 @@ import java.util.List;
 
 public class Compiler {
 
-    /* exp ::= exp [exp] | com | alg | ( exp ) [num]
-     * com ::= [exp , exp]
-     * alg ::= turn [alg]
-     * turn::= ...
-     * num ::= ...
-     * */
     public static List<Turn> compile(String input) throws UnexpectedTokenException, IllegalCharacterException, UnexpectedEndOfLineException {
         List<Token> tokenList = Lexer.lex(input);
         SeriesExpression ast = Parser.parse(tokenList);

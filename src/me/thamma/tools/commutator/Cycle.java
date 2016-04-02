@@ -17,9 +17,15 @@ public class Cycle {
 
     public Cycle(String s) {
         String[] split = s.split(",");
-        this.s1 = Sticker.valueOf(split[0]);
-        this.s2 = Sticker.valueOf(split[1]);
-        this.s3 = Sticker.valueOf(split[2]);
+        try {
+            this.s1 = Sticker.valueOf(split[0]);
+            this.s2 = Sticker.valueOf(split[1]);
+            this.s3 = Sticker.valueOf(split[2]);
+        } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+            this.s1 = null;
+            this.s2 = null;
+            this.s3 = null;
+        }
     }
 
     @Override
@@ -31,6 +37,7 @@ public class Cycle {
 
     @Override
     public String toString() {
+        if (s1 == null || s2 == null || s3 == null) return null;
         return String.join(",", s1.toString(), s2.toString(), s3.toString());
     }
 
@@ -45,7 +52,9 @@ public class Cycle {
         String y = cycle.s2.toString();
         String z = cycle.s3.toString();
         for (int i = 0; i < x.length(); i++) {
-            if (x.equals(s1.toString()) && y.equals(s2.toString()) && z.equals(s3.toString()))
+            if (x.equals(s1.toString()) && y.equals(s2.toString()) && z.equals(s3.toString()) ||
+                    x.equals(s2.toString()) && y.equals(s3.toString()) && z.equals(s1.toString()) ||
+                    x.equals(s3.toString()) && y.equals(s1.toString()) && z.equals(s2.toString()) )
                 return true;
             x = wrap(x);
             y = wrap(y);

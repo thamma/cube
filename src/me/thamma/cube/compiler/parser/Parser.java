@@ -26,6 +26,8 @@ public class Parser {
             if (head instanceof TokenLPAR) {
                 tokenList.remove(0);//LPAR
                 Expression expression = parseExpression(tokenList);
+                if (tokenList.size() == 0)
+                    throw new UnexpectedEndOfLineException();
                 tokenList.remove(0);//RPAR
                 if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenNumber) {
                     int number = ((TokenNumber) tokenList.remove(0)).getNumber();
@@ -36,8 +38,14 @@ public class Parser {
             } else if (head instanceof TokenLBRAC) {
                 tokenList.remove(0);
                 Expression commutatorExpression = parseCommutatorExpression(tokenList);
-                out.add(commutatorExpression);
-                tokenList.remove(0);
+                tokenList.remove(0);//pop RBRAC
+                if (tokenList.size() > 0) {
+                    if (tokenList.get(0) instanceof TokenNumber) {
+                        out.add(new ParenthesesExpression(commutatorExpression, ((TokenNumber) tokenList.remove(0)).getNumber()));
+                    } else
+                        out.add(commutatorExpression);
+                } else
+                    out.add(commutatorExpression);
             } else if (head instanceof TokenTurn) {
                 Expression turnExpression = parseTurnExpression(tokenList);
                 out.add(turnExpression);

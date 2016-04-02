@@ -21,6 +21,8 @@ public class Cube {
      * edge rotation is ZZ edge orientation
      */
 
+    public static String[] sideStrings = {null, "U", "F", "R", "D", "B", "L"};
+
     public static final int ULB = 0;
     public static final int UB = 1;
     public static final int UBR = 2;
@@ -53,7 +55,11 @@ public class Cube {
     public int[] pieces;
 
     public Cube() {
-        this.pieces = DEFAULT_CUBE.clone();
+        this(DEFAULT_CUBE.clone());
+    }
+
+    public Cube(int[] pieces) {
+        this.pieces = pieces;
     }
 
     public void solve() {
@@ -87,7 +93,23 @@ public class Cube {
 
     public int getColor(Sticker s) {
         int[] piece = this.getPiece(s.getSide());
-        return piece[ 2- s.getOffset()];
+//        System.out.println(Arrays.toString(piece));
+//        System.out.println(s.getOffset() + " " + piece[3]);
+        return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
+    }
+
+    public Sticker getCurrentStickerAt(Sticker local) {
+        String stickerString = "";
+//        System.out.println("argument:" + local);
+//        System.out.println(getColor(local));
+//        System.out.println(getColor(local.rotate()));
+        stickerString += sideStrings[getColor(local)];
+        if (local.toString().length() > 1)
+            stickerString += sideStrings[getColor(local.rotate())];
+        if (local.toString().length() > 2)
+            stickerString += sideStrings[getColor(local.rotate().rotate())];
+//        System.out.println("stickerstring: "+ stickerString);
+        return Sticker.valueOf(stickerString);
     }
 
     private void cyclePieces(int offset, int[] target, int[] rotation) {
@@ -125,6 +147,13 @@ public class Cube {
     private static int order(int[] pieceArray) {
         assert pieceArray.length == 4;
         return (pieceArray[0] == 0 ? 0 : 1) + (pieceArray[2] == 0 ? 0 : 1) + (pieceArray[1] == 0 ? 0 : 1);
+    }
+
+    public Cube clone() {
+        int[] a = new int[26];
+        System.arraycopy(this.pieces, 0, a, 0, pieces.length);
+        return new Cube(a);
+
     }
 
     @Override

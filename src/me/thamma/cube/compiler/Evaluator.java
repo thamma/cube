@@ -44,7 +44,7 @@ public class Evaluator {
     private static Algorithm evalParenthesesExpression(ParenthesesExpression parenthesesExpression) {
         Algorithm out;
         out = evalExpression(parenthesesExpression.getInner());
-        out.power(parenthesesExpression.getRepeats());
+        out = out.power(parenthesesExpression.getRepeats());
         if (parenthesesExpression.isInverse())
             out = out.inverse();
         return out;
@@ -89,13 +89,13 @@ public class Evaluator {
         Algorithm temp;
 
         temp = new Algorithm(turnExpression.getTurn());
-        temp.power(turnExpression.getAmount());
+        temp = temp.power(turnExpression.getAmount());
         out.addAll(temp);
 
         while (turnExpression.getChild() != null) {
             turnExpression = turnExpression.getChild();
             temp = new Algorithm(turnExpression.getTurn());
-            temp.power(turnExpression.getAmount());
+            temp = temp.power(turnExpression.getAmount());
             out.addAll(temp);
         }
         return out;

@@ -1,6 +1,5 @@
 package me.thamma.tools.commutator;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -11,7 +10,6 @@ import me.thamma.cube.compiler.lexer.IllegalCharacterException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -37,6 +35,9 @@ public class CommutatorGuiController implements Initializable {
 
     @FXML
     private Label entry;
+
+    @FXML
+    private Label tick;
 
 
     private Map<Cycle, String> algorithmMap;
@@ -69,14 +70,29 @@ public class CommutatorGuiController implements Initializable {
             maxLength(field2, 3);
             updateView();
         });
+        entry.setOnMouseClicked(e -> {
+            try {
+                Algorithm a = new Algorithm(entry.getText());
+                System.out.println(a);
+                System.out.println(a.order());
+                System.out.println(a.getCycle());
+            } catch (UnexpectedTokenException e1) {
+                e1.printStackTrace();
+            } catch (IllegalCharacterException e1) {
+                e1.printStackTrace();
+            } catch (UnexpectedEndOfLineException e1) {
+                e1.printStackTrace();
+            }
+        });
         display.textProperty().addListener(e -> {
             updateView();
-            display.setStyle((Algorithm.isAlgorithm(display.getText()) && display.getText().length() != 0) ? "-fx-text-fill: #00ff00;" : "-fx-text-fill: #000000;");
+            display.setStyle((Algorithm.isAlgorithm(display.getText()) && display.getText().length() != 0) ? "-fx-text-fill: #007f00;" : "-fx-text-fill: #000000;");
             try {
-                Tooltip tt = new Tooltip(new Algorithm(display.getText()).toString());
-                tt.setAutoHide(false);
-                tt.setHideOnEscape(false);
+                Algorithm alg = new Algorithm(display.getText());
+                alg = alg.simplify();
+                Tooltip tt = new Tooltip(alg.toString() + "  " + alg.order());
                 display.setTooltip(tt);
+                System.out.println(alg);
             } catch (UnexpectedTokenException | IllegalCharacterException | UnexpectedEndOfLineException e1) {
             }
 
@@ -125,19 +141,6 @@ public class CommutatorGuiController implements Initializable {
         button.setDisable(true);
         button.setText(buttonText);
     }
-
-    private void errorPopup(String message) {
-        errorPopup(message, "");
-    }
-
-    private void errorPopup(String message, String title) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
 
     private void updateView() {
         if (field0.getText().length() == 0) {
@@ -193,6 +196,21 @@ public class CommutatorGuiController implements Initializable {
                     }
                 }
             }
+        }
+        try {
+            Algorithm alg = new Algorithm(entry.getText());
+            Cycle c = new Cycle(field0.getText() + "," + field1.getText() + "," + field2.getText());
+            System.out.println(alg);
+            System.out.println(alg.getCycle());
+            System.out.println(c);
+            System.out.println(c.equals(alg.getCycle()));
+            tick.setVisible(c.equals(alg.getCycle()));
+        } catch (UnexpectedTokenException e) {
+            e.printStackTrace();
+        } catch (IllegalCharacterException e) {
+            e.printStackTrace();
+        } catch (UnexpectedEndOfLineException e) {
+            e.printStackTrace();
         }
     }
 
