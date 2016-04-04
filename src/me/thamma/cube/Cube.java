@@ -32,13 +32,17 @@ public class Cube {
     public static final int UFL = 6;
     public static final int UF = 7;
     public static final int URF = 8;
+
     public static final int LB = 9;
     public static final int L = 10;
     public static final int LF = 11;
+
     public static final int F = 12;
+
     public static final int RF = 13;
     public static final int R = 14;
     public static final int RB = 15;
+
     public static final int B = 16;
     public static final int DLF = 17;
     public static final int DF = 18;
@@ -92,16 +96,23 @@ public class Cube {
     }
 
     public int getColor(Sticker s) {
-        int[] piece = this.getPiece(s.getSide());
-//        System.out.println(Arrays.toString(piece));
-//        System.out.println(s.getOffset() + " " + piece[3]);
-        return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
+        int[] piece = this.getPiece(s.getPiece());
+        if (order(piece) != 2)
+            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
+        if (s.name().contains("U")||s.name().contains("D")) {
+            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
+        } else {
+            return 0;
+        }
     }
 
     public Sticker getCurrentStickerAt(Sticker local) {
+//        System.out.println(Arrays.toString(this.getPiece(local.getPiece())));
         String stickerString = "";
 //        System.out.println("argument:" + local);
+//        System.out.println(local);
 //        System.out.println(getColor(local));
+//        System.out.println(local.rotate());
 //        System.out.println(getColor(local.rotate()));
         stickerString += sideStrings[getColor(local)];
         if (local.toString().length() > 1)

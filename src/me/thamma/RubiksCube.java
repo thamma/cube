@@ -19,6 +19,11 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import me.thamma.cube.Cube;
+import me.thamma.cube.Sticker;
+import me.thamma.cube.compiler.lexer.IllegalCharacterException;
+import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
 
 /**
  * Simple implementation of the Rubik's cube using JavaFX 3D
@@ -28,21 +33,96 @@ import javafx.stage.Stage;
  */
 public class RubiksCube extends Application {
 
-    public static final float X_RED = 0.5f / 7f;
-    public static final float X_GREEN = 1.5f / 7f;
-    public static final float X_BLUE = 2.5f / 7f;
-    public static final float X_YELLOW = 3.5f / 7f;
-    public static final float X_ORANGE = 4.5f / 7f;
-    public static final float X_WHITE = 5.5f / 7f;
-    public static final float X_GRAY = 6.5f / 7f;
+    public static final float RED = 0.5f / 7f;
+    public static final float GREEN = 1.5f / 7f;
+    public static final float BLUE = 2.5f / 7f;
+    public static final float YELLOW = 3.5f / 7f;
+    public static final float ORANGE = 4.5f / 7f;
+    public static final float WHITE = 5.5f / 7f;
+    public static final float GREY = 6.5f / 7f;
+
+    public static final float Y_UP = BLUE;
+    public static final float Y_FRONT = RED;
+    public static final float Y_RIGHT = YELLOW;
+    public static final float Y_DOWN = GREEN;
+    public static final float Y_BACK = ORANGE;
+    public static final float X_LEFT = WHITE;
+    public static final float X_NONE = GREY;
+
+    private static Point3D pFLD = new Point3D(-1.1, 1.1, -1.1);
+    private static Point3D pFD = new Point3D(0, 1.1, -1.1);
+    private static Point3D pFRD = new Point3D(1.1, 1.1, -1.1);
+    private static Point3D pFL = new Point3D(-1.1, 0, -1.1);
+    private static Point3D pF = new Point3D(0, 0, -1.1);
+    private static Point3D pFR = new Point3D(1.1, 0, -1.1);
+    private static Point3D pFLU = new Point3D(-1.1, -1.1, -1.1);
+    private static Point3D pFU = new Point3D(0, -1.1, -1.1);
+    private static Point3D pFRU = new Point3D(1.1, -1.1, -1.1);
+
+    private static Point3D pCLD = new Point3D(-1.1, 1.1, 0);
+    private static Point3D pCD = new Point3D(0, 1.1, 0);
+    private static Point3D pCRD = new Point3D(1.1, 1.1, 0);
+    private static Point3D pCL = new Point3D(-1.1, 0, 0);
+    private static Point3D pC = new Point3D(0, 0, 0);
+    private static Point3D pCR = new Point3D(1.1, 0, 0);
+    private static Point3D pCLU = new Point3D(-1.1, -1.1, 0);
+    private static Point3D pCU = new Point3D(0, -1.1, 0);
+    private static Point3D pCRU = new Point3D(1.1, -1.1, 0);
+
+    private static Point3D pBLD = new Point3D(-1.1, 1.1, 1.1);
+    private static Point3D pBD = new Point3D(0, 1.1, 1.1);
+    private static Point3D pBRD = new Point3D(1.1, 1.1, 1.1);
+    private static Point3D pBL = new Point3D(-1.1, 0, 1.1);
+    private static Point3D pB = new Point3D(0, 0, 1.1);
+    private static Point3D pBR = new Point3D(1.1, 0, 1.1);
+    private static Point3D pBLU = new Point3D(-1.1, -1.1, 1.1);
+    private static Point3D pBU = new Point3D(0, -1.1, 1.1);
+    private static Point3D pBRU = new Point3D(1.1, -1.1, 1.1);
+
+    private int[] FLD;
+    private int[] FD;
+    private int[] FRD;
+    private int[] FL;
+    private int[] F;
+    private int[] FR;
+    private int[] FLU;
+    private int[] FU;
+    private int[] FRU;
+
+    private int[] CLD;
+    private int[] CD;
+    private int[] CRD;
+    private int[] CL;
+    private int[] C;
+    private int[] CR;
+    private int[] CLU;
+    private int[] CU;
+    private int[] CRU;
+
+    private int[] BLD;
+    private int[] BD;
+    private int[] BRD;
+    private int[] BL;
+    private int[] B;
+    private int[] BR;
+    private int[] BLU;
+    private int[] BU;
+    private int[] BRU;
 
     private double mousePosX;
     private double mousePosY;
     private double mouseOldX;
     private double mouseOldY;
 
+    private List<int[]> patternFaceF;
+    private List<Point3D> pointsFaceF;
+
+    private Cube cube;
+
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
+        cube = new Cube();
+        cube.turn("R");
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.BLACK);
@@ -51,6 +131,16 @@ public class RubiksCube extends Application {
         camera.setFarClip(10000.0);
         camera.setTranslateZ(-10);
         scene.setCamera(camera);
+        scene.setOnKeyPressed(e -> {
+            sceneRoot.getChildren().clear();
+            loadCube(cube);
+            renderCube(scene, sceneRoot, primaryStage);
+        });
+        loadCube(cube);
+        renderCube(scene, sceneRoot, primaryStage);
+    }
+
+    private void renderCube(Scene scene, Group sceneRoot, Stage primaryStage) {
 
         PhongMaterial mat = new PhongMaterial();
         // image can be found here http://i.stack.imgur.com/uN4dv.png
@@ -92,80 +182,50 @@ public class RubiksCube extends Application {
         primaryStage.show();
     }
 
-
-    public static final int RED = 0;
-    public static final int GREEN = 1;
-    public static final int BLUE = 2;
-    public static final int YELLOW = 3;
-    public static final int ORANGE = 4;
-    public static final int WHITE = 5;
     public static final int GRAY = 6;
 
     // F   R   U   B   L   D
-    private static int[] FLD = new int[]{BLUE, GRAY, GRAY, GRAY, ORANGE, WHITE};
-    private static int[] FD = new int[]{BLUE, GRAY, GRAY, GRAY, GRAY, WHITE};
-    private static int[] FRD = new int[]{BLUE, RED, GRAY, GRAY, GRAY, WHITE};
-    private static int[] FL = new int[]{BLUE, GRAY, GRAY, GRAY, ORANGE, GRAY};
-    private static int[] F = new int[]{BLUE, GRAY, GRAY, GRAY, GRAY, GRAY};
-    private static int[] FR = new int[]{BLUE, RED, GRAY, GRAY, GRAY, GRAY};
-    private static int[] FLU = new int[]{BLUE, GRAY, YELLOW, GRAY, ORANGE, GRAY};
-    private static int[] FU = new int[]{BLUE, GRAY, YELLOW, GRAY, GRAY, GRAY};
-    private static int[] FRU = new int[]{BLUE, RED, YELLOW, GRAY, GRAY, GRAY};
-    private static Point3D pFLD = new Point3D(-1.1, 1.1, -1.1);
-    private static Point3D pFD = new Point3D(0, 1.1, -1.1);
-    private static Point3D pFRD = new Point3D(1.1, 1.1, -1.1);
-    private static Point3D pFL = new Point3D(-1.1, 0, -1.1);
-    private static Point3D pF = new Point3D(0, 0, -1.1);
-    private static Point3D pFR = new Point3D(1.1, 0, -1.1);
-    private static Point3D pFLU = new Point3D(-1.1, -1.1, -1.1);
-    private static Point3D pFU = new Point3D(0, -1.1, -1.1);
-    private static Point3D pFRU = new Point3D(1.1, -1.1, -1.1);
-    private static int[] CLD = new int[]{GRAY, GRAY, GRAY, GRAY, ORANGE, WHITE};
-    private static int[] CD = new int[]{GRAY, GRAY, GRAY, GRAY, GRAY, WHITE};
-    private static int[] CRD = new int[]{GRAY, RED, GRAY, GRAY, GRAY, WHITE};
-    private static int[] CL = new int[]{GRAY, GRAY, GRAY, GRAY, ORANGE, GRAY};
-    private static int[] C = new int[]{GRAY, GRAY, GRAY, GRAY, GRAY, GRAY};
-    private static int[] CR = new int[]{GRAY, RED, GRAY, GRAY, GRAY, GRAY};
-    private static int[] CLU = new int[]{GRAY, GRAY, YELLOW, GRAY, ORANGE, GRAY};
-    private static int[] CU = new int[]{GRAY, GRAY, YELLOW, GRAY, GRAY, GRAY};
-    private static int[] CRU = new int[]{GRAY, RED, YELLOW, GRAY, GRAY, GRAY};
-    private static Point3D pCLD = new Point3D(-1.1, 1.1, 0);
-    private static Point3D pCD = new Point3D(0, 1.1, 0);
-    private static Point3D pCRD = new Point3D(1.1, 1.1, 0);
-    private static Point3D pCL = new Point3D(-1.1, 0, 0);
-    private static Point3D pC = new Point3D(0, 0, 0);
-    private static Point3D pCR = new Point3D(1.1, 0, 0);
-    private static Point3D pCLU = new Point3D(-1.1, -1.1, 0);
-    private static Point3D pCU = new Point3D(0, -1.1, 0);
-    private static Point3D pCRU = new Point3D(1.1, -1.1, 0);
-    private static int[] BLD = new int[]{GRAY, GRAY, GRAY, GREEN, ORANGE, WHITE};
-    private static int[] BD = new int[]{GRAY, GRAY, GRAY, GREEN, GRAY, WHITE};
-    private static int[] BRD = new int[]{GRAY, RED, GRAY, GREEN, GRAY, WHITE};
-    private static int[] BL = new int[]{GRAY, GRAY, GRAY, GREEN, ORANGE, GRAY};
-    private static int[] B = new int[]{GRAY, GRAY, GRAY, GREEN, GRAY, GRAY};
-    private static int[] BR = new int[]{GRAY, RED, GRAY, GREEN, GRAY, GRAY};
-    private static int[] BLU = new int[]{GRAY, GRAY, YELLOW, GREEN, ORANGE, GRAY};
-    private static int[] BU = new int[]{GRAY, GRAY, YELLOW, GREEN, GRAY, GRAY};
-    private static int[] BRU = new int[]{GRAY, RED, YELLOW, GREEN, GRAY, GRAY};
-    private static Point3D pBLD = new Point3D(-1.1, 1.1, 1.1);
-    private static Point3D pBD = new Point3D(0, 1.1, 1.1);
-    private static Point3D pBRD = new Point3D(1.1, 1.1, 1.1);
-    private static Point3D pBL = new Point3D(-1.1, 0, 1.1);
-    private static Point3D pB = new Point3D(0, 0, 1.1);
-    private static Point3D pBR = new Point3D(1.1, 0, 1.1);
-    private static Point3D pBLU = new Point3D(-1.1, -1.1, 1.1);
-    private static Point3D pBU = new Point3D(0, -1.1, 1.1);
-    private static Point3D pBRU = new Point3D(1.1, -1.1, 1.1);
+    public void loadCube(Cube cube) {
+        FLD = new int[]{-1 + cube.getColor(Sticker.FDL), GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.LFD), -1 + cube.getColor(Sticker.DLF)};
+        FD = new int[]{-1 + cube.getColor(Sticker.FD), GRAY, GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.DF)};
+        FRD = new int[]{-1 + cube.getColor(Sticker.FRD), -1 + cube.getColor(Sticker.RDF), GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.DFR)};
+        FL = new int[]{-1 + cube.getColor(Sticker.FL), GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.LF), GRAY};
+        F = new int[]{-1 + cube.getColor(Sticker.F), GRAY, GRAY, GRAY, GRAY, GRAY};
+        FR = new int[]{-1 + cube.getColor(Sticker.FR), -1 + cube.getColor(Sticker.RF), GRAY, GRAY, GRAY, GRAY};
+        FLU = new int[]{-1 + cube.getColor(Sticker.FLU), GRAY, -1 + cube.getColor(Sticker.UFL), GRAY, -1 + cube.getColor(Sticker.LUF), GRAY};
+        FU = new int[]{-1 + cube.getColor(Sticker.FU), GRAY, -1 + cube.getColor(Sticker.UF), GRAY, GRAY, GRAY};
+        FRU = new int[]{-1 + cube.getColor(Sticker.FUR), -1 + cube.getColor(Sticker.RFU), -1 + cube.getColor(Sticker.URF), GRAY, GRAY, GRAY};
 
-    private static final List<int[]> patternFaceF = Arrays.asList(
-            FLD, FD, FRD, FL, F, FR, FLU, FU, FRU,
-            CLD, CD, CRD, CL, C, CR, CLU, CU, CRU,
-            BLD, BD, BRD, BL, B, BR, BLU, BU, BRU);
+        CLD = new int[]{GRAY, GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.LD), -1 + cube.getColor(Sticker.DL)};
+        CD = new int[]{GRAY, GRAY, GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.D)};
+        CRD = new int[]{GRAY, -1 + cube.getColor(Sticker.RD), GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.DR)};
+        CL = new int[]{GRAY, GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.L), GRAY};
+        C = new int[]{GRAY, GRAY, GRAY, GRAY, GRAY, GRAY};
+        CR = new int[]{GRAY, -1 + cube.getColor(Sticker.R), GRAY, GRAY, GRAY, GRAY};
+        CLU = new int[]{GRAY, GRAY, -1 + cube.getColor(Sticker.UL), GRAY, -1 + cube.getColor(Sticker.LU), GRAY};
+        CU = new int[]{GRAY, GRAY, -1 + cube.getColor(Sticker.U), GRAY, GRAY, GRAY};
+        CRU = new int[]{GRAY, -1 + cube.getColor(Sticker.RU), -1 + cube.getColor(Sticker.UR), GRAY, GRAY, GRAY};
+// F   R   U   B   L   D
+        BLD = new int[]{GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.BLD), -1 + cube.getColor(Sticker.LDB), -1 + cube.getColor(Sticker.DBL)};
+        BD = new int[]{GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.BD), GRAY, -1 + cube.getColor(Sticker.DB)};
+        BRD = new int[]{GRAY, -1 + cube.getColor(Sticker.RBD), GRAY, -1 + cube.getColor(Sticker.BDR), GRAY, -1 + cube.getColor(Sticker.DRB)};
+        BL = new int[]{GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.BL), -1 + cube.getColor(Sticker.LB), GRAY};
+        B = new int[]{GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.B), GRAY, GRAY};
+        BR = new int[]{GRAY, -1 + cube.getColor(Sticker.RB), GRAY, -1 + cube.getColor(Sticker.BR), GRAY, GRAY};
+        BLU = new int[]{GRAY, GRAY, -1 + cube.getColor(Sticker.ULB), -1 + cube.getColor(Sticker.BUL), -1 + cube.getColor(Sticker.LBU), GRAY};
+        BU = new int[]{GRAY, GRAY, -1 + cube.getColor(Sticker.UB), -1 + cube.getColor(Sticker.BU), GRAY, GRAY};
+        BRU = new int[]{GRAY, -1 + cube.getColor(Sticker.RUB), -1 + cube.getColor(Sticker.UBR), -1 + cube.getColor(Sticker.BRU), GRAY, GRAY};
 
-    private static final List<Point3D> pointsFaceF = Arrays.asList(
-            pFLD, pFD, pFRD, pFL, pF, pFR, pFLU, pFU, pFRU,
-            pCLD, pCD, pCRD, pCL, pC, pCR, pCLU, pCU, pCRU,
-            pBLD, pBD, pBRD, pBL, pB, pBR, pBLU, pBU, pBRU);
+        patternFaceF = Arrays.asList(
+                FLD, FD, FRD, FL, F, FR, FLU, FU, FRU,
+                CLD, CD, CRD, CL, C, CR, CLU, CU, CRU,
+                BLD, BD, BRD, BL, B, BR, BLU, BU, BRU);
+
+        pointsFaceF = Arrays.asList(
+                pFLD, pFD, pFRD, pFL, pF, pFR, pFLU, pFU, pFRU,
+                pCLD, pCD, pCRD, pCL, pC, pCR, pCLU, pCU, pCRU,
+                pBLD, pBD, pBRD, pBL, pB, pBR, pBLU, pBU, pBRU);
+    }
 
     private TriangleMesh createCube(int[] face) {
         TriangleMesh m = new TriangleMesh();
@@ -184,13 +244,13 @@ public class RubiksCube extends Application {
 
         // TEXTURES
         m.getTexCoords().addAll(
-                X_RED, 0.5f,
-                X_GREEN, 0.5f,
-                X_BLUE, 0.5f,
-                X_YELLOW, 0.5f,
-                X_ORANGE, 0.5f,
-                X_WHITE, 0.5f,
-                X_GRAY, 0.5f
+                Y_UP, 0.5f,
+                Y_FRONT, 0.5f,
+                Y_RIGHT, 0.5f,
+                Y_DOWN, 0.5f,
+                Y_BACK, 0.5f,
+                X_LEFT, 0.5f,
+                X_NONE, 0.5f
         );
 
         // FACES

@@ -1,6 +1,7 @@
 package tests;
 
 import me.thamma.cube.Cube;
+import me.thamma.cube.Sticker;
 import me.thamma.cube.Turn;
 
 import static me.thamma.cube.Cube.*;
@@ -19,6 +20,13 @@ public class CubeTests {
     @Before
     public void setupSolvedCube() {
         cube = new Cube();
+    }
+
+    @Test
+    public void testIdentityCube() {
+        for (Sticker sticker: Sticker.values()) {
+            assertTrue(cube.getCurrentStickerAt(sticker).equals(sticker));
+        }
     }
 
     @Test

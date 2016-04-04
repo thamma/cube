@@ -1,11 +1,13 @@
 package me.thamma;
 
-import me.thamma.cube.Algorithm;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Sticker;
+import me.thamma.cube.Turn;
 import me.thamma.cube.compiler.lexer.IllegalCharacterException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+
+import java.util.Arrays;
 
 public class Main {
 
@@ -27,9 +29,9 @@ public class Main {
 //
 //
         Cube c = new Cube();
-        Algorithm a = new Algorithm("[R'2: D2, [R:U]]");
-        c.turn("[R'2: D2, [R:U]]");
-        System.out.println(a.getCycle());
+        System.out.println(c.getCurrentStickerAt(Sticker.UF));
+        c.turn("L'U'");
+        System.out.println(c.getCurrentStickerAt(Sticker.UF));
 
     }
 
