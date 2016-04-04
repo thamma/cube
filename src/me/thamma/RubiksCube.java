@@ -2,9 +2,11 @@ package me.thamma;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.Group;
@@ -12,6 +14,9 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
@@ -19,6 +24,7 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import me.thamma.cube.Algorithm;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Sticker;
 import me.thamma.cube.compiler.lexer.IllegalCharacterException;
@@ -119,22 +125,50 @@ public class RubiksCube extends Application {
 
     private Cube cube;
 
+    private Rotate rotateX;
+    private Rotate rotateY;
+
+    private boolean prime;
+
     @Override
     public void start(Stage primaryStage) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
+        prime = false;
         cube = new Cube();
-        cube.turn("R");
+//        cube.turn("RUR'U'");
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.BLACK);
         PerspectiveCamera camera = new PerspectiveCamera(true);
-        camera.setNearClip(0.1);
-        camera.setFarClip(10000.0);
-        camera.setTranslateZ(-10);
+////        camera.setNearClip(0.1);
+//        camera.setFarClip(1000000.0);
+        camera.setTranslateZ(-12);
         scene.setCamera(camera);
+        rotateX = new Rotate(30, 0, 0, 0, Rotate.X_AXIS);
+        rotateY = new Rotate(20, 0, 0, 0, Rotate.Y_AXIS);
+//        scene.setOnKeyPressed(e -> {
+//            sceneRoot.getChildren().clear();
+//            loadCube(cube);
+//            renderCube(scene, sceneRoot, primaryStage);
+//        });
         scene.setOnKeyPressed(e -> {
-            sceneRoot.getChildren().clear();
-            loadCube(cube);
-            renderCube(scene, sceneRoot, primaryStage);
+            if (e.getCode() == KeyCode.CONTROL)
+                prime ^= true;
+            System.out.println(prime);
+        });
+        scene.setOnKeyTyped(e -> {
+            try {
+                Algorithm a = new Algorithm("" + e.getCharacter().toUpperCase() + (prime ? "'" : ""));
+                cube.turn(a);
+                sceneRoot.getChildren().clear();
+                loadCube(cube);
+                renderCube(scene, sceneRoot, primaryStage);
+            } catch (UnexpectedTokenException e1) {
+//                e1.printStackTrace();
+            } catch (IllegalCharacterException e1) {
+//                e1.printStackTrace();
+            } catch (UnexpectedEndOfLineException e1) {
+//                e1.printStackTrace();
+            }
         });
         loadCube(cube);
         renderCube(scene, sceneRoot, primaryStage);
@@ -158,8 +192,6 @@ public class RubiksCube extends Application {
             meshGroup.getChildren().add(meshP);
         });
 
-        Rotate rotateX = new Rotate(30, 0, 0, 0, Rotate.X_AXIS);
-        Rotate rotateY = new Rotate(20, 0, 0, 0, Rotate.Y_AXIS);
         meshGroup.getTransforms().addAll(rotateX, rotateY);
 
         sceneRoot.getChildren().addAll(meshGroup, new AmbientLight(Color.WHITE));

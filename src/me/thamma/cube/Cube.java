@@ -33,15 +33,15 @@ public class Cube {
     public static final int UF = 7;
     public static final int URF = 8;
 
-    public static final int LB = 9;
+    public static final int BL = 9;
     public static final int L = 10;
-    public static final int LF = 11;
+    public static final int FL = 11;
 
     public static final int F = 12;
 
-    public static final int RF = 13;
+    public static final int FR = 13;
     public static final int R = 14;
-    public static final int RB = 15;
+    public static final int BR = 15;
 
     public static final int B = 16;
     public static final int DLF = 17;
@@ -54,7 +54,7 @@ public class Cube {
     public static final int DB = 24;
     public static final int DRB = 25;
 
-    public static final int[] DEFAULT_CUBE = {5610, 510, 3510, 610, 10, 310, 6210, 210, 2310, 560, 60, 260, 20, 230, 30, 530, 50, 2640, 240, 3240, 640, 40, 340, 6540, 540, 5340};
+    public static final int[] DEFAULT_CUBE = {5610, 510, 3510, 610, 10, 310, 6210, 210, 2310, 650, 60, 620, 20, 320, 30, 350, 50, 2640, 240, 3240, 640, 40, 340, 6540, 540, 5340};
 
     public int[] pieces;
 
@@ -97,13 +97,14 @@ public class Cube {
 
     public int getColor(Sticker s) {
         int[] piece = this.getPiece(s.getPiece());
-        if (order(piece) != 2)
-            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
-        if (s.name().contains("U")||s.name().contains("D")) {
-            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
-        } else {
-            return 0;
-        }
+        return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
+//        if (order(piece) != 2)
+//            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
+//        if (s.name().contains("U")||s.name().contains("D")) {
+//            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
+//        } else {
+//            return 0;
+//        }
     }
 
     public Sticker getCurrentStickerAt(Sticker local) {

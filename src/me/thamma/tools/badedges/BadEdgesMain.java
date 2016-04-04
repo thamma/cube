@@ -16,8 +16,8 @@ import java.util.Scanner;
  */
 public class BadEdgesMain {
 
-    public static final String[] edgestrings = {"UL", "UF", "UR", "UB", "LB", "LF", "RF", "RB", "DL", "DF", "DR", "DB"};
-    public static final int[] edges = {UL, UF, UR, UB, LB, LF, RF, RB, DL, DF, DR, DB};
+    public static final String[] edgestrings = {"UL", "UF", "UR", "UB", "BL", "FL", "FR", "BR", "DL", "DF", "DR", "DB"};
+    public static final int[] edges = {UL, UF, UR, UB, BL, FL, FR, BR, DL, DF, DR, DB};
 
 
     public static void main(String[] args) {
