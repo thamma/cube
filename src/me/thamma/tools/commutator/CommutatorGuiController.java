@@ -90,7 +90,7 @@ public class CommutatorGuiController implements Initializable {
             try {
                 Algorithm alg = new Algorithm(display.getText());
                 alg = alg.simplify();
-                Tooltip tt = new Tooltip(alg.toString() + "  " + alg.order());
+                Tooltip tt = new Tooltip(alg.toString());
                 display.setTooltip(tt);
                 System.out.println(alg);
             } catch (UnexpectedTokenException | IllegalCharacterException | UnexpectedEndOfLineException e1) {

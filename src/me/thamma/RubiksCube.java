@@ -1,22 +1,10 @@
 package me.thamma;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Point3D;
-import javafx.scene.AmbientLight;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
+import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
@@ -30,6 +18,10 @@ import me.thamma.cube.Sticker;
 import me.thamma.cube.compiler.lexer.IllegalCharacterException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Simple implementation of the Rubik's cube using JavaFX 3D
@@ -134,22 +126,14 @@ public class RubiksCube extends Application {
     public void start(Stage primaryStage) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
         prime = false;
         cube = new Cube();
-//        cube.turn("RUR'U'");
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.BLACK);
         PerspectiveCamera camera = new PerspectiveCamera(true);
-////        camera.setNearClip(0.1);
-//        camera.setFarClip(1000000.0);
         camera.setTranslateZ(-12);
         scene.setCamera(camera);
         rotateX = new Rotate(30, 0, 0, 0, Rotate.X_AXIS);
         rotateY = new Rotate(20, 0, 0, 0, Rotate.Y_AXIS);
-//        scene.setOnKeyPressed(e -> {
-//            sceneRoot.getChildren().clear();
-//            loadCube(cube);
-//            renderCube(scene, sceneRoot, primaryStage);
-//        });
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.CONTROL)
                 prime ^= true;
@@ -216,7 +200,6 @@ public class RubiksCube extends Application {
 
     public static final int GRAY = 6;
 
-    // F   R   U   B   L   D
     public void loadCube(Cube cube) {
         FLD = new int[]{-1 + cube.getColor(Sticker.FDL), GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.LFD), -1 + cube.getColor(Sticker.DLF)};
         FD = new int[]{-1 + cube.getColor(Sticker.FD), GRAY, GRAY, GRAY, GRAY, -1 + cube.getColor(Sticker.DF)};
