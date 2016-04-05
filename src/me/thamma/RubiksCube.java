@@ -52,7 +52,7 @@ public class RubiksCube extends Application {
     private static Point3D pFRD = new Point3D(1.1, 1.1, -1.1);
     private static Point3D pFL = new Point3D(-1.1, 0, -1.1);
     private static Point3D pF = new Point3D(0, 0, -1.1);
-    private static Point3D pFR = new Point3D(1.1, 0, -1.1);
+    private static Point3D pFR = new Point3D(1.1, 0, -1.1);""
     private static Point3D pFLU = new Point3D(-1.1, -1.1, -1.1);
     private static Point3D pFU = new Point3D(0, -1.1, -1.1);
     private static Point3D pFRU = new Point3D(1.1, -1.1, -1.1);

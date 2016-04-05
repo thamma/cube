@@ -1,5 +1,3 @@
-package tests;
-
 import me.thamma.cube.Algorithm;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Turn;
