@@ -14,6 +14,9 @@ public class Main {
 //        in = "[R'2: D2, [R:U]]";//A perm
 
         Cube c = new Cube();
+        System.out.println(c.isSolved());
+        c.turn("x");
+        System.out.println(c.isSolved());
         Algorithm alg = new Algorithm("[R, U' L' U]");
         System.out.println(alg.getCycle());
 

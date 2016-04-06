@@ -71,14 +71,15 @@ public class Cube {
     }
 
     public boolean isSolved() {
-        return this.equals(new Cube());
+        for (Sticker[] face : Sticker.faces)
+            for (Sticker sticker : face)
+                if (this.getColor(sticker) != this.getColor(face[4]))
+                    return false;
+        return true;
     }
 
-    public void print() {
-        System.out.println(Arrays.toString(this.pieces));
-    }
-
-    public void turn(String s) throws IllegalCharacterException, UnexpectedTokenException, UnexpectedEndOfLineException {
+    public void turn(String s) throws
+            IllegalCharacterException, UnexpectedTokenException, UnexpectedEndOfLineException {
         this.turn(new Algorithm(s));
     }
 
@@ -98,29 +99,15 @@ public class Cube {
     public int getColor(Sticker s) {
         int[] piece = this.getPiece(s.getPiece());
         return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
-//        if (order(piece) != 2)
-//            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
-//        if (s.name().contains("U")||s.name().contains("D")) {
-//            return piece[2 - (s.getOffset() + piece[3]) % order(piece)];
-//        } else {
-//            return 0;
-//        }
     }
 
     public Sticker getCurrentStickerAt(Sticker local) {
-//        System.out.println(Arrays.toString(this.getPiece(local.getPiece())));
         String stickerString = "";
-//        System.out.println("argument:" + local);
-//        System.out.println(local);
-//        System.out.println(getColor(local));
-//        System.out.println(local.rotate());
-//        System.out.println(getColor(local.rotate()));
         stickerString += sideStrings[getColor(local)];
         if (local.toString().length() > 1)
             stickerString += sideStrings[getColor(local.rotate())];
         if (local.toString().length() > 2)
             stickerString += sideStrings[getColor(local.rotate().rotate())];
-//        System.out.println("stickerstring: "+ stickerString);
         return Sticker.valueOf(stickerString);
     }
 
@@ -135,7 +122,7 @@ public class Cube {
         this.pieces = piecesClone;
     }
 
-    public static int rotate(int movedPiece, int rotation) {
+    private static int rotate(int movedPiece, int rotation) {
         int[] arr = pieceToArray(movedPiece);
         int order = order(arr);
         arr[3] += rotation + order;
@@ -165,7 +152,6 @@ public class Cube {
         int[] a = new int[26];
         System.arraycopy(this.pieces, 0, a, 0, pieces.length);
         return new Cube(a);
-
     }
 
     @Override

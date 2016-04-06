@@ -1,7 +1,5 @@
 package me.thamma.cube;
 
-import java.util.concurrent.TimeUnit;
-
 import static me.thamma.cube.Cube.*;
 
 public enum Turn {
@@ -23,8 +21,8 @@ public enum Turn {
     EQUATORIAL_PRIME(-2, new int[]{FL, F, FR, R, BR, B, BL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
     STANDING(2, new int[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
     STANDING_PRIME(-2, new int[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
-    X(LEFT, MIDDLE, RIGHT_PRIME),
-    X_PRIME(LEFT_PRIME, MIDDLE_PRIME, RIGHT),
+    X(LEFT_PRIME, MIDDLE_PRIME, RIGHT),
+    X_PRIME(LEFT, MIDDLE, RIGHT_PRIME),
     Y(UP, EQUATORIAL_PRIME, DOWN_PRIME),
     Y_PRIME(UP_PRIME, EQUATORIAL, DOWN),
     Z(FRONT, STANDING, BACK_PRIME),
@@ -44,10 +42,10 @@ public enum Turn {
 
     private int offset;
     private int[] target, rotation;
-    private Turn[] turns;
+    private Turn[] children;
 
-    Turn(Turn... turns) {
-        this.turns = turns;
+    Turn(Turn... children) {
+        this.children = children;
     }
 
 
@@ -58,11 +56,11 @@ public enum Turn {
     }
 
     public boolean hasChildren() {
-        return turns != null;
+        return children != null;
     }
 
     public Turn[] getChildren() {
-        return this.turns;
+        return this.children;
     }
 
     public int getOffset() {

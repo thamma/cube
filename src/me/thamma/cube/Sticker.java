@@ -1,9 +1,6 @@
 package me.thamma.cube;
 
-/**
- * Created by Dominic on 3/30/2016.
- */
-public enum  Sticker {
+public enum Sticker {
 
     //keep in order: UFR DLB, counting facelets in rows
 
@@ -16,12 +13,24 @@ public enum  Sticker {
     LBU(0, 1), LU(3, 1), LUF(6, 2), LB(9, 1), L(10, 0), LF(11, 1), LDB(23, 2), LD(20, 1), LFD(17, 1);
 
 
+    public static final Sticker[] upFace = {ULB, UB, UBR, UL, U, UR, UFL, UF, URF};
+    public static final Sticker[] frontFace = {FLU, FU, FUR, FL, F, FR, FDL, FD, FRD};
+    public static final Sticker[] rightFace = {RFU, RU, RUB, RF, R, RB, RDF, RD, RBD};
+    public static final Sticker[] downFace = {DLF, DF, DFR, DL, D, DR, DBL, DB, DRB};
+    public static final Sticker[] backFace = {BRU, BU, BUL, BL, B, BR, BDR, BD, BLD};
+    public static final Sticker[] leftFace = {LBU, LU, LUF, LB, L, LF, LDB, LD, LFD};
+    public static final Sticker[][] faces = {upFace, frontFace, rightFace, downFace, backFace, leftFace};
+
 
     private int piece, offset;
 
     Sticker(int piece, int offset) {
         this.piece = piece;
         this.offset = offset;
+    }
+
+    public int getOrder() {
+        return this.name().length();
     }
 
     public int getPiece() {

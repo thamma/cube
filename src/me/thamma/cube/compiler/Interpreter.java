@@ -11,9 +11,9 @@ import me.thamma.cube.Turn;
 
 import java.util.List;
 
-public class Compiler {
+public class Interpreter {
 
-    public static List<Turn> compile(String input) throws UnexpectedTokenException, IllegalCharacterException, UnexpectedEndOfLineException {
+    public static List<Turn> interprete(String input) throws UnexpectedTokenException, IllegalCharacterException, UnexpectedEndOfLineException {
         List<Token> tokenList = Lexer.lex(input);
         SeriesExpression ast = Parser.parse(tokenList);
         List<Turn> algorithm = Evaluator.eval(ast);

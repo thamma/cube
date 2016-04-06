@@ -1,6 +1,6 @@
 package me.thamma.cube;
 
-import me.thamma.cube.compiler.Compiler;
+import me.thamma.cube.compiler.Interpreter;
 import me.thamma.cube.compiler.lexer.IllegalCharacterException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
@@ -25,7 +25,7 @@ public class Algorithm extends ArrayList<Turn> {
     private String rawInput;
 
     public Algorithm(String input) throws UnexpectedTokenException, IllegalCharacterException, UnexpectedEndOfLineException {
-        super(Compiler.compile(input));
+        super(Interpreter.interprete(input));
         this.rawInput = input;
     }
 
@@ -110,7 +110,21 @@ public class Algorithm extends ArrayList<Turn> {
     }
 
     public boolean isCommutator() {
-        return this.order() == 3;
+        if (this.order() != 3)
+            return false;
+        return this.affectedStickers().size() == 9 || this.affectedStickers().size() == 6;
+    }
+
+    public List<Sticker> affectedStickers() {
+        Cube c = new Cube();
+        c.turn(this);
+        List<Sticker> out = new ArrayList<Sticker>();
+        for (Sticker sticker : Sticker.values()) {
+            if (c.getCurrentStickerAt(sticker) != sticker) {
+                out.add(sticker);
+            }
+        }
+        return out;
     }
 
     public Cycle getCycle() {

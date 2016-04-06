@@ -7,12 +7,16 @@ import me.thamma.cube.Sticker;
  */
 public class Cycle {
 
-    private Sticker s1, s2, s3;
+    public Sticker s1, s2, s3;
 
     public Cycle(Sticker s1, Sticker s2, Sticker s3) {
         this.s1 = s1;
         this.s2 = s2;
         this.s3 = s3;
+    }
+
+    public Cycle(String st1, String st2, String st3) {
+        this(String.join(",", st1, st2, st3));
     }
 
     public Cycle(String s) {
@@ -26,6 +30,21 @@ public class Cycle {
             this.s2 = null;
             this.s3 = null;
         }
+    }
+
+    public boolean isPossible() {
+        if (s1.getOrder() == 1 || s2.getOrder() == 1 || s3.getOrder() == 1) return false;
+        if (s1.getOrder() != s2.getOrder() ||
+                s2.getOrder() != s3.getOrder() ||
+                s3.getOrder() != s1.getOrder())
+            return false;
+        if (s1 == s2 || s1.rotate() == s2 || s1.rotate().rotate() == s2)
+            return false;
+        if (s2 == s3 || s2.rotate() == s3 || s2.rotate().rotate() == s3)
+            return false;
+        if (s3 == s1 || s3.rotate() == s1 || s3.rotate().rotate() == s1)
+            return false;
+        return true;
     }
 
     @Override
@@ -54,7 +73,7 @@ public class Cycle {
         for (int i = 0; i < x.length(); i++) {
             if (x.equals(s1.toString()) && y.equals(s2.toString()) && z.equals(s3.toString()) ||
                     x.equals(s2.toString()) && y.equals(s3.toString()) && z.equals(s1.toString()) ||
-                    x.equals(s3.toString()) && y.equals(s1.toString()) && z.equals(s2.toString()) )
+                    x.equals(s3.toString()) && y.equals(s1.toString()) && z.equals(s2.toString()))
                 return true;
             x = wrap(x);
             y = wrap(y);
