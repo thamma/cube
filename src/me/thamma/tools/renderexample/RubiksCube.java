@@ -15,9 +15,9 @@ import javafx.stage.Stage;
 import me.thamma.cube.Algorithm;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Sticker;
-import me.thamma.cube.compiler.lexer.IllegalCharacterException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.cube.interpreter.lexer.IllegalCharacterException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -126,6 +126,7 @@ public class RubiksCube extends Application {
     public void start(Stage primaryStage) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
         prime = false;
         cube = new Cube();
+//        cube.turn(new Algorithm("[R,U] [R',F]").inverse());
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.BLACK);

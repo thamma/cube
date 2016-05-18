@@ -1,6 +1,5 @@
 package me.thamma.tools.commutator;
 
-import com.sun.prism.shader.AlphaOne_LinearGradient_AlphaTest_Loader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,9 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import me.thamma.cube.Algorithm;
 import me.thamma.cube.Sticker;
-import me.thamma.cube.compiler.lexer.IllegalCharacterException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
 
 import java.io.*;
 import java.net.URL;

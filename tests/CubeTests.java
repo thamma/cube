@@ -1,15 +1,13 @@
 import me.thamma.cube.Cube;
 import me.thamma.cube.Sticker;
 import me.thamma.cube.Turn;
-
-import static me.thamma.cube.Cube.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
+import static me.thamma.cube.Cube.*;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
 
 public class CubeTests {
 

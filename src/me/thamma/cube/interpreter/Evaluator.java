@@ -1,11 +1,11 @@
-package me.thamma.cube.compiler;
+package me.thamma.cube.interpreter;
 
 import me.thamma.cube.Algorithm;
-import me.thamma.cube.compiler.parser.Expression;
-    import me.thamma.cube.compiler.parser.expressions.CommutatorExpression;
-import me.thamma.cube.compiler.parser.expressions.ParenthesesExpression;
-import me.thamma.cube.compiler.parser.expressions.SeriesExpression;
-import me.thamma.cube.compiler.parser.expressions.TurnExpression;
+import me.thamma.cube.interpreter.parser.Expression;
+    import me.thamma.cube.interpreter.parser.expressions.CommutatorExpression;
+import me.thamma.cube.interpreter.parser.expressions.ParenthesesExpression;
+import me.thamma.cube.interpreter.parser.expressions.SeriesExpression;
+import me.thamma.cube.interpreter.parser.expressions.TurnExpression;
 
 /**
  * Created by Dominic on 1/24/2016.

@@ -1,6 +1,6 @@
-package me.thamma.cube.compiler.parser.expressions;
+package me.thamma.cube.interpreter.parser.expressions;
 
-import me.thamma.cube.compiler.parser.Expression;
+import me.thamma.cube.interpreter.parser.Expression;
 
 /**
  * Created by Dominic on 2/15/2016.
@@ -13,6 +13,10 @@ public class ParenthesesExpression extends Expression {
 
     public ParenthesesExpression(Expression exp) {
         this(exp, 1, false);
+    }
+
+    public ParenthesesExpression(Expression exp, boolean inverse) {
+        this(exp, 1, inverse);
     }
 
     public ParenthesesExpression(Expression exp, int i) {

@@ -1,6 +1,6 @@
-package me.thamma.cube.compiler.lexer;
+package me.thamma.cube.interpreter.lexer;
 
-import me.thamma.cube.compiler.lexer.tokens.*;
+import me.thamma.cube.interpreter.lexer.tokens.*;
 import me.thamma.cube.Turn;
 
 import java.util.ArrayList;
@@ -112,6 +112,10 @@ public class Lexer {
                 }
                 case ',': {
                     tokenList.add(new TokenComma());
+                    break;
+                }
+                case '\'': {
+                    tokenList.add(new TokenInverse());
                     break;
                 }
                 case ' ':

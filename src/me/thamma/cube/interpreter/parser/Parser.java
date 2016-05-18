@@ -1,11 +1,11 @@
-package me.thamma.cube.compiler.parser;
+package me.thamma.cube.interpreter.parser;
 
-import me.thamma.cube.compiler.lexer.Token;
-import me.thamma.cube.compiler.lexer.tokens.*;
-import me.thamma.cube.compiler.parser.expressions.*;
+import me.thamma.cube.interpreter.lexer.Token;
+import me.thamma.cube.interpreter.lexer.tokens.*;
+import me.thamma.cube.interpreter.parser.expressions.*;
 import me.thamma.cube.Turn;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 
 import java.util.List;
 
@@ -29,23 +29,28 @@ public class Parser {
                 if (tokenList.size() == 0)
                     throw new UnexpectedEndOfLineException();
                 tokenList.remove(0);//RPAR
-                if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenNumber) {
-                    int number = ((TokenNumber) tokenList.remove(0)).getNumber();
-                    out.add(new ParenthesesExpression(expression, number));
-                } else {
-                    out.add(expression);
+                boolean inverse = false;
+                if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenInverse) {
+                    inverse = true;
+                    tokenList.remove(0);
                 }
+                if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenNumber)
+                    expression = new ParenthesesExpression(expression, ((TokenNumber) tokenList.remove(0)).getNumber());
+
+                out.add(inverse ? new ParenthesesExpression(expression, true) : expression);
             } else if (head instanceof TokenLBRAC) {
                 tokenList.remove(0);
                 Expression commutatorExpression = parseCommutatorExpression(tokenList);
                 tokenList.remove(0);//pop RBRAC
-                if (tokenList.size() > 0) {
-                    if (tokenList.get(0) instanceof TokenNumber) {
-                        out.add(new ParenthesesExpression(commutatorExpression, ((TokenNumber) tokenList.remove(0)).getNumber()));
-                    } else
-                        out.add(commutatorExpression);
-                } else
-                    out.add(commutatorExpression);
+                boolean inverse = false;
+                if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenInverse) {
+                    inverse = true;
+                    tokenList.remove(0);
+                }
+                if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenNumber)
+                    commutatorExpression = new ParenthesesExpression(commutatorExpression, ((TokenNumber) tokenList.remove(0)).getNumber());
+
+                out.add(inverse ? new ParenthesesExpression(commutatorExpression, true) : commutatorExpression);
             } else if (head instanceof TokenTurn) {
                 Expression turnExpression = parseTurnExpression(tokenList);
                 out.add(turnExpression);

@@ -1,4 +1,4 @@
-package me.thamma.cube.compiler.parser;
+package me.thamma.cube.interpreter.parser;
 
 /**
  * Created by Dominic on 2/15/2016.

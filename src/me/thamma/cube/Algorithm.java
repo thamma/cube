@@ -1,9 +1,9 @@
 package me.thamma.cube;
 
-import me.thamma.cube.compiler.Interpreter;
-import me.thamma.cube.compiler.lexer.IllegalCharacterException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.cube.interpreter.Interpreter;
+import me.thamma.cube.interpreter.lexer.IllegalCharacterException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.tools.commutator.Cycle;
 
 import java.util.ArrayList;
@@ -157,7 +157,7 @@ public class Algorithm extends ArrayList<Turn> {
     public int order() {
         Cube c = new Cube();
         c.turn(this);
-        if (c.isSolved()) return 0;
+        if (c.isSolved()) return 1;
         int i = 1;
         while (!c.isSolved()) {
             c.turn(this);

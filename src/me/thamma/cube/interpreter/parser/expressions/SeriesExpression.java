@@ -1,6 +1,6 @@
-package me.thamma.cube.compiler.parser.expressions;
+package me.thamma.cube.interpreter.parser.expressions;
 
-import me.thamma.cube.compiler.parser.Expression;
+import me.thamma.cube.interpreter.parser.Expression;
 
 import java.util.Iterator;
 import java.util.List;
