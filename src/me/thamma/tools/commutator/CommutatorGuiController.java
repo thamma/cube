@@ -1,6 +1,5 @@
 package me.thamma.tools.commutator;
 
-import com.sun.prism.shader.AlphaOne_LinearGradient_AlphaTest_Loader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,9 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import me.thamma.cube.Algorithm;
 import me.thamma.cube.Sticker;
-import me.thamma.cube.compiler.lexer.IllegalCharacterException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
 
 import java.io.*;
 import java.net.URL;
@@ -91,8 +87,7 @@ public class CommutatorGuiController implements Initializable {
             alg = new Algorithm(algorithmTextField1.getText());
         } catch (Exception e) {
         }
-        Cycle cycle = new Cycle(cycleTextField1.getText(), cycleTextField2.getText(), cycleTextField3.getText());
-        algorithmMap.put(cycle, alg.toString());
+        algorithmMap.put(alg.getCycle(), alg.toString());
         saveAlgorithmMap();
     }
 
@@ -111,6 +106,7 @@ public class CommutatorGuiController implements Initializable {
     private static final String BLACK_FILL = "-fx-text-fill: #000000;";
     private static final String RED_FILL = "-fx-text-fill: #932725;";
     private static final String GREEN_FILL = "-fx-text-fill: #34b136;";
+
     private void updateColorsAndAvailabilities2() {
         if (Sticker.isValidSticker(stickerTextField1.getText())
                 && Sticker.isValidSticker(stickerTextField2.getText())
@@ -196,7 +192,9 @@ public class CommutatorGuiController implements Initializable {
                 if (!cycleTextField2.getText().equals(""))
                     cycleTextField2.setText("");
                 if (!cycleTextField3.getText().equals(""))
-                    cycleTextField3.setText(""); if (!algorithmTextField2.getText().equals("")) algorithmTextField2.setText("");
+                    cycleTextField3.setText("");
+                if (!algorithmTextField2.getText().equals(""))
+                    algorithmTextField2.setText("");
             }
             break;
             case 3: {
@@ -221,9 +219,6 @@ public class CommutatorGuiController implements Initializable {
                         } else
                             tickLabel2.setVisible(false);
                     }
-                } else {
-                    if (!algorithmTextField2.getText().equals(""))
-                        algorithmTextField2.setText("");
                 }
             }
             break;
@@ -240,7 +235,8 @@ public class CommutatorGuiController implements Initializable {
                 if (!cycleTextField2.getText().equals(""))
                     cycleTextField2.setText("");
                 if (!cycleTextField3.getText().equals(""))
-                    cycleTextField3.setText(""); if (!algorithmTextField2.getText().equals("")) algorithmTextField2.setText("");
+                    cycleTextField3.setText("");
+                if (!algorithmTextField2.getText().equals("")) algorithmTextField2.setText("");
             }
             break;
             case 5: {
@@ -272,6 +268,13 @@ public class CommutatorGuiController implements Initializable {
                 cycleTextField1.setText(algCycle.s1.toString());
                 cycleTextField2.setText(algCycle.s2.toString());
                 cycleTextField3.setText(algCycle.s3.toString());
+//                if (algorithmMap.containsKey(algCycle)) {
+//                    if (!algorithmTextField2.getText().equals(algorithmMap.get(algCycle)))
+//                        algorithmTextField2.setText(algorithmMap.get(algCycle));
+//                } else {
+//                    if (!algorithmTextField2.getText().equals(""))
+//                        algorithmTextField2.setText("");
+//                }
                 button.setDisable(false);
             }
             break;

@@ -1,11 +1,11 @@
-package me.thamma.cube.compiler.parser;
+package me.thamma.cube.interpreter.parser;
 
-import me.thamma.cube.compiler.lexer.Token;
-import me.thamma.cube.compiler.lexer.tokens.*;
-import me.thamma.cube.compiler.parser.expressions.*;
+import me.thamma.cube.interpreter.lexer.Token;
+import me.thamma.cube.interpreter.lexer.tokens.*;
+import me.thamma.cube.interpreter.parser.expressions.*;
 import me.thamma.cube.Turn;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 
 import java.util.List;
 

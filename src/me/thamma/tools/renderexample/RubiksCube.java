@@ -15,9 +15,9 @@ import javafx.stage.Stage;
 import me.thamma.cube.Algorithm;
 import me.thamma.cube.Cube;
 import me.thamma.cube.Sticker;
-import me.thamma.cube.compiler.lexer.IllegalCharacterException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.cube.interpreter.lexer.IllegalCharacterException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 
 import java.util.Arrays;
 import java.util.List;

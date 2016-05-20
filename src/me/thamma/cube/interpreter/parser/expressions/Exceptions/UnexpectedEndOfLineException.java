@@ -1,6 +1,6 @@
-package me.thamma.cube.compiler.parser.expressions.Exceptions;
+package me.thamma.cube.interpreter.parser.expressions.Exceptions;
 
-import me.thamma.cube.compiler.lexer.Token;
+import me.thamma.cube.interpreter.lexer.Token;
 
 /**
  * Created by Dominic on 4/1/2016.

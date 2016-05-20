@@ -120,7 +120,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="411.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button fx:id="button" alignment="CENTER" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="button" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" text="Button" />
                      </children>
                   </HBox>
                </children>

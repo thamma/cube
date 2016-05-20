@@ -1,9 +1,9 @@
 package me.thamma.cube;
 
-import me.thamma.cube.compiler.Interpreter;
-import me.thamma.cube.compiler.lexer.IllegalCharacterException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.cube.interpreter.Interpreter;
+import me.thamma.cube.interpreter.lexer.IllegalCharacterException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.tools.commutator.Cycle;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class Algorithm extends ArrayList<Turn> {
     private void recreateRawString() {
         Turn last = (this.size() > 0 ? this.get(0) : null);
         String out = "";
-        Turn t = (this.size() > 1 ? this.get(1) : null);
+        Turn t;
         int count = 1;
         for (int i = 1; i < this.size() + 1; i++) {
             if (i != this.size()) {
@@ -68,11 +68,20 @@ public class Algorithm extends ArrayList<Turn> {
             if (t != null && (last == t || last == t.inverse())) {
                 count += (last.equals(t) ? 1 : -1);
             } else {
-                if (count > 0) {
-                    out += last.toString() + (count > 1 ? count : "") + " ";
+                count %= 4;
+                if (count == 0) {
+                    count = 1;
+                } else if (count > 0) {
+                    if (count == 3) {
+                        out += last.inverse().toString() + " ";
+                    } else
+                        out += last.toString() + (count > 1 ? count : "") + " ";
                     count = 1;
                 } else {
-                    out += last.inverse().toString() + (count < -1 ? count : "") + " ";
+                    if (count == -3) {
+                        out += last.toString() + " ";
+                    } else
+                        out += last.inverse().toString() + (count < -1 ? count : "") + " ";
                     count = 1;
                 }
                 last = t;
@@ -173,5 +182,13 @@ public class Algorithm extends ArrayList<Turn> {
             return false;
         }
         return true;
+    }
+
+    public static Algorithm parseForce(String s) {
+        try {
+            return new Algorithm(s);
+        } catch (UnexpectedTokenException | IllegalCharacterException | UnexpectedEndOfLineException e) {
+            return new Algorithm();
+        }
     }
 }

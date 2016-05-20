@@ -1,4 +1,4 @@
-package me.thamma.cube.compiler.lexer;
+package me.thamma.cube.interpreter.lexer;
 
 /**
  * Created by Dominic on 2/26/2016.

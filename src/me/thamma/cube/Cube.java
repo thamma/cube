@@ -1,10 +1,8 @@
 package me.thamma.cube;
 
-import me.thamma.cube.compiler.lexer.IllegalCharacterException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedEndOfLineException;
-import me.thamma.cube.compiler.parser.expressions.Exceptions.UnexpectedTokenException;
-
-import java.util.Arrays;
+import me.thamma.cube.interpreter.lexer.IllegalCharacterException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
+import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 
 public class Cube {
 
@@ -66,16 +64,25 @@ public class Cube {
         this.pieces = pieces;
     }
 
+    public Cube(String scramble) {
+        this();
+        try {
+            this.turn(scramble);
+        } catch (IllegalCharacterException e) {
+            e.printStackTrace();
+        } catch (UnexpectedTokenException e) {
+            e.printStackTrace();
+        } catch (UnexpectedEndOfLineException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void solve() {
         this.pieces = DEFAULT_CUBE.clone();
     }
 
     public boolean isSolved() {
-        for (Sticker[] face : Sticker.faces)
-            for (Sticker sticker : face)
-                if (this.getColor(sticker) != this.getColor(face[4]))
-                    return false;
-        return true;
+        return this.equals(new Cube());
     }
 
     public void turn(String s) throws
@@ -154,14 +161,37 @@ public class Cube {
         return new Cube(a);
     }
 
+    public Cube normalize() {
+        Cube c = this.clone();
+        int i = 0;
+        while (c.getCurrentStickerAt(Sticker.U) != Sticker.U) {
+            c.turn(i == 0 ? Turn.X : Turn.Z);
+            i ^= 1;
+        }
+        while (c.getCurrentStickerAt(Sticker.F) != Sticker.F) {
+            c.turn(Turn.Y);
+        }
+        return c;
+    }
+
+    private final Sticker[][] faceStickers = {{Sticker.ULB, Sticker.UB, Sticker.UBR, Sticker.UL, Sticker.UR, Sticker.UFL, Sticker.UF, Sticker.URF},
+            {Sticker.FLU, Sticker.FU, Sticker.FUR, Sticker.FL, Sticker.FR, Sticker.FDL, Sticker.FD, Sticker.FRD},
+            {Sticker.RFU, Sticker.RU, Sticker.RUB, Sticker.RF, Sticker.RB, Sticker.RDF, Sticker.RD, Sticker.RBD},
+            {Sticker.DLF, Sticker.DF, Sticker.DFR, Sticker.DL, Sticker.DR, Sticker.DBL, Sticker.DB, Sticker.DRB},
+            {Sticker.BRU, Sticker.BU, Sticker.BUL, Sticker.BR, Sticker.BL, Sticker.BDR, Sticker.BD, Sticker.BLD},
+            {Sticker.LBU, Sticker.LU, Sticker.LUF, Sticker.LB, Sticker.LF, Sticker.LDB, Sticker.LD, Sticker.LFD}
+    };
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Cube))
             return false;
-        Cube ref = (Cube) o;
-        for (int i = 0; i < pieces.length; i++)
-            if (ref.pieces[i] != this.pieces[i])
-                return false;
+        Cube local = this.normalize();
+        Cube ref = ((Cube) o).normalize();
+        for (int i = 0; i < faceStickers.length; i++)
+            for (int j = 0; j < faceStickers[i].length; j++)
+                if (local.getCurrentStickerAt(faceStickers[i][j]) != ref.getCurrentStickerAt(faceStickers[i][j]))
+                    return false;
         return true;
     }
 }
