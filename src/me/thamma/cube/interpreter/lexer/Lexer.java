@@ -114,6 +114,10 @@ public class Lexer {
                     tokenList.add(new TokenComma());
                     break;
                 }
+                case '\'': {
+                    tokenList.add(new TokenInverse());
+                    break;
+                }
                 case ' ':
                     break;
                 default: {

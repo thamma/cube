@@ -15,6 +15,10 @@ public class ParenthesesExpression extends Expression {
         this(exp, 1, false);
     }
 
+    public ParenthesesExpression(Expression exp, boolean inverse) {
+        this(exp, 1, inverse);
+    }
+
     public ParenthesesExpression(Expression exp, int i) {
         this(exp, i, false);
     }

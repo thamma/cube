@@ -166,7 +166,7 @@ public class Algorithm extends ArrayList<Turn> {
     public int order() {
         Cube c = new Cube();
         c.turn(this);
-        if (c.isSolved()) return 0;
+        if (c.isSolved()) return 1;
         int i = 1;
         while (!c.isSolved()) {
             c.turn(this);

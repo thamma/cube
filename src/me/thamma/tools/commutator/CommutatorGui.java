@@ -16,7 +16,7 @@ public class CommutatorGui extends Application {
 
         Scene scene = new Scene(root);
 
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+//        scene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
 
         stage.setTitle("CommutatorHelper");
         stage.getIcons().add(
