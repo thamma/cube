@@ -2,7 +2,7 @@ package me.thamma.cube;
 
 import static me.thamma.cube.Cube.*;
 
-public enum Turn {
+public enum     Turn {
     UP(2, new int[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
     UP_PRIME(-2, new int[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
     FRONT(2, new int[]{UFL, UF, URF, FR, DFR, DF, DLF, FL}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),

@@ -64,8 +64,74 @@ public class Cube {
         this.pieces = pieces;
     }
 
+    public String getFaceletDefinition() {
+        String out = "";
+        out += (this.getCurrentStickerAt(Sticker.ULB)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.UB)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.UBR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.UL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.U)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.UR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.UFL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.UF)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.URF)+"").substring(0,1);
+
+        out += (this.getCurrentStickerAt(Sticker.RFU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.RU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.RUB)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.RF)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.R)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.RB)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.RDF)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.RD)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.RBD)+"").substring(0,1);
+
+        out += (this.getCurrentStickerAt(Sticker.FLU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.FU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.FUR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.FL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.F)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.FR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.FDL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.FD)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.FRD)+"").substring(0,1);
+
+        out += (this.getCurrentStickerAt(Sticker.DLF)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.DF)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.DFR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.DL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.D)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.DR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.DBL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.DB)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.DRB)+"").substring(0,1);
+
+        out += (this.getCurrentStickerAt(Sticker.LBU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.LU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.LUF)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.LB)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.L)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.LF)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.LDB)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.LD)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.LFD)+"").substring(0,1);
+        // U1, U2, U3, U4, U5, U6, U7, U8, U9, R1, R2, R3, R4, R5, R6,
+        //
+        out += (this.getCurrentStickerAt(Sticker.BRU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.BU)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.BUL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.BR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.B)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.BL)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.BDR)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.BD)+"").substring(0,1);
+        out += (this.getCurrentStickerAt(Sticker.BLD)+"").substring(0,1);
+        // F1, F2, F3, F4, F5, F6, F7, F8, F9, D1, D2, D3, D4, D5, D6, D7, D8, D9,
+        // L1, L2, L3, L4, L5, L6, L7, L8, L9, B1, B2, B3, B4, B5, B6, B7, B8, B9
+        return out;
+    }
+
     public Cube(String scramble) {
-        this();
         try {
             this.turn(scramble);
         } catch (IllegalCharacterException e) {
@@ -91,6 +157,7 @@ public class Cube {
     }
 
     public void turn(Turn t) {
+        int a = 5;
         if (t.hasChildren()) {
             for (Turn child : t.getChildren())
                 turn(child);
@@ -170,6 +237,9 @@ public class Cube {
         }
         while (c.getCurrentStickerAt(Sticker.F) != Sticker.F) {
             c.turn(Turn.Y);
+        }
+        if (c != null) {
+
         }
         return c;
     }

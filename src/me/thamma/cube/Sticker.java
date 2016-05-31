@@ -2,7 +2,7 @@ package me.thamma.cube;
 
 public enum Sticker {
 
-    //keep in order: UFR DLB, counting facelets in rows
+    //keep in order: U F R D L B, counting facelets in rows
 
     ULB(0, 0), UB(1, 0), UBR(2, 0), UL(3, 0), U(4, 0), UR(5, 0), UFL(6, 0), UF(7, 0), URF(8, 0),
     FLU(6, 1), FU(7, 1), FUR(8, 2), FL(11, 0), F(12, 0), FR(13, 0), FDL(17, 2), FD(18, 1), FRD(19, 1),
