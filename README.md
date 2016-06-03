@@ -59,6 +59,7 @@ In future versions I might include this sweet:
 ```
 [A °¹ B °² ... Z] = [A °¹ [ B °² [ ... Z] ] ]
 ```
+With °<sup>i</sup> being either ':' or ','
 
 #### Examples
 
