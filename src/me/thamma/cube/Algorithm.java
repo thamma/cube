@@ -4,6 +4,7 @@ import me.thamma.cube.interpreter.Interpreter;
 import me.thamma.cube.interpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.solver.Search;
 import me.thamma.tools.commutator.Cycle;
 
 import java.util.ArrayList;
@@ -24,9 +25,20 @@ public class Algorithm extends ArrayList<Turn> {
 
     private String rawInput;
 
-    public Algorithm(String input) throws UnexpectedTokenException, IllegalCharacterException, UnexpectedEndOfLineException {
-        super(Interpreter.interprete(input));
+    public Algorithm(String input) {
+        this();
+        try {
+            this.addAll(Interpreter.interprete(input));
+        } catch (UnexpectedTokenException |
+                IllegalCharacterException |
+                UnexpectedEndOfLineException e) {
+            e.printStackTrace();
+        }
         this.rawInput = input;
+    }
+
+    public Algorithm(Cube cube) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
+        this(Search.solution(cube.getFaceletDefinition(), 20, 500, false));
     }
 
     public Algorithm inverse() {
@@ -113,7 +125,6 @@ public class Algorithm extends ArrayList<Turn> {
                 }
             }
         }
-//        System.out.println(lower + " - " + upper + " : " + (range + 1));
         if (range > 0)
             this.removeRange(lower, upper + 1);
     }
@@ -177,18 +188,10 @@ public class Algorithm extends ArrayList<Turn> {
 
     public static boolean isAlgorithm(String input) {
         try {
-            new Algorithm(input);
+            Interpreter.interprete(input);
         } catch (IllegalCharacterException | UnexpectedTokenException | UnexpectedEndOfLineException e) {
             return false;
         }
         return true;
-    }
-
-    public static Algorithm parseForce(String s) {
-        try {
-            return new Algorithm(s);
-        } catch (UnexpectedTokenException | IllegalCharacterException | UnexpectedEndOfLineException e) {
-            return new Algorithm();
-        }
     }
 }

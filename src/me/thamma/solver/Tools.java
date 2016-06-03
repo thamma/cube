@@ -29,10 +29,9 @@ public class Tools {
 	 *         -3: Flip error: One edge has to be flipped<br>
 	 *         -4: Not all 8 corners exist exactly once<br>
 	 *         -5: Twist error: One corner has to be twisted<br>
-	 *         -6: Parity error: Two corners or two edges have to be exchanged
-	 */
+	 *         -6: Parity error: Two corners or two edges have to be exchanged*/
 	public static int verify(String s) {
-		int[] count = new int[6];
+        int[] count = new int[6];
 		try {
 			for (int i = 0; i < 54; i++)
 				count[Color.valueOf(s.substring(i, i + 1)).ordinal()]++;

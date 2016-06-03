@@ -1,26 +1,26 @@
 package me.thamma.cube;
 
-import static me.thamma.cube.Cube.*;
+import static me.thamma.cube.Sticker.*;
 
-public enum     Turn {
-    UP(2, new int[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-    UP_PRIME(-2, new int[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-    FRONT(2, new int[]{UFL, UF, URF, FR, DFR, DF, DLF, FL}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
-    FRONT_PRIME(-2, new int[]{UFL, UF, URF, FR, DFR, DF, DLF, FL}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
-    RIGHT(2, new int[]{URF, UR, UBR, BR, DRB, DR, DFR, FR}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
-    RIGHT_PRIME(-2, new int[]{URF, UR, UBR, BR, DRB, DR, DFR, FR}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
-    DOWN(2, new int[]{DLF, DF, DFR, DR, DRB, DB, DBL, DL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-    DOWN_PRIME(-2, new int[]{DLF, DF, DFR, DR, DRB, DB, DBL, DL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-    BACK(2, new int[]{UBR, UB, ULB, BL, DBL, DB, DRB, BR}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
-    BACK_PRIME(-2, new int[]{UBR, UB, ULB, BL, DBL, DB, DRB, BR}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
-    LEFT(2, new int[]{ULB, UL, UFL, FL, DLF, DL, DBL, BL}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
-    LEFT_PRIME(-2, new int[]{ULB, UL, UFL, FL, DLF, DL, DBL, BL}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
-    MIDDLE(2, new int[]{UF, F, DF, D, DB, B, UB, U}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
-    MIDDLE_PRIME(-2, new int[]{UF, F, DF, D, DB, B, UB, U}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
-    EQUATORIAL(2, new int[]{FL, F, FR, R, BR, B, BL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
-    EQUATORIAL_PRIME(-2, new int[]{FL, F, FR, R, BR, B, BL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
-    STANDING(2, new int[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
-    STANDING_PRIME(-2, new int[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
+public enum Turn {
+    UP(2, new Sticker[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
+    UP_PRIME(-2, new Sticker[]{ULB, UB, UBR, UR, URF, UF, UFL, UL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
+    FRONT(2, new Sticker[]{UFL, UF, URF, FR, DFR, DF, DLF, FL}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
+    FRONT_PRIME(-2, new Sticker[]{UFL, UF, URF, FR, DFR, DF, DLF, FL}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
+    RIGHT(2, new Sticker[]{URF, UR, UBR, BR, DRB, DR, DFR, FR}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
+    RIGHT_PRIME(-2, new Sticker[]{URF, UR, UBR, BR, DRB, DR, DFR, FR}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
+    DOWN(2, new Sticker[]{DLF, DF, DFR, DR, DRB, DB, DBL, DL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
+    DOWN_PRIME(-2, new Sticker[]{DLF, DF, DFR, DR, DRB, DB, DBL, DL}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
+    BACK(2, new Sticker[]{UBR, UB, ULB, BL, DBL, DB, DRB, BR}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
+    BACK_PRIME(-2, new Sticker[]{UBR, UB, ULB, BL, DBL, DB, DRB, BR}, new int[]{-1, 1, 1, 1, -1, 1, 1, 1}),
+    LEFT(2, new Sticker[]{ULB, UL, UFL, FL, DLF, DL, DBL, BL}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
+    LEFT_PRIME(-2, new Sticker[]{ULB, UL, UFL, FL, DLF, DL, DBL, BL}, new int[]{-1, 0, 1, 0, -1, 0, 1, 0}),
+    MIDDLE(2, new Sticker[]{UF, F, DF, D, DB, B, UB, U}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
+    MIDDLE_PRIME(-2, new Sticker[]{UF, F, DF, D, DB, B, UB, U}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
+    EQUATORIAL(2, new Sticker[]{FL, F, FR, R, BR, B, BL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
+    EQUATORIAL_PRIME(-2, new Sticker[]{FL, F, FR, R, BR, B, BL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
+    STANDING(2, new Sticker[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
+    STANDING_PRIME(-2, new Sticker[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}),
     X(LEFT_PRIME, MIDDLE_PRIME, RIGHT),
     X_PRIME(LEFT, MIDDLE, RIGHT_PRIME),
     Y(UP, EQUATORIAL_PRIME, DOWN_PRIME),
@@ -41,7 +41,8 @@ public enum     Turn {
     LEFT_WIDE_PRIME(LEFT_PRIME, MIDDLE_PRIME);
 
     private int offset;
-    private int[] target, rotation;
+    private Sticker[] target;
+    private int[] rotation;
     private Turn[] children;
 
     Turn(Turn... children) {
@@ -49,7 +50,7 @@ public enum     Turn {
     }
 
 
-    Turn(int offset, int[] target, int[] rotation) {
+    Turn(int offset, Sticker[] target, int[] rotation) {
         this.offset = offset;
         this.target = target;
         this.rotation = rotation;
@@ -67,7 +68,7 @@ public enum     Turn {
         return this.offset;
     }
 
-    public int[] getTarget() {
+    public Sticker[] getTarget() {
         return this.target;
     }
 

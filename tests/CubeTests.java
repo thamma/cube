@@ -4,7 +4,7 @@ import me.thamma.cube.Turn;
 import org.junit.Before;
 import org.junit.Test;
 
-import static me.thamma.cube.Cube.*;
+import static me.thamma.cube.Piece.*;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;

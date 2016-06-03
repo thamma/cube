@@ -4,27 +4,31 @@ public enum Sticker {
 
     //keep in order: U F R D L B, counting facelets in rows
 
-    ULB(0, 0), UB(1, 0), UBR(2, 0), UL(3, 0), U(4, 0), UR(5, 0), UFL(6, 0), UF(7, 0), URF(8, 0),
-    FLU(6, 1), FU(7, 1), FUR(8, 2), FL(11, 0), F(12, 0), FR(13, 0), FDL(17, 2), FD(18, 1), FRD(19, 1),
-    RFU(8, 1), RU(5, 1), RUB(2, 2), RF(13, 1), R(14, 0), RB(15, 1), RDF(19, 2), RD(22, 1), RBD(25, 1),
+    // ULB, UB, UBR, UL, U, UR, UFL, UF, URF, BL, L, FL, F, FR, R, BR, B, DLF, DF, DFR, DL, D,, DBL, DB, DRB;
 
-    DLF(17, 0), DF(18, 0), DFR(19, 0), DL(20, 0), D(21, 0), DR(22, 0), DBL(23, 0), DB(24, 0), DRB(25, 0),
-    BRU(2, 1), BU(1, 1), BUL(0, 2), BL(9, 0), B(16, 0), BR(15, 0), BDR(25, 2), BD(24, 1), BLD(23, 1),
-    LBU(0, 1), LU(3, 1), LUF(6, 2), LB(9, 1), L(10, 0), LF(11, 1), LDB(23, 2), LD(20, 1), LFD(17, 1);
+    ULB(Piece.ULB, 0), UB(Piece.UB, 0), UBR(Piece.UBR, 0), UL(Piece.UL, 0), U(Piece.U, 0),
+    UR(Piece.UR, 0), UFL(Piece.UFL, 0), UF(Piece.UF, 0), URF(Piece.URF, 0),
+
+    FLU(Piece.UFL, 1), FU(Piece.UF, 1), FUR(Piece.URF, 2), FL(Piece.FL, 0), F(Piece.F, 0),
+    FR(Piece.FR, 0), FDL(Piece.DLF, 2), FD(Piece.DF, 1), FRD(Piece.DFR, 1),
+
+    RFU(Piece.URF, 1), RU(Piece.UR, 1), RUB(Piece.UBR, 2), RF(Piece.FR, 1), R(Piece.R, 0),
+    RB(Piece.BR, 1), RDF(Piece.DFR, 2), RD(Piece.DR, 1), RBD(Piece.DRB, 1),
+
+    DLF(Piece.DLF, 0), DF(Piece.DF, 0), DFR(Piece.DFR, 0), DL(Piece.DL, 0), D(Piece.D, 0),
+    DR(Piece.DR, 0), DBL(Piece.DBL, 0), DB(Piece.DB, 0), DRB(Piece.DRB, 0),
+
+    BRU(Piece.UBR, 1), BU(Piece.UB, 1), BUL(Piece.ULB, 2), BL(Piece.BL, 0), B(Piece.B, 0),
+    BR(Piece.BR, 0), BDR(Piece.DRB, 2), BD(Piece.DB, 1), BLD(Piece.DBL, 1),
+
+    LBU(Piece.ULB, 1), LU(Piece.UL, 1), LUF(Piece.UFL, 2), LB(Piece.BL, 1), L(Piece.L, 0),
+    LF(Piece.FL, 1), LDB(Piece.DBL, 2), LD(Piece.DL, 1), LFD(Piece.DLF, 1);
 
 
-    public static final Sticker[] upFace = {ULB, UB, UBR, UL, U, UR, UFL, UF, URF};
-    public static final Sticker[] frontFace = {FLU, FU, FUR, FL, F, FR, FDL, FD, FRD};
-    public static final Sticker[] rightFace = {RFU, RU, RUB, RF, R, RB, RDF, RD, RBD};
-    public static final Sticker[] downFace = {DLF, DF, DFR, DL, D, DR, DBL, DB, DRB};
-    public static final Sticker[] backFace = {BRU, BU, BUL, BL, B, BR, BDR, BD, BLD};
-    public static final Sticker[] leftFace = {LBU, LU, LUF, LB, L, LF, LDB, LD, LFD};
-    public static final Sticker[][] faces = {upFace, frontFace, rightFace, downFace, backFace, leftFace};
+    private int offset;
+    private Piece piece;
 
-
-    private int piece, offset;
-
-    Sticker(int piece, int offset) {
+    Sticker(Piece piece, int offset) {
         this.piece = piece;
         this.offset = offset;
     }
@@ -33,7 +37,7 @@ public enum Sticker {
         return this.name().length();
     }
 
-    public int getPiece() {
+    public Piece getPiece() {
         return this.piece;
     }
 
@@ -63,4 +67,6 @@ public enum Sticker {
     private String wrap(String s) {
         return s.substring(1, s.length()) + s.charAt(0);
     }
+
+
 }

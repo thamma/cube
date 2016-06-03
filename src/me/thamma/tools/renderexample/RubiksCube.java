@@ -14,6 +14,7 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import me.thamma.cube.Algorithm;
 import me.thamma.cube.Cube;
+import me.thamma.cube.Piece;
 import me.thamma.cube.Sticker;
 import me.thamma.cube.interpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.interpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
@@ -126,7 +127,7 @@ public class RubiksCube extends Application {
     public void start(Stage primaryStage) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
         prime = false;
         cube = new Cube();
-//        cube.turn(new Algorithm("[R,U] [R',F]").inverse());
+        cube.turn(new Algorithm(" [[RBU: RU' RU RU RU' R'U' R2], x2 y']"));
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.BLACK);
@@ -138,22 +139,21 @@ public class RubiksCube extends Application {
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.CONTROL)
                 prime ^= true;
-            System.out.println(prime);
+            //System.out.println(prime);
         });
         scene.setOnKeyTyped(e -> {
-            try {
+
                 Algorithm a = new Algorithm("" + e.getCharacter().toUpperCase() + (prime ? "'" : ""));
                 cube.turn(a);
                 sceneRoot.getChildren().clear();
                 loadCube(cube);
                 renderCube(scene, sceneRoot, primaryStage);
-            } catch (UnexpectedTokenException e1) {
-//                e1.printStackTrace();
-            } catch (IllegalCharacterException e1) {
-//                e1.printStackTrace();
-            } catch (UnexpectedEndOfLineException e1) {
-//                e1.printStackTrace();
-            }
+                //int sum = 0;
+                //for (Piece piece: Piece.corners)
+                //   sum += cube.getPiece(piece)[3];
+                //System.out.println("par: "+sum);
+                //System.out.println("par % 3: "+(sum % 3));
+
         });
         loadCube(cube);
         renderCube(scene, sceneRoot, primaryStage);
