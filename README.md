@@ -28,7 +28,7 @@
 ### Interpreter
 
 #### Grammar
-The interpreter interpretes expressions which suffice the grammar given by the [BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form):
+The interpreter interpretes expressions which suffice the grammar given by this [BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form):
 ```
 <exp> ::= <exp> <exp>* | <pexp>
 <par_exp> ::= ( <exp> ) <appendix> | <com_exp> [appendix] | <turn_exp>
@@ -44,7 +44,7 @@ The interpreter interpretes expressions which suffice the grammar given by the [
 ```
 ⟦AB⟧ = ⟦A⟧ * ⟦B⟧
 ⟦A'⟧ = A⁻¹
-⟦(A)n⟧ = A * … * A  (n times)   ∀n∈ℕ
+⟦(A)n⟧ = A * … * A                     (n times)   ∀n∈ℕ
 ⟦[A:B]⟧ = A B A⁻¹
 ⟦[A,B]⟧ = A B A⁻¹ B⁻¹
 ```
@@ -52,7 +52,12 @@ The interpreter interpretes expressions which suffice the grammar given by the [
 #### Syntactic Sugar
 Since the commutator notation is very powerful, it deserves some love considering the accumulation of brackets. Thus this syntactic sugar is justified:
 ```
-[A: [B, C]] = [A: B, C]
+[A: B, C] = [A: [B, C]]
+```
+Planned:
+In future versions I might include this sweet:
+```
+[A °¹ B °² ... Z] = [A °¹ [ B °² [ ... Z] ] ]
 ```
 
 #### Examples
