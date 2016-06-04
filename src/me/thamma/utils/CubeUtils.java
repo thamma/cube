@@ -45,12 +45,14 @@ public class CubeUtils {
     public static Algorithm perfectSolve(Cube cube) {
         int i = 21;
         String status = "";
+        String last = "";
         while (--i >0 && !status.equals("Error 7")) {
             System.out.println("Trying depth: " + i);
-            status = Search.solution(cube.getFaceletDefinition(), i, 300, false);
+            last = status;
+            status = Search.solution(cube.normalize().getFaceletDefinition(), i, 300, false);
             System.out.println("\tfound: " + status);
         }
-        return new Algorithm(status);
+        return new Algorithm(last);
     }
 
     public static Algorithm anySolve(Cube cube) {
