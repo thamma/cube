@@ -1,6 +1,6 @@
 package me.thamma.tools.commutator;
 
-import me.thamma.cube.Sticker;
+import me.thamma.cube.model.Sticker;
 
 /**
  * Created by Dominic on 3/31/2016.

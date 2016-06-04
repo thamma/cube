@@ -1,10 +1,10 @@
-import me.thamma.cube.Cube;
-import me.thamma.cube.Sticker;
-import me.thamma.cube.Turn;
+import me.thamma.cube.model.Cube;
+import me.thamma.cube.model.Sticker;
+import me.thamma.cube.model.Turn;
 import org.junit.Before;
 import org.junit.Test;
 
-import static me.thamma.cube.Piece.*;
+import static me.thamma.cube.model.Piece.*;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -21,7 +21,6 @@ public class CubeTests {
     @Test
     public void testStickerIdentityCube() {
         for (Sticker sticker : Sticker.values()) {
-            System.out.println(sticker);
             assertTrue(sticker.toString(), cube.getCurrentStickerAt(sticker).equals(sticker));
         }
     }

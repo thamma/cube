@@ -6,8 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import me.thamma.cube.Algorithm;
-import me.thamma.cube.Sticker;
+import me.thamma.cube.model.Algorithm;
+import me.thamma.cube.model.Sticker;
+import me.thamma.utils.CubeUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -49,7 +50,7 @@ public class CommutatorGuiController implements Initializable {
     private void setupAlgorithmTextFieldListeners() {
         algorithmTextField1.textProperty().addListener(e -> {
             updateColorsAndAvailabilities2();
-            if (Algorithm.isAlgorithm(algorithmTextField1.getText()) && !algorithmTextField1.getText().equals("")) {
+            if (CubeUtils.isValidAlgorithm(algorithmTextField1.getText()) && !algorithmTextField1.getText().equals("")) {
                 Algorithm alg = null;
                 try {
                     alg = new Algorithm(algorithmTextField1.getText());
@@ -60,7 +61,7 @@ public class CommutatorGuiController implements Initializable {
         });
         algorithmTextField2.textProperty().addListener(e -> {
             updateColorsAndAvailabilities2();
-            if (Algorithm.isAlgorithm(algorithmTextField2.getText()) && !algorithmTextField2.getText().equals("")) {
+            if (CubeUtils.isValidAlgorithm(algorithmTextField2.getText()) && !algorithmTextField2.getText().equals("")) {
                 Algorithm alg = null;
                 try {
                     alg = new Algorithm(algorithmTextField2.getText());
@@ -108,16 +109,16 @@ public class CommutatorGuiController implements Initializable {
     private static final String GREEN_FILL = "-fx-text-fill: #34b136;";
 
     private void updateColorsAndAvailabilities2() {
-        if (Sticker.isValidSticker(stickerTextField1.getText())
-                && Sticker.isValidSticker(stickerTextField2.getText())
-                && Sticker.isValidSticker(stickerTextField3.getText())) {
+        if (CubeUtils.isValidSticker(stickerTextField1.getText())
+                && CubeUtils.isValidSticker(stickerTextField2.getText())
+                && CubeUtils.isValidSticker(stickerTextField3.getText())) {
             Cycle stickerCycle = new Cycle(stickerTextField1.getText(), stickerTextField2.getText(), stickerTextField3.getText());
             //Proper stickers
             applyColorsAndAvailabilities(1);
             if (stickerCycle.isPossible()) {
                 //legit cycle
                 applyColorsAndAvailabilities(3);
-                if (Algorithm.isAlgorithm(algorithmTextField1.getText()) && !algorithmTextField1.getText().equals("")) {
+                if (CubeUtils.isValidAlgorithm(algorithmTextField1.getText()) && !algorithmTextField1.getText().equals("")) {
                     //legit algorithm
                     applyColorsAndAvailabilities(5);
                     Algorithm alg = null;
@@ -180,9 +181,9 @@ public class CommutatorGuiController implements Initializable {
             }
             break;
             case 2: {
-                stickerTextField1.setStyle(Sticker.isValidSticker(stickerTextField1.getText()) ? BLACK_FILL : RED_FILL);
-                stickerTextField2.setStyle(Sticker.isValidSticker(stickerTextField2.getText()) ? BLACK_FILL : RED_FILL);
-                stickerTextField3.setStyle(Sticker.isValidSticker(stickerTextField3.getText()) ? BLACK_FILL : RED_FILL);
+                stickerTextField1.setStyle(CubeUtils.isValidSticker(stickerTextField1.getText()) ? BLACK_FILL : RED_FILL);
+                stickerTextField2.setStyle(CubeUtils.isValidSticker(stickerTextField2.getText()) ? BLACK_FILL : RED_FILL);
+                stickerTextField3.setStyle(CubeUtils.isValidSticker(stickerTextField3.getText()) ? BLACK_FILL : RED_FILL);
                 algorithmTextField1.setDisable(true);
                 button.setDisable(true);
                 tickLabel1.setVisible(false);
@@ -208,7 +209,7 @@ public class CommutatorGuiController implements Initializable {
                     String mapEntry = algorithmMap.get(cycle);
                     if (!algorithmTextField2.getText().equals(mapEntry))
                         algorithmTextField2.setText(mapEntry);
-                    if (Algorithm.isAlgorithm(mapEntry)) {
+                    if (CubeUtils.isValidAlgorithm(mapEntry)) {
                         Algorithm mapEntryAlgorithm = null;
                         try {
                             mapEntryAlgorithm = new Algorithm(mapEntry);
