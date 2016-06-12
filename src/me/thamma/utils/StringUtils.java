@@ -1,8 +1,5 @@
 package me.thamma.utils;
 
-/**
- * Created by Dominic on 6/3/2016.
- */
 public class StringUtils {
 
     // wrap("wrap") == "rapw"

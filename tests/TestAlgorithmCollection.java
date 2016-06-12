@@ -1,7 +1,7 @@
 import me.thamma.cube.model.Algorithm;
 import me.thamma.cube.model.Turn;
 
-public class AlgorithmCollection {
+public class TestAlgorithmCollection {
 
     public static Algorithm[] rawAlgorithms = new Algorithm[]{
             new Algorithm(Turn.DOWN),

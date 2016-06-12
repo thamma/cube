@@ -5,8 +5,7 @@ import me.thamma.cube.algorithmInterpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.utils.CubeUtils;
-import me.thamma.utils.solverModel.Search;
-import me.thamma.tools.commutator.Cycle;
+import me.thamma.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,51 +134,15 @@ public class Algorithm extends ArrayList<Turn> {
     }
 
     public boolean isCommutator() {
-//        // requires implementation of
-//        // - Cycle.java
-//        // - Algorithm.getCycles() : Collection<Cycle>
-//        if (this.getCycles().size() != 1)
-//            return false;
-//        Cycle cycle = this.getCycles().get(0);
-//        if (cycle.getOrder()!=3)
-//            return false;
-//        return true;
-        if (this.getOrder() != 3)
+        if (this.getCycles().size() != 1)
             return false;
-        return this.affectedStickers().size() == 9 || this.affectedStickers().size() == 6;
+        Cycle cycle = this.getCycles().get(0);
+        return cycle.getOrder() == 3;
     }
 
-    public List<Sticker> affectedStickers() {
-        Cube c = new Cube();
-        c.turn(this);
-        List<Sticker> out = new ArrayList<Sticker>();
-        for (Sticker sticker : Sticker.values()) {
-            if (c.getCurrentStickerAt(sticker) != sticker) {
-                out.add(sticker);
-            }
-        }
-        return out;
-    }
 
-    public Cycle getCycle() {
-//        if (!isCommutator())
-//            return null;
-//        return (this.getCycles().get(0));
-        if (!isCommutator())
-            return null;
-        Cube c = new Cube();
-        c.turn(this);
-        Cube defaultCube = new Cube(Cube.DEFAULT_CUBE);
-        Sticker diff = null;
-        for (Sticker st : Sticker.values()) {
-            if (!c.getCurrentStickerAt(st).equals(defaultCube.getCurrentStickerAt(st))) {
-                diff = st;
-                break;
-            }
-        }
-        Sticker sticker2 = c.getCurrentStickerAt(diff);
-        Sticker sticker3 = c.getCurrentStickerAt(sticker2);
-        return new Cycle(diff, sticker3, sticker2);
+    public Cycles getCycles() {
+        return new Cycles(new Cube(this));
     }
 
     @Override
@@ -192,23 +155,10 @@ public class Algorithm extends ArrayList<Turn> {
     }
 
     public int getOrder() {
-//        // requires implementation of
-//        // - Cycle.java
-//        // - Algorithm.getCycles() : Collection<Cycle>
-//        int order = 1;
-//        for (Cycle cycle: this.getCycles()) {
-//            order = lcm(order, cycle);
-//        }
-//        return order
-        Cube c = new Cube();
-        c.turn(this);
-        if (c.isSolved()) return 1;
-        int i = 1;
-        while (!c.isSolved()) {
-            c.turn(this);
-            i++;
-        }
-        return i;
+        int order = 1;
+        for (Cycle cycle: this.getCycles())
+            order = MathUtils.lcm(order, cycle.getOrder());
+        return order;
     }
 
 //    public boolean isCongruent(Algorithm otherSolve) {
