@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class Cycle extends ArrayList<Sticker> {
 
-    private int parity;
+    private boolean parity;
+    private int type;
 
     public Cycle(Cube cube, Piece piece) {
         super();
-        this.parity = 0;
+        type = piece.name().length();
+        this.parity = false;
         addCycle(cube, piece.getCanonicSticker());
     }
 
@@ -20,7 +22,7 @@ public class Cycle extends ArrayList<Sticker> {
         } while (!containsPiece(sticker.getPiece()));
         while (start != sticker) {
             start = start.rotate();
-            this.parity++;
+            this.parity = true;
         }
     }
 
@@ -32,10 +34,10 @@ public class Cycle extends ArrayList<Sticker> {
     }
 
     public int getOrder() {
-        return this.size() * (this.getParity()+1);
+        return this.size() * (this.getParity()?this.type:1);
     }
 
-    public int getParity() {
+    public boolean getParity() {
         return this.parity;
     }
 }

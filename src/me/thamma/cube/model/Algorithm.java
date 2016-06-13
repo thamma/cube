@@ -149,7 +149,7 @@ public class Algorithm extends ArrayList<Turn> {
     public String toString() {
         if (this.size() == 0)
             return "1";
-        if (this.rawInput != null)
+        if (this.rawInput != null&&false)
             return this.rawInput;
         return Arrays.toString(Arrays.stream(this.toArray()).map(a -> a.toString()).toArray()).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "");
     }

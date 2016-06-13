@@ -32,7 +32,7 @@ public class Main {
         // System.out.println(solve(c));
         // System.out.println(CubeUtils.solve(cube));
 
-        Algorithm alg = new Algorithm("R U BL ");
-        System.out.println(alg.getOrder());
+        Algorithm alg = new Algorithm("[R]");
+        System.out.println(alg + " foils to " + alg.simplify() + "  ord(" + alg + ") = " + alg.getOrder());
     }
 }
