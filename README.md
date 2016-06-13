@@ -1,6 +1,6 @@
 # thamma / cube
 
-> A Rubiks Cube implementation in Java which focuses on the more technical aspects of the cube. Thus more theory, analytics and math is available.
+> A Rubiks Cube implementation in Java focusing on the technical aspects of the cube. Thus more theory and math is available allowing more analytics to be done.
 
 ## Table of contents
 
