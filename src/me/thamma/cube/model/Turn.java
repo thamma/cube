@@ -119,7 +119,7 @@ public enum Turn {
             case BACK_WIDE:
                 return "b";
             case LEFT_WIDE:
-                return "";
+                return "l";
             case UP_WIDE_PRIME:
                 return "u'";
             case FRONT_WIDE_PRIME:

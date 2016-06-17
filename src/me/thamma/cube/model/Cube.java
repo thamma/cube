@@ -17,11 +17,12 @@ public class Cube {
      * edge rotation is ZZ edge orientation
      */
 
-    public static String[] sideStrings = {null, "U", "F", "R", "D", "B", "L"};
+    public static String[] sideStrings = {null, "U", "F", "R", "D", "B", "L", "X"};
 
     public static final int[] DEFAULT_CUBE = {5610, 510, 3510, 610, 10, 310, 6210, 210, 2310, 650, 60, 620, 20, 320, 30, 350, 50, 2640, 240, 3240, 640, 40, 340, 6540, 540, 5340};
 
-    public int[] pieces;
+
+    private int[] pieces;
 
     public Cube() {
         this(DEFAULT_CUBE.clone());
