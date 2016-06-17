@@ -6,6 +6,8 @@ public class UtilSets {
 
     public static Piece[] corners = {Piece.ULB, Piece.UBR, Piece.UFL, Piece.URF, Piece.DLF, Piece.DFR,  Piece.DBL, Piece.DRB};
     public static Piece[] edges = {Piece.UB, Piece.UL, Piece.UR, Piece.UF, Piece.BL, Piece.FL, Piece.FR, Piece.BR, Piece.DF, Piece.DL, Piece.DR, Piece.DB};
+    public static Piece[] cornersNEdges = {Piece.ULB, Piece.UBR, Piece.UFL, Piece.URF, Piece.DLF, Piece.DFR,  Piece.DBL, Piece.DRB,
+            Piece.UB, Piece.UL, Piece.UR, Piece.UF, Piece.BL, Piece.FL, Piece.FR, Piece.BR, Piece.DF, Piece.DL, Piece.DR, Piece.DB};
 
     public static final Sticker[] upFace = {Sticker.ULB, Sticker.UB, Sticker.UBR, Sticker.UL, Sticker.U, Sticker.UR, Sticker.UFL, Sticker.UF, Sticker.URF};
     public static final Sticker[] frontFace = {Sticker.FLU, Sticker.FU, Sticker.FUR, Sticker.FL, Sticker.F, Sticker.FR, Sticker.FDL, Sticker.FD, Sticker.FRD};

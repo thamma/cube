@@ -7,6 +7,7 @@ import me.thamma.cube.model.Turn;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 
+import java.util.AbstractCollection;
 import java.util.List;
 
 public class Parser {
@@ -40,17 +41,80 @@ public class Parser {
                 out.add(inverse ? new ParenthesesExpression(expression, true) : expression);
             } else if (head instanceof TokenLBRAC) {
                 tokenList.remove(0);
-                Expression commutatorExpression = parseCommutatorExpression(tokenList);
-                tokenList.remove(0);//pop RBRAC
-                boolean inverse = false;
-                if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenInverse) {
-                    inverse = true;
+                if (tokenList.size() >= 2 && tokenList.get(0) instanceof TokenTurn && tokenList.get(1) instanceof TokenRBRAC || tokenList.size() >= 3 && tokenList.get(1) instanceof TokenNumber && tokenList.get(2) instanceof TokenRBRAC) {
+                    TokenTurn tokenTurn = (TokenTurn) tokenList.remove(0);
+                    int amount = 1;
+                    if (tokenList.get(0) instanceof TokenNumber)
+                        amount = ((TokenNumber)tokenList.remove(0)).getNumber();
                     tokenList.remove(0);
-                }
-                if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenNumber)
-                    commutatorExpression = new ParenthesesExpression(commutatorExpression, ((TokenNumber) tokenList.remove(0)).getNumber());
+                    Turn rotation = null;
+                    switch (tokenTurn.getTurn()) {
+                        case UP: {
+                            rotation = Turn.Y;
+                            break;
+                        }
+                        case FRONT: {
+                            rotation = Turn.Z;
+                            break;
+                        }
+                        case RIGHT: {
+                            rotation = Turn.X;
+                            break;
+                        }
+                        case DOWN: {
+                            rotation = Turn.Y_PRIME;
+                            break;
+                        }
+                        case BACK: {
+                            rotation = Turn.Z_PRIME;
+                            break;
+                        }
+                        case LEFT: {
+                            rotation = Turn.X_PRIME;
+                            break;
+                        }
 
-                out.add(inverse ? new ParenthesesExpression(commutatorExpression, true) : commutatorExpression);
+                        case UP_PRIME: {
+                            rotation = Turn.Y_PRIME;
+                            break;
+                        }
+                        case FRONT_PRIME: {
+                            rotation = Turn.Z_PRIME;
+                            break;
+                        }
+                        case RIGHT_PRIME: {
+                            rotation = Turn.X_PRIME;
+                            break;
+                        }
+                        case DOWN_PRIME: {
+                            rotation = Turn.Y;
+                            break;
+                        }
+                        case BACK_PRIME: {
+                            rotation = Turn.Z;
+                            break;
+                        }
+                        case LEFT_PRIME: {
+                            rotation = Turn.X;
+                            break;
+                        }
+                        default:
+                            throw new UnexpectedTokenException(tokenTurn);
+                    }
+                    out.add(new TurnExpression(rotation, amount));
+                } else {
+                    Expression commutatorExpression = parseCommutatorExpression2(tokenList);
+                    tokenList.remove(0);//pop RBRAC
+                    boolean inverse = false;
+                    if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenInverse) {
+                        inverse = true;
+                        tokenList.remove(0);
+                    }
+                    if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenNumber)
+                        commutatorExpression = new ParenthesesExpression(commutatorExpression, ((TokenNumber) tokenList.remove(0)).getNumber());
+
+                    out.add(inverse ? new ParenthesesExpression(commutatorExpression, true) : commutatorExpression);
+                }
             } else if (head instanceof TokenTurn) {
                 Expression turnExpression = parseTurnExpression(tokenList);
                 out.add(turnExpression);
@@ -117,6 +181,28 @@ public class Parser {
         } else {
             throw new UnexpectedTokenException(head);
         }
+    }
+
+    private static Expression parseCommutatorExpression2(List<Token> tokenList) throws UnexpectedTokenException, UnexpectedEndOfLineException {
+        Expression exp1 = parseExpression(tokenList);
+        if (tokenList.size() == 0 )
+            throw new UnexpectedEndOfLineException();
+        Token head = tokenList.get(0);
+        boolean commutator;
+        if (head instanceof TokenColon) {
+            tokenList.remove(0);
+            commutator = false;
+        } else if (head instanceof TokenComma) {
+            tokenList.remove(0);
+            commutator = true;
+        } else if (head instanceof TokenRBRAC) {
+            return exp1;
+        } else
+            throw new UnexpectedTokenException(head);
+        Expression exp2 = parseCommutatorExpression2(tokenList);
+        if (commutator)
+            return new CommutatorExpression(null, exp1, exp2);
+        return new CommutatorExpression(exp1, exp2, null);
     }
 
 }

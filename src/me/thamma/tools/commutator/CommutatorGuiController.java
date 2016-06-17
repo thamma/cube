@@ -88,7 +88,7 @@ public class CommutatorGuiController implements Initializable {
             alg = new Algorithm(algorithmTextField1.getText());
         } catch (Exception e) {
         }
-        algorithmMap.put(alg.getCycle(), alg.toString());
+       //algorithmMap.put(alg.getCycles().get(0), alg.toString());
         saveAlgorithmMap();
     }
 
@@ -129,23 +129,23 @@ public class CommutatorGuiController implements Initializable {
                     if (alg.isCommutator()) {
                         //is commutator
                         applyColorsAndAvailabilities(7);
-                        Cycle algCycle = alg.getCycle();
-                        if (algCycle.equals(stickerCycle)) {
+                    //    Cycle algCycle = alg.getCycle();
+                   //     if (algCycle.equals(stickerCycle)) {
                             // Correct cycle
                             applyColorsAndAvailabilities(9);
-                            if (algorithmMap.containsKey(algCycle)) {
-                                applyColorsAndAvailabilities(11);
-                            } else {
-                                applyColorsAndAvailabilities(12);
-                            }
+                     //       if (algorithmMap.containsKey(algCycle)) {
+                   //             applyColorsAndAvailabilities(11);
+                      //      } else {
+                     //           applyColorsAndAvailabilities(12);
+                        //      }
                         } else {
                             applyColorsAndAvailabilities(10);
                             // not matching cycle but nice
-                            if (algorithmMap.containsKey(algCycle)) {
-                                applyColorsAndAvailabilities(13);
-                            } else {
-                                applyColorsAndAvailabilities(14);
-                            }
+                            //if (algorithmMap.containsKey(algCycle)) {
+                           //     applyColorsAndAvailabilities(13);
+                           // } else {
+                           //     applyColorsAndAvailabilities(14);
+                           // }
                             //Save nontheless!
                         }
                     } else {
@@ -162,10 +162,10 @@ public class CommutatorGuiController implements Initializable {
                 //illegal cycle
                 applyColorsAndAvailabilities(4);
             }
-        } else {
-            //improper stickers
-            applyColorsAndAvailabilities(2);
-        }
+        //} else {
+       //     //improper stickers
+       //     applyColorsAndAvailabilities(2);
+      //  }
     }
 
     private void applyColorsAndAvailabilities(int id) {
@@ -215,10 +215,10 @@ public class CommutatorGuiController implements Initializable {
                             mapEntryAlgorithm = new Algorithm(mapEntry);
                         } catch (Exception e) {
                         }
-                        if (mapEntryAlgorithm.isCommutator() && mapEntryAlgorithm.getCycle().equals(cycle)) {
-                            tickLabel2.setVisible(true);
-                        } else
-                            tickLabel2.setVisible(false);
+                     //   if (mapEntryAlgorithm.isCommutator() && mapEntryAlgorithm.getCycle().equals(cycle)) {
+                       //     tickLabel2.setVisible(true);
+                     //   } else
+                     //       tickLabel2.setVisible(false);
                     }
                 }
             }
@@ -265,10 +265,10 @@ public class CommutatorGuiController implements Initializable {
                 } catch (Exception e) {
                 }
                 Cycle stickerCycle = new Cycle(stickerTextField1.getText(), stickerTextField2.getText(), stickerTextField3.getText());
-                Cycle algCycle = alg.getCycle();
-                cycleTextField1.setText(algCycle.s1.toString());
-                cycleTextField2.setText(algCycle.s2.toString());
-                cycleTextField3.setText(algCycle.s3.toString());
+                //Cycle algCycle = alg.getCycle();
+            //    cycleTextField1.setText(algCycle.s1.toString());
+              //  cycleTextField2.setText(algCycle.s2.toString());
+              //  cycleTextField3.setText(algCycle.s3.toString());
 //                if (algorithmMap.containsKey(algCycle)) {
 //                    if (!algorithmTextField2.getText().equals(algorithmMap.get(algCycle)))
 //                        algorithmTextField2.setText(algorithmMap.get(algCycle));

@@ -126,7 +126,7 @@ public class RubiksCube extends Application {
     public void start(Stage primaryStage) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
         prime = false;
         cube = new Cube();
-        cube.turn(new Algorithm("[E,M] x2 [BU': M' ,[L,U]] z' [B'U2: M' ,[L,U]]"));
+        cube.turn(new Algorithm("(RUBL)16"));
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.BLACK);

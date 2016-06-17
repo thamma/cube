@@ -1,7 +1,9 @@
 package me.thamma;
 
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import me.thamma.cube.model.Algorithm;
 import me.thamma.cube.model.Cube;
+import me.thamma.cube.model.Cycles;
 import me.thamma.utils.CubeUtils;
 
 public class Main {
@@ -21,7 +23,7 @@ public class Main {
 //        System.out.println(a);
 //
 //        System.out.println(a.isCongruent(b));
-        System.out.println(CubeUtils.perfectSolve(new Cube(new Algorithm("[E,M] x2 [BU': M' ,[L,U]] z' [B'U2: M' ,[L,U]]"))));
+       // System.out.println(CubeUtils.perfectSolve(new Cube(new Algorithm("[E,M] x2 [BU': M' ,[L,U]] z' [B'U2: M' ,[L,U]]"))));
         // System.out.println(Search.solution("DLBLUBBFLBDRDRFDRBLUUUFRFLRUBFRDUFRULFDULLUBRDDFDBBRFL", 20, 500, false));
         // c.turn("((M'U)4 xy' )3");
         // Algorithm mirrorCube = new Algorithm(Search.solution("FBLBURBRLBDFFRLRDFLUUUFDFBDRUBRDLBLRDLDRLFUBDUDLFBFUUR", 20, 500, false));
@@ -29,5 +31,8 @@ public class Main {
         // c.turn("U L' L' B' B' L' L' D U' U' L R' U' U' F' F' D' R' R' B' D F L' R' B' B' F' U' U L' L' B' B' L' L' D U' U' L R' U' U' F' F' D' R' R' B' D F L' R' B' B' F' U'");
         // System.out.println(solve(c));
         // System.out.println(CubeUtils.solve(cube));
+
+        Algorithm alg = new Algorithm("[R]");
+        System.out.println(alg + " foils to " + alg.simplify() + "  ord(" + alg + ") = " + alg.getOrder());
     }
 }
