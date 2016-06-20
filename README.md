@@ -27,7 +27,7 @@ The cube itself is represented as an int[26] array. As one can guess these 26 in
 ```
 Each number contains up to four bits of information. Reading the single digits from right to left they mean 'piece rotation', 'first color', 'second color', 'third color'. The rotation can be 0 (for centers), 0-1 (for edges) or 0-2 (for corners). The colors are enumerated by their relative positions: NaN(0), Up(1), Front(2), Right(3), Down(4), Back(5), Left(6). As you can imagine, NaN is used for the second and third center color as well as for the third edge color.
 
-I'm will further elaborate the rotatoins in the next section, Turns.
+I'm will further elaborate the rotations in the next section, Turns.
 
 ### Turns
 
