@@ -10,15 +10,13 @@ public enum Piece {
         if (this.stickers!=null)
             return this.stickers;
         this.stickers = new Sticker[this.name().length()];
-        Sticker sticker = Sticker.valueOf(this.name());
-        for (int i = 0; i < this.stickers.length; i++) {
-            stickers[i] = sticker;
-            sticker = sticker.rotate();
-        }
+        this.stickers[0] = Sticker.valueOf(this.name());
+        for (int i = 1; i < this.stickers.length; i++)
+            this.stickers[i] = this.stickers[i-1].rotate();
         return this.stickers;
     }
 
-    public Sticker getCanonicSticker() {
+    public Sticker getCanonicalSticker() {
         return this.getStickers()[0];
     }
 

@@ -11,7 +11,7 @@ public class Cycle extends ArrayList<Sticker> {
         super();
         type = piece.name().length();
         this.parity = false;
-        addCycle(cube, piece.getCanonicSticker());
+        addCycle(cube, piece.getCanonicalSticker());
     }
 
     private void addCycle(Cube cube, Sticker start) {
