@@ -63,10 +63,18 @@ public class Algorithm extends ArrayList<Turn> {
         int i;
         do {
             i = clone.size();
-            clone.simplifySingle();
+            clone.simplifyLoops();
         } while (i != clone.size());
         clone.recreateRawString();
         return clone;
+    }
+
+    public int length(Metric metric) {
+        return metric.length(this);
+    }
+
+    public int length() {
+        return this.length(Metric.HTM);
     }
 
     // TODO: rewrite or reinvent
@@ -110,7 +118,7 @@ public class Algorithm extends ArrayList<Turn> {
         return this.stream().collect(Collectors.toCollection(Algorithm::new));
     }
 
-    private void simplifySingle() {
+    private void simplifyLoops() {
         int lower = Integer.MAX_VALUE;
         int upper = 0;
         int range = 0;
@@ -149,7 +157,7 @@ public class Algorithm extends ArrayList<Turn> {
     public String toString() {
         if (this.size() == 0)
             return "1";
-        if (this.rawInput != null)
+        if (this.rawInput != null&&false)
             return this.rawInput;
         return Arrays.toString(Arrays.stream(this.toArray()).map(a -> a.toString()).toArray()).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "");
     }
@@ -186,4 +194,11 @@ public class Algorithm extends ArrayList<Turn> {
 //        }
 //        return null;
 //    }
+
+    @FunctionalInterface
+    public interface AlgorithmMetric {
+
+        int run(Algorithm algorithm);
+
+    }
 }
