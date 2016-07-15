@@ -43,6 +43,7 @@ public class Cube {
 
     /**
      * Constructs a cube from the intern piece definition.
+     *
      * @param pieces the integral piece encoding of the cube
      */
     private Cube(int[] pieces) {
@@ -51,6 +52,7 @@ public class Cube {
 
     /**
      * Creates a new Cube to which an initial Algorithm is applied
+     *
      * @param algorithm the algorithm to initialize the cube with.
      */
     public Cube(Algorithm algorithm) {
@@ -60,6 +62,7 @@ public class Cube {
 
     /**
      * Creates a new Cube to which an initial Algorithm is applied
+     *
      * @param scramble the String representation of the algorithm to initialize the cube with.
      */
     public static Cube fromScramble(String scramble) {
@@ -71,6 +74,7 @@ public class Cube {
 
     /**
      * Whether the cube is properly solved, i.e. it is equivalent to a solved cube.
+     *
      * @return whether the cube is solved
      */
     public boolean isSolved() {
@@ -79,6 +83,7 @@ public class Cube {
 
     /**
      * Applies a rotation defined by a Turn to the current cube.
+     *
      * @param turn the turn to be applied to the cube
      * @return the reference to the current cube
      */
@@ -119,7 +124,6 @@ public class Cube {
         return pieceToArray(this.pieces[piece.ordinal()]);
     }
 
-
     /**
      * Creates a new Cube Object representing the same cube
      *
@@ -152,6 +156,7 @@ public class Cube {
 
     /**
      * Returns whether this Cube is equivalent to another Object (Cube).
+     *
      * @param o the Object to compare this cube to
      * @return true iff o is a Cube and there is a rotation in which the two Cubes are identical.
      */
@@ -177,7 +182,7 @@ public class Cube {
      * Rotates the given piece by the specified rotation. For example
      * (5610, 1) -> 5611
      *
-     * @param movedPiece the integral encoding of the piece to be rotatd
+     * @param movedPiece the integral encoding of the piece to be rotate7
      * @param rotation   the number of times the piece is supposed to be rotated clockwise
      * @return the integral encoding of the rotated piece
      */
