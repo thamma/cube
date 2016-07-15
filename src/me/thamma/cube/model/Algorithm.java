@@ -65,45 +65,8 @@ public class Algorithm extends ArrayList<Turn> {
             i = clone.size();
             clone.simplifySingle();
         } while (i != clone.size());
-        clone.recreateRawString();
+        this.rawInput = null;
         return clone;
-    }
-
-    // TODO: rewrite or reinvent
-    @Deprecated
-    private void recreateRawString() {
-        Turn last = (this.size() > 0 ? this.get(0) : null);
-        String out = "";
-        Turn t;
-        int count = 1;
-        for (int i = 1; i < this.size() + 1; i++) {
-            if (i != this.size()) {
-                t = this.get(i);
-            } else
-                t = null;
-            if (t != null && (last == t || last == t.inverse())) {
-                count += (last.equals(t) ? 1 : -1);
-            } else {
-                count %= 4;
-                if (count == 0) {
-                    count = 1;
-                } else if (count > 0) {
-                    if (count == 3) {
-                        out += last.inverse().toString() + " ";
-                    } else
-                        out += last.toString() + (count > 1 ? count : "") + " ";
-                    count = 1;
-                } else {
-                    if (count == -3) {
-                        out += last.toString() + " ";
-                    } else
-                        out += last.inverse().toString() + (count < -1 ? count : "") + " ";
-                    count = 1;
-                }
-                last = t;
-            }
-        }
-        this.rawInput = out;
     }
 
     public Algorithm clone() {
@@ -149,14 +112,14 @@ public class Algorithm extends ArrayList<Turn> {
     public String toString() {
         if (this.size() == 0)
             return "1";
-        if (this.rawInput != null&&false)
+        if (this.rawInput != null)
             return this.rawInput;
         return Arrays.toString(Arrays.stream(this.toArray()).map(a -> a.toString()).toArray()).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "");
     }
 
     public int getOrder() {
         int order = 1;
-        for (Cycle cycle: this.getCycles())
+        for (Cycle cycle : this.getCycles())
             order = MathUtils.lcm(order, cycle.getOrder());
         return order;
     }

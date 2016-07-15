@@ -12,7 +12,7 @@ public class Main {
         // String in = "R U R' U' R' F R2 U' R' U' R U R' F'";
         // in = "[R, U' L' U]";//Niklas
         // in = "[R'2: D2, [R:U]]";//A perm
-        // System.out.println(new Cube().normalize());
+        // System.out.println(new Cube().normalizeRotation());
         // Cube c = new Cube(" [[RBU: RU' RU RU RU' R'U' R2], x2 y']");
         // Cube c = new Cube(" [[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]");
         //System.out.println(new Algorithm("ru").getOrder());
@@ -23,7 +23,7 @@ public class Main {
 //        System.out.println(a);
 //
 //        System.out.println(a.isCongruent(b));
-       // System.out.println(CubeUtils.perfectSolve(new Cube(new Algorithm("[E,M] x2 [BU': M' ,[L,U]] z' [B'U2: M' ,[L,U]]"))));
+        // System.out.println(CubeUtils.perfectSolve(new Cube(new Algorithm("[E,M] x2 [BU': M' ,[L,U]] z' [B'U2: M' ,[L,U]]"))));
         // System.out.println(Search.solution("DLBLUBBFLBDRDRFDRBLUUUFRFLRUBFRDUFRULFDULLUBRDDFDBBRFL", 20, 500, false));
         // c.turn("((M'U)4 xy' )3");
         // Algorithm mirrorCube = new Algorithm(Search.solution("FBLBURBRLBDFFRLRDFLUUUFDFBDRUBRDLBLRDLDRLFUBDUDLFBFUUR", 20, 500, false));
@@ -32,7 +32,9 @@ public class Main {
         // System.out.println(solve(c));
         // System.out.println(CubeUtils.solve(cube));
 
-        Algorithm alg = new Algorithm("[R]");
-        System.out.println(alg + " foils to " + alg.simplify() + "  ord(" + alg + ") = " + alg.getOrder());
+        //Algorithm alg = new Algorithm("[x2 y', F': RU2R', D'] [E', M] [L2 U': RU2R'U'RU'R' L'U2LUL'UL] ");
+        Algorithm alg = new Algorithm("[x2 y', F': RU2R', D']");
+        //System.out.printf("order: %d,   cycle: %s", alg.getOrder(), alg.getCycles());
+        System.out.println(CubeUtils.perfectSolve(new Cube(alg)));
     }
 }

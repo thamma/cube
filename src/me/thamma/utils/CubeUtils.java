@@ -49,7 +49,7 @@ public class CubeUtils {
         while (--i >0 && !(status.equals("Error 7") || status.equals("Error 8"))) {
             System.out.println("Trying depth: " + i);
             last = status;
-            status = Search.solution(cube.normalize().getFaceletDefinition(), i, 30, false);
+            status = Search.solution(cube.normalizeRotation().getFaceletDefinition(), i, 30, false);
             System.out.println("\tfound: " + status);
         }
         return new Algorithm(last);
@@ -60,7 +60,7 @@ public class CubeUtils {
     }
 
     public static Algorithm solve(Cube cube, int cap) {
-        return new Algorithm(Search.solution(cube.normalize().getFaceletDefinition(), cap, 300, false));
+        return new Algorithm(Search.solution(cube.normalizeRotation().getFaceletDefinition(), cap, 300, false));
     }
 
 }

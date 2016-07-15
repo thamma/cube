@@ -1,5 +1,7 @@
 package me.thamma.cube.model;
 
+import me.thamma.utils.CubeUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +12,7 @@ public class Cycles extends ArrayList<Cycle> {
 
     public Cycles(Cube cube) {
         pieces = new HashSet<Piece>();
-        for (Piece piece : UtilSets.cornersNEdges) {
+        for (Piece piece : CubeConstants.cornersNEdges) {
             Cycle cycle = new Cycle(cube, piece);
             if (pieces.contains(cycle.get(0).getPiece()))
                 continue;

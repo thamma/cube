@@ -2,73 +2,98 @@ package me.thamma.cube.model;
 
 import me.thamma.utils.CubeUtils;
 
+import java.util.Arrays;
+import java.util.stream.Collector;
+
 public class Cube {
 
     /*
      * Encoding:
      *   [c3, c2, c1, rot] where c3,c2,c1 are the according colors, rot the rotation
+     *
      * Colors:
      *   U F R D B L  null
      *   1 2 3 4 5 6   0
      * (null color is provided if the piece consists of less than three facelets)
      * leading zeros are omitted to prevent confusion with octal numbers
+     *
      * Rotation:
      * implemented, hard recognition.
      * edge rotation is ZZ edge orientation
      */
 
-    public static String[] sideStrings = {null, "U", "F", "R", "D", "B", "L"};
+    //
+    //  fields and constants
+    //
 
-    public static final int[] DEFAULT_CUBE = {5610, 510, 3510, 610, 10, 310, 6210, 210, 2310, 650, 60, 620, 20, 320, 30, 350, 50, 2640, 240, 3240, 640, 40, 340, 6540, 540, 5340};
+    private String[] sideStrings = {null, "U", "F", "R", "D", "B", "L"};
 
-    public int[] pieces;
+    private int[] pieces;
 
+    //
+    //  constructors and factories
+    //
+
+    /**
+     * The default constructor. Initializes as a solved Cube.
+     */
     public Cube() {
-        this(DEFAULT_CUBE.clone());
+        this(CubeConstants.DEFAULT_CUBE.clone());
     }
 
-    public Cube(int[] pieces) {
+    /**
+     * Constructs a cube from the intern piece definition.
+     * @param pieces the integral piece encoding of the cube
+     */
+    private Cube(int[] pieces) {
         this.pieces = pieces;
     }
 
-    public String getFaceletDefinition() {
-        String out = "";
-        for (Sticker sticker: UtilSets.faceletDefinition)
-            out += this.getCurrentStickerAt(sticker).toString().substring(0, 1);
-        return out;
-    }
-
-    public Cube (Algorithm algorithm){
+    /**
+     * Creates a new Cube to which an initial Algorithm is applied
+     * @param algorithm the algorithm to initialize the cube with.
+     */
+    public Cube(Algorithm algorithm) {
         this();
         this.turn(algorithm);
     }
 
-    public Cube(String scramble) {
-        this();
-        this.turn(scramble);
+    /**
+     * Creates a new Cube to which an initial Algorithm is applied
+     * @param scramble the String representation of the algorithm to initialize the cube with.
+     */
+    public static Cube fromScramble(String scramble) {
+        return new Cube(new Algorithm(scramble));
     }
+    //
+    //  public methods
+    //
 
-
+    /**
+     * Whether the cube is properly solved, i.e. it is equivalent to a solved cube.
+     * @return whether the cube is solved
+     */
     public boolean isSolved() {
         return this.equals(new Cube());
     }
 
-    public void turn(String s) {
-        this.turn(new Algorithm(s));
-    }
-
-    public void turn(Turn t) {
-        int a = 5;
-        if (t.hasChildren()) {
-            for (Turn child : t.getChildren())
+    /**
+     * Applies a rotation defined by a Turn to the current cube.
+     * @param turn the turn to be applied to the cube
+     * @return the reference to the current cube
+     */
+    public Cube turn(Turn turn) {
+        if (turn.hasChildren()) {
+            for (Turn child : turn.getChildren())
                 turn(child);
-        } else {
-            this.cyclePieces(t.getOffset(), t.getTarget(), t.getRotation());
-        }
+        } else
+            this.cyclePieces(turn.getOffset(), turn.getTarget(), turn.getRotation());
+        return this;
     }
 
-    public void turn(Algorithm a) {
+    public Cube turn(Algorithm a) {
         a.forEach(this::turn);
+        return this;
     }
 
     public int getColor(Sticker s) {
@@ -86,16 +111,76 @@ public class Cube {
         return Sticker.valueOf(stickerString);
     }
 
-    private void cyclePieces(int offset, Sticker[] target, int[] rotation) {
-            offset = (offset + target.length) % target.length;
-        int[] piecesClone = this.pieces.clone();
-        for (int i = 0; i < target.length; i++) {
-            Sticker a = target[(i + offset) % target.length];
-            piecesClone[a.getPiece().ordinal()] = rotate(pieces[target[i].getPiece().ordinal()], rotation[i]);
-        }
-        this.pieces = piecesClone;
+    /**
+     * @param piece
+     * @return
+     */
+    public int[] getPiece(Piece piece) {
+        return pieceToArray(this.pieces[piece.ordinal()]);
     }
 
+
+    /**
+     * Creates a new Cube Object representing the same cube
+     *
+     * @return a proper copy of the current cube
+     */
+    public Cube clone() {
+        int[] a = new int[26];
+        System.arraycopy(this.pieces, 0, a, 0, pieces.length);
+        return new Cube(a);
+    }
+
+    /**
+     * Rotates the current cube such, that its upper color center faces up and the front color center faces front
+     *
+     * @return the reference to the current cube
+     */
+    public Cube normalizeRotation() {
+        Cube c;
+        for (Algorithm alg : CubeConstants.cubeOrientations) {
+            c = this.clone();
+            c.turn(alg);
+            if (c.getCurrentStickerAt(Sticker.U) == Sticker.U && c.getCurrentStickerAt(Sticker.F) == Sticker.F) {
+                this.turn(alg);
+                return this;
+            }
+        }
+        System.out.println("Warning: normalizeRotation() found the cube to be invalid");
+        return this;
+    }
+
+    /**
+     * Returns whether this Cube is equivalent to another Object (Cube).
+     * @param o the Object to compare this cube to
+     * @return true iff o is a Cube and there is a rotation in which the two Cubes are identical.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Cube))
+            return false;
+        Cube local = this.normalizeRotation();
+        Cube ref = ((Cube) o).normalizeRotation();
+        for (int i = 0; i < CubeConstants.faceStickers.length; i++)
+            for (int j = 0; j < CubeConstants.faceStickers[i].length; j++) {
+                if (local.getCurrentStickerAt(CubeConstants.faceStickers[i][j]) != ref.getCurrentStickerAt(CubeConstants.faceStickers[i][j]))
+                    return false;
+            }
+        return true;
+    }
+
+    //
+    //  private methods
+    //
+
+    /**
+     * Rotates the given piece by the specified rotation. For example
+     * (5610, 1) -> 5611
+     *
+     * @param movedPiece the integral encoding of the piece to be rotatd
+     * @param rotation   the number of times the piece is supposed to be rotated clockwise
+     * @return the integral encoding of the rotated piece
+     */
     private static int rotate(int movedPiece, int rotation) {
         int[] arr = pieceToArray(movedPiece);
         int order = order(arr);
@@ -104,57 +189,54 @@ public class Cube {
         return (((arr[0] * 10) + arr[1]) * 10 + arr[2]) * 10 + arr[3];
     }
 
-    public int[] getPiece(Piece piece) {
-        return pieceToArray(this.pieces[piece.ordinal()]);
-    }
-
+    /**
+     * Splits an integer into an array of its digits. Note that String.join can be used to recover the numbers String representation.
+     *
+     * @param piece the integer to be split
+     * @return the array containing the digits of the input integer
+     */
     private static int[] pieceToArray(int piece) {
-        assert piece != 0;
-        assert ("" + piece).length() < 5;
         String s = new String(new char[4 - ("" + piece).length()]).replace("\0", "0") + piece;
         int[] arr = s.chars().map(a -> a - '0').toArray();
-        assert arr.length == 4;
         return arr;
     }
 
+    /**
+     * The order of the array representation of a pieces integral representation. Centers, edges and corners each have order 1, 2 or 3.
+     *
+     * @param pieceArray
+     * @return
+     */
     private static int order(int[] pieceArray) {
-        assert pieceArray.length == 4;
         return (pieceArray[0] == 0 ? 0 : 1) + (pieceArray[2] == 0 ? 0 : 1) + (pieceArray[1] == 0 ? 0 : 1);
     }
 
-    public Cube clone() {
-        int[] a = new int[26];
-        System.arraycopy(this.pieces, 0, a, 0, pieces.length);
-        return new Cube(a);
-    }
-
-    public Cube normalize() {
-        Cube c;
-        for (Algorithm alg: UtilSets.cubeOrientations) {
-            c = this.clone();
-            c.turn(alg);
-            if (c.getCurrentStickerAt(Sticker.U)==Sticker.U && c.getCurrentStickerAt(Sticker.F) == Sticker.F)
-                return c;
+    /**
+     * Performs a cycling of the pieces of the current cube given the raw data provided by a Turn.
+     *
+     * @param offset   the offset, how many pieces to skip in the current cycling (usually 2 such that corners,
+     *                 edges and centers are each mapped to the same piece type).
+     * @param target   the stickers to be cycled
+     * @param rotation the rotation applied to each sticker upon cycling.
+     */
+    private void cyclePieces(int offset, Sticker[] target, int[] rotation) {
+        offset = (offset + target.length) % target.length;
+        int[] piecesClone = this.pieces.clone();
+        for (int i = 0; i < target.length; i++) {
+            Sticker a = target[(i + offset) % target.length];
+            piecesClone[a.getPiece().ordinal()] = rotate(pieces[target[i].getPiece().ordinal()], rotation[i]);
         }
-        return null;
+        this.pieces = piecesClone;
     }
 
-//    public boolean isCongruent(Cube cube) {
-//        Algorithm thisSolve = CubeUtils.anySolve(this);
-//        Algorithm otherSolve = CubeUtils.anySolve(cube);
-//        return thisSolve.isCongruent(otherSolve);
-//    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Cube))
-            return false;
-        Cube local = this.normalize();
-        Cube ref = ((Cube) o).normalize();
-        for (int i = 0; i < UtilSets.faceStickers.length; i++)
-            for (int j = 0; j < UtilSets.faceStickers[i].length; j++){
-                if (local.getCurrentStickerAt(UtilSets.faceStickers[i][j]) != ref.getCurrentStickerAt(UtilSets.faceStickers[i][j]))
-                    return false;}
-        return true;
+    /**
+     * @return the facelet definition as used by the 2-phase algorithms cube implementation
+     */
+    public String getFaceletDefinition() {
+        String out = "";
+        for (Sticker sticker : CubeConstants.faceletDefinition)
+            out += this.getCurrentStickerAt(sticker).toString().substring(0, 1);
+        return out;
     }
+
 }
