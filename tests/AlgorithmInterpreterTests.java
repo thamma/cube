@@ -25,7 +25,7 @@ public class AlgorithmInterpreterTests {
     @Test
     public void correctSemantics() {
         for (int i = 0; i < TestAlgorithmCollection.rawAlgorithms.length; i++)
-            assertTrue(new Cube(TestAlgorithmCollection.rawAlgorithms[i]).equals(new Cube(TestAlgorithmCollection.parsedAlgorithms[i])));
+            assertTrue(new Cube(TestAlgorithmCollection.rawAlgorithms[i]).equals(Cube.fromScramble(TestAlgorithmCollection.parsedAlgorithms[i])));
     }
 
     @Test
