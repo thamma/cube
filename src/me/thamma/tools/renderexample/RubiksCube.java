@@ -288,6 +288,7 @@ public class RubiksCube extends Application {
                 0, face[5], 2, face[5], 4, face[5],      // D
                 2, face[5], 6, face[5], 4, face[5]
         );
+
         return m;
     }
 

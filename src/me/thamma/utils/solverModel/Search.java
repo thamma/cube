@@ -114,7 +114,7 @@ public class Search {
      *          is the cube definition string, see {@link Facelet} for the format.
      *
      * @param maxDepth
-     *          defines the maximal allowed maneuver length. For random cubes, a maxDepth of 21 usually will return a
+     *          defines the maximal allowed maneuver run. For random cubes, a maxDepth of 21 usually will return a
      *          solution in less than 0.5 seconds. With a maxDepth of 20 it takes a few seconds on average to find a
      *          solution, but it may take much longer for specific cubes.
      *

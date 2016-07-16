@@ -22,14 +22,9 @@ public class Cube {
      * edge rotation is ZZ edge orientation
      */
 
-    //
-    //  fields and constants
-    //
-
     private String[] sideStrings = {null, "U", "F", "R", "D", "B", "L"};
 
     private int[] pieces;
-
     //
     //  constructors and factories
     //

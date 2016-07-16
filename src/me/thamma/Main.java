@@ -5,6 +5,7 @@ import me.thamma.cube.model.Algorithm;
 import me.thamma.cube.model.Cube;
 import me.thamma.cube.model.Cycles;
 import me.thamma.utils.CubeUtils;
+import sun.util.resources.cldr.yav.CalendarData_yav_CM;
 
 public class Main {
 
@@ -36,5 +37,9 @@ public class Main {
         Algorithm alg = new Algorithm("[x2 y', F': RU2R', D']");
         //System.out.printf("order: %d,   cycle: %s", alg.getOrder(), alg.getCycles());
         System.out.println(CubeUtils.perfectSolve(new Cube(alg)));
+       // System.out.println(new Algorithm("(U R' F R)").getOrder());
+       // System.out.println(alg + " foils to " + alg.simplify() + "  ord(" + alg + ") = " + alg.getOrder());
+        Cube cube = Cube.fromScramble("L' B F D U B' F' L2 R2 D B' R' B D2 U' B2 F2 D' U2 R B D' U' B F' R' U2 L2 B F");
+        System.out.println(new Cycles(cube));
     }
 }
