@@ -1,15 +1,11 @@
 package me.thamma;
 
-import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import me.thamma.cube.model.Algorithm;
-import me.thamma.cube.model.Cube;
-import me.thamma.cube.model.Cycles;
-import me.thamma.utils.CubeUtils;
-import sun.util.resources.cldr.yav.CalendarData_yav_CM;
+import me.thamma.cube.model.Turn;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // String in = "R U R' U' R' F R2 U' R' U' R U R' F'";
         // in = "[R, U' L' U]";//Niklas
         // in = "[R'2: D2, [R:U]]";//A perm
@@ -34,12 +30,43 @@ public class Main {
         // System.out.println(CubeUtils.solve(cube));
 
         //Algorithm alg = new Algorithm("[x2 y', F': RU2R', D'] [E', M] [L2 U': RU2R'U'RU'R' L'U2LUL'UL] ");
-        Algorithm alg = new Algorithm("[x2 y', F': RU2R', D']");
+        //Algorithm alg = new Algorithm("[x2 y', F': RU2R', D']");
         //System.out.printf("order: %d,   cycle: %s", alg.getOrder(), alg.getCycles());
-        System.out.println(CubeUtils.perfectSolve(new Cube(alg)));
-       // System.out.println(new Algorithm("(U R' F R)").getOrder());
-       // System.out.println(alg + " foils to " + alg.simplify() + "  ord(" + alg + ") = " + alg.getOrder());
-        Cube cube = Cube.fromScramble("L' B F D U B' F' L2 R2 D B' R' B D2 U' B2 F2 D' U2 R B D' U' B F' R' U2 L2 B F");
-        System.out.println(new Cycles(cube));
+        // System.out.println(CubeUtils.perfectSolve(new Cube(alg)));
+        // System.out.println(new Algorithm("(U R' F R)").getOrder());
+        // System.out.println(alg + " foils to " + alg.cancelOut() + "  ord(" + alg + ") = " + alg.getOrder());
+        // Cube cube = Cube.fromScramble("L' B F D U B' F' L2 R2 D B' R' B D2 U' B2 F2 D' U2 R B D' U' B F' R' U2 L2 B F");
+        // System.out.println(new Cycles(cube));
+
+         Algorithm[] cubeOrientations = {
+                new Algorithm("     "),
+                new Algorithm("   y "),
+                new Algorithm("   y2"),
+                new Algorithm("   y'"),
+                new Algorithm(" x   "),
+                new Algorithm(" x y "),
+                new Algorithm(" x y2"),
+                new Algorithm(" x y'"),
+                new Algorithm("x2   "),
+                new Algorithm("x2 y "),
+                new Algorithm("x2 y2"),
+                new Algorithm("x2 y'"),
+                new Algorithm("x'   "),
+                new Algorithm("x' y "),
+                new Algorithm("x' y2"),
+                new Algorithm("x' y'"),
+                new Algorithm(" z   "),
+                new Algorithm(" z y "),
+                new Algorithm(" z y2"),
+                new Algorithm(" z y'"),
+                new Algorithm("z'   "),
+                new Algorithm("z' y "),
+                new Algorithm("z' y2"),
+                new Algorithm("z' y'")
+        };
+        for (int i = 0; i < cubeOrientations.length; i++) {
+            System.out.println(cubeOrientations[i].clone());
+        }
+
     }
 }

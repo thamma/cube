@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 public class AlgorithmInterpreterTests {
 
 
-
     @Test
     public void finiteOrder() {
         for (Algorithm alg : TestAlgorithmCollection.rawAlgorithms) {
@@ -31,9 +30,9 @@ public class AlgorithmInterpreterTests {
     @Test
     public void selfInverseInverse() {
         for (Algorithm alg : TestAlgorithmCollection.rawAlgorithms) {
+            System.out.println("testing: " + alg);
             Cube cube = new Cube();
-            cube.turn(alg);
-            cube.turn(alg.inverse());
+            cube.turn(alg).turn(alg.inverse());
             assertTrue(cube.isSolved());
         }
     }

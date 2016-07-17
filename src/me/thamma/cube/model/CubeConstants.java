@@ -23,6 +23,21 @@ public class CubeConstants {
     public static final Sticker[] faceletDefinition = (Sticker[]) CubeUtils.mergeArrays(upFace, rightFace, frontFace,
             downFace, leftFace, backFace);
 
+    public static final Turn[] primitiveMovesHTM = {
+            Turn.UP,
+            Turn.FRONT,
+            Turn.RIGHT,
+            Turn.DOWN,
+            Turn.BACK,
+            Turn.LEFT,
+            Turn.UP_PRIME,
+            Turn.FRONT_PRIME,
+            Turn.RIGHT_PRIME,
+            Turn.DOWN_PRIME,
+            Turn.BACK_PRIME,
+            Turn.LEFT_PRIME
+    };
+
     public static final Algorithm[] cubeOrientations = {
             new Algorithm("     "),
             new Algorithm("   y "),

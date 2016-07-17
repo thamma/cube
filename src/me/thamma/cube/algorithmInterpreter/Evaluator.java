@@ -44,9 +44,9 @@ public class Evaluator {
     private static Algorithm evalParenthesesExpression(ParenthesesExpression parenthesesExpression) {
         Algorithm out;
         out = evalExpression(parenthesesExpression.getInner());
-        out = out.power(parenthesesExpression.getRepeats());
+        out.power(parenthesesExpression.getRepeats());
         if (parenthesesExpression.isInverse())
-            out = out.inverse();
+            out.inverse();
         return out;
     }
 
@@ -59,15 +59,15 @@ public class Evaluator {
                 a3 = evalExpression(commutatorExpression.getThird());
                 out.addAll(a2);
                 out.addAll(a3);
-                out.addAll(a2.inverse());
-                out.addAll(a3.inverse());
+                out.addAll(a2.clone().inverse());
+                out.addAll(a3.clone().inverse());
                 break;
             case CONJUGATE:
                 a1 = evalExpression(commutatorExpression.getFirst());
                 a2 = evalExpression(commutatorExpression.getSecond());
                 out.addAll(a1);
                 out.addAll(a2);
-                out.addAll(a1.inverse());
+                out.addAll(a1.clone().inverse());
                 break;
             case MIXED:
                 a1 = evalExpression(commutatorExpression.getFirst());
@@ -76,9 +76,9 @@ public class Evaluator {
                 out.addAll(a1);
                 out.addAll(a2);
                 out.addAll(a3);
-                out.addAll(a2.inverse());
-                out.addAll(a3.inverse());
-                out.addAll(a1.inverse());
+                out.addAll(a2.clone().inverse());
+                out.addAll(a3.clone().inverse());
+                out.addAll(a1.clone().inverse());
                 break;
         }
         return out;
@@ -89,13 +89,13 @@ public class Evaluator {
         Algorithm temp;
 
         temp = new Algorithm(turnExpression.getTurn());
-        temp = temp.power(turnExpression.getAmount());
+        temp.power(turnExpression.getAmount());
         out.addAll(temp);
 
         while (turnExpression.getChild() != null) {
             turnExpression = turnExpression.getChild();
             temp = new Algorithm(turnExpression.getTurn());
-            temp = temp.power(turnExpression.getAmount());
+            temp.power(turnExpression.getAmount());
             out.addAll(temp);
         }
         return out;

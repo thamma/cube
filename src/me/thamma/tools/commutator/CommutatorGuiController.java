@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import me.thamma.cube.model.Algorithm;
-import me.thamma.cube.model.Sticker;
 import me.thamma.utils.CubeUtils;
 
 import java.io.*;
@@ -56,7 +55,7 @@ public class CommutatorGuiController implements Initializable {
                     alg = new Algorithm(algorithmTextField1.getText());
                 } catch (Exception e1) {
                 }
-                algorithmLabel1.setText(alg.simplify().toString());
+                algorithmLabel1.setText(alg.cancelOut().toString());
             } else if (!algorithmLabel1.getText().equals("")) algorithmLabel1.setText("");
         });
         algorithmTextField2.textProperty().addListener(e -> {
@@ -67,7 +66,7 @@ public class CommutatorGuiController implements Initializable {
                     alg = new Algorithm(algorithmTextField2.getText());
                 } catch (Exception e1) {
                 }
-                algorithmLabel2.setText(alg.simplify().toString());
+                algorithmLabel2.setText(alg.cancelOut().toString());
             } else if (!algorithmLabel2.getText().equals("")) algorithmLabel2.setText("");
         });
     }
@@ -126,7 +125,7 @@ public class CommutatorGuiController implements Initializable {
                         alg = new Algorithm(algorithmTextField1.getText());
                     } catch (Exception e) { //Never called as asserted above
                     }
-                    if (alg.isCommutator()) {
+                    if (alg.isPureCommutator()) {
                         //is commutator
                         applyColorsAndAvailabilities(7);
                     //    Cycle algCycle = alg.getCycle();
@@ -215,7 +214,7 @@ public class CommutatorGuiController implements Initializable {
                             mapEntryAlgorithm = new Algorithm(mapEntry);
                         } catch (Exception e) {
                         }
-                     //   if (mapEntryAlgorithm.isCommutator() && mapEntryAlgorithm.getCycle().equals(cycle)) {
+                     //   if (mapEntryAlgorithm.isPureCommutator() && mapEntryAlgorithm.getCycle().equals(cycle)) {
                        //     tickLabel2.setVisible(true);
                      //   } else
                      //       tickLabel2.setVisible(false);

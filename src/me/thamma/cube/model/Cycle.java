@@ -24,20 +24,20 @@ public class Cycle extends ArrayList<Sticker> {
             start = start.rotate();
             this.parity = true;
         }
+        if (this.parity)
+            this.add(start);
     }
 
-    public boolean containsPiece(Piece piece) {
-        for (Sticker sticker: this)
+    private boolean containsPiece(Piece piece) {
+        for (Sticker sticker : this)
             if (sticker.getPiece() == piece)
                 return true;
         return false;
     }
 
     public int getOrder() {
-        return this.size() * (this.getParity()?this.type:1);
-    }
-
-    public boolean getParity() {
-        return this.parity;
+        if (this.parity)
+            return (this.size() - 1) * this.type;
+        return super.size();
     }
 }

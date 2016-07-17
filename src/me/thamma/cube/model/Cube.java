@@ -1,9 +1,6 @@
 package me.thamma.cube.model;
 
-import me.thamma.utils.CubeUtils;
-
 import java.util.Arrays;
-import java.util.stream.Collector;
 
 public class Cube {
 
@@ -149,6 +146,11 @@ public class Cube {
         return this;
     }
 
+    @Override
+    public int hashCode() {
+        return 31 * Arrays.hashCode(sideStrings) + Arrays.hashCode(pieces);
+    }
+
     /**
      * Returns whether this Cube is equivalent to another Object (Cube).
      *
@@ -167,6 +169,16 @@ public class Cube {
                     return false;
             }
         return true;
+    }
+
+    /**
+     * @return the facelet definition as used by the 2-phase algorithms cube implementation
+     */
+    public String getFaceletDefinition() {
+        String out = "";
+        for (Sticker sticker : CubeConstants.faceletDefinition)
+            out += this.getCurrentStickerAt(sticker).toString().substring(0, 1);
+        return out;
     }
 
     //
@@ -227,16 +239,6 @@ public class Cube {
             piecesClone[a.getPiece().ordinal()] = rotate(pieces[target[i].getPiece().ordinal()], rotation[i]);
         }
         this.pieces = piecesClone;
-    }
-
-    /**
-     * @return the facelet definition as used by the 2-phase algorithms cube implementation
-     */
-    public String getFaceletDefinition() {
-        String out = "";
-        for (Sticker sticker : CubeConstants.faceletDefinition)
-            out += this.getCurrentStickerAt(sticker).toString().substring(0, 1);
-        return out;
     }
 
 }
