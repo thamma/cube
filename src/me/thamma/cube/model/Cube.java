@@ -1,5 +1,6 @@
 package me.thamma.cube.model;
 
+import javax.print.DocFlavor;
 import java.util.Arrays;
 
 public class Cube {
@@ -145,6 +146,23 @@ public class Cube {
         System.out.println("Warning: normalizeRotation() found the cube to be invalid");
         return this;
     }
+    // public static String[] cornerSolutions = {
+    //         "y2","y","y'","",
+    //         "xy2","xy","xy'","x",
+    //         "z'y'","z'y2","z'","z'y",
+    //         "","","","",
+    //         "","","","",
+    //         "","","",""
+    // };
+
+    // public static Sticker[] cornerStickers = {
+    //         Sticker.ULB, Sticker.UBR, Sticker.UFL, Sticker.URF,
+    //         Sticker.FLU, Sticker.FUR, Sticker.FDL, Sticker.FRD,
+    //         Sticker.RFU, Sticker.RUB, Sticker.RDF, Sticker.RBD,
+    //         Sticker.DLF, Sticker.DFR, Sticker.DBL, Sticker.DRB,
+    //         Sticker.BRU, Sticker.BUL, Sticker.BDR, Sticker.BLD,
+    //         Sticker.LBU, Sticker.LUF, Sticker.LDB, Sticker.LFD
+    // };
 
     @Override
     public int hashCode() {
@@ -187,7 +205,7 @@ public class Cube {
 
     /**
      * Rotates the given piece by the specified rotation. For example
-     * (5610, 1) -> 5611
+     * (5612, 1) -> 5610
      *
      * @param movedPiece the integral encoding of the piece to be rotate7
      * @param rotation   the number of times the piece is supposed to be rotated clockwise

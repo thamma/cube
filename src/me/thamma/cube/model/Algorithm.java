@@ -5,7 +5,6 @@ import me.thamma.cube.algorithmInterpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.utils.CubeUtils;
-import me.thamma.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,7 +103,7 @@ public class Algorithm extends ArrayList<Turn> {
      * @param metric The metric according to which the algorithm should be measured
      * @return the algorithms length according to the metric
      */
-    public int length(Metric metric) {
+    public int length(Metrics metric) {
         return metric.length(this);
     }
 
@@ -114,7 +113,7 @@ public class Algorithm extends ArrayList<Turn> {
      * @return the algorithms length according to the HTM metric
      */
     public int length() {
-        return this.length(Metric.HTM);
+        return this.length(Metrics.HTM);
     }
 
     /**

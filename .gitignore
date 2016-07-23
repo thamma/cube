@@ -10,6 +10,9 @@
 # Compiled sources
 /out
 
+# docs
+/docs
+
 # Package Files #
 *.jar
 *.war
