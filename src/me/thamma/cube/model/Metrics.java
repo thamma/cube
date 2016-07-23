@@ -2,7 +2,7 @@ package me.thamma.cube.model;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public enum Metric {
+public enum Metrics {
 
     QTM(algorithm -> {
         throw new NotImplementedException();
@@ -16,7 +16,7 @@ public enum Metric {
 
     private AlgorithmMetric metric;
 
-    Metric(AlgorithmMetric metric) {
+    Metrics(AlgorithmMetric metric) {
         this.metric = metric;
     }
 
@@ -71,10 +71,12 @@ public enum Metric {
         return out;
     }
 
-    @FunctionalInterface
-    public interface AlgorithmMetric {
+    private Algorithm groupAlgorithm(Algorithm algorithm) {
+        Algorithm out = algorithm.clone();
 
-        int run(Algorithm algorithm);
 
+
+        return out;
     }
+
 }

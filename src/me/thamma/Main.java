@@ -1,7 +1,6 @@
 package me.thamma;
 
-import me.thamma.cube.model.Algorithm;
-import me.thamma.cube.model.Turn;
+import me.thamma.cube.model.*;
 
 public class Main {
 
@@ -38,35 +37,10 @@ public class Main {
         // Cube cube = Cube.fromScramble("L' B F D U B' F' L2 R2 D B' R' B D2 U' B2 F2 D' U2 R B D' U' B F' R' U2 L2 B F");
         // System.out.println(new Cycles(cube));
 
-         Algorithm[] cubeOrientations = {
-                new Algorithm("     "),
-                new Algorithm("   y "),
-                new Algorithm("   y2"),
-                new Algorithm("   y'"),
-                new Algorithm(" x   "),
-                new Algorithm(" x y "),
-                new Algorithm(" x y2"),
-                new Algorithm(" x y'"),
-                new Algorithm("x2   "),
-                new Algorithm("x2 y "),
-                new Algorithm("x2 y2"),
-                new Algorithm("x2 y'"),
-                new Algorithm("x'   "),
-                new Algorithm("x' y "),
-                new Algorithm("x' y2"),
-                new Algorithm("x' y'"),
-                new Algorithm(" z   "),
-                new Algorithm(" z y "),
-                new Algorithm(" z y2"),
-                new Algorithm(" z y'"),
-                new Algorithm("z'   "),
-                new Algorithm("z' y "),
-                new Algorithm("z' y2"),
-                new Algorithm("z' y'")
-        };
-        for (int i = 0; i < cubeOrientations.length; i++) {
-            System.out.println(cubeOrientations[i].clone());
-        }
+        Cube cube = Cube.fromScramble("R2");
+        for (Piece p : CubeConstants.corners)
+            if (cube.getCurrentStickerAt(p.getCanonicalSticker()).getPiece() == Piece.URF)
+                System.out.println("at " + p);
 
     }
 }

@@ -9,6 +9,15 @@ public class CubeConstants {
     public static Piece[] cornersNEdges = {Piece.ULB, Piece.UBR, Piece.UFL, Piece.URF, Piece.DLF, Piece.DFR,  Piece.DBL, Piece.DRB,
             Piece.UB, Piece.UL, Piece.UR, Piece.UF, Piece.BL, Piece.FL, Piece.FR, Piece.BR, Piece.DF, Piece.DL, Piece.DR, Piece.DB};
 
+    public static Sticker[] cornerStickers = {
+            Sticker.ULB, Sticker.UBR, Sticker.UFL, Sticker.URF,
+            Sticker.FLU, Sticker.FUR, Sticker.FDL, Sticker.FRD,
+            Sticker.RFU, Sticker.RUB, Sticker.RDF, Sticker.RBD,
+            Sticker.DLF, Sticker.DFR, Sticker.DBL, Sticker.DRB,
+            Sticker.BRU, Sticker.BUL, Sticker.BDR, Sticker.BLD,
+            Sticker.LBU, Sticker.LUF, Sticker.LDB, Sticker.LFD
+    };
+
     public static final int[] DEFAULT_CUBE = {5610, 510, 3510, 610, 10, 310, 6210, 210, 2310, 650, 60, 620, 20, 320, 30, 350, 50, 2640, 240, 3240, 640, 40, 340, 6540, 540, 5340};
 
     public static final Sticker[] upFace = {Sticker.ULB, Sticker.UB, Sticker.UBR, Sticker.UL, Sticker.U, Sticker.UR, Sticker.UFL, Sticker.UF, Sticker.URF};
