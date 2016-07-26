@@ -1,5 +1,7 @@
 package me.thamma.cube.model;
 
+import java.awt.image.RGBImageFilter;
+
 import static me.thamma.cube.model.Sticker.*;
 
 public enum Turn {
@@ -53,6 +55,8 @@ public enum Turn {
     private Axis axis;
     private Turn[] children;
     private String[] stringRepresentation;
+    private Turn[] translations;
+    private Turn[] mirrors;
 
     //
     //  constructors
@@ -85,12 +89,103 @@ public enum Turn {
      * @param axis                 The axis on which the Turn operates on
      * @see {@link me.thamma.cube.model.Cube#turn(Turn)} for more detail
      */
-    Turn(String[] stringRepresentation, int offset, Sticker[] target, int[] rotation, Axis axis) {
+    Turn(String[] stringRepresentation, int offset, Sticker[] target, int[] rotation,
+         Axis axis) {
         this.stringRepresentation = stringRepresentation;
         this.offset = offset;
         this.target = target;
         this.rotation = rotation;
         this.axis = axis;
+        this.translations = null;
+        //this.mirrors = null;
+    }
+
+    /**
+     * @param turn The turn whose translations shall be looked up
+     * @return a Turn[6] array containing the x, x', y, y', z and z' translations of the current turn.
+     * <p>
+     * For instance, given Turn T und rotations X, ..., Z', returns the array [t1, ..., t6] = [X T, ..., Z' T]
+     */
+    private Turn[] lookUpTranslations(Turn turn) {
+        switch (turn) {
+            case UP:
+                return new Turn[]{FRONT, BACK, UP, UP, LEFT, RIGHT};
+            case UP_PRIME:
+                return new Turn[]{FRONT_PRIME, BACK_PRIME, UP_PRIME, UP_PRIME, LEFT_PRIME, RIGHT_PRIME};
+            case FRONT:
+                return new Turn[]{DOWN, UP, RIGHT, LEFT, FRONT, FRONT};
+            case FRONT_PRIME:
+                return new Turn[]{DOWN_PRIME, UP_PRIME, RIGHT_PRIME, LEFT_PRIME, FRONT_PRIME, FRONT_PRIME};
+            case RIGHT:
+                return new Turn[]{RIGHT, RIGHT, BACK, FRONT, UP, DOWN};
+            case RIGHT_PRIME:
+                return new Turn[]{RIGHT_PRIME, RIGHT_PRIME, BACK_PRIME, FRONT_PRIME, UP_PRIME, DOWN_PRIME};
+            case DOWN:
+                return new Turn[]{BACK, FRONT, DOWN, DOWN, LEFT, RIGHT};
+            case DOWN_PRIME:
+                return new Turn[]{BACK_PRIME, FRONT_PRIME, DOWN_PRIME, DOWN_PRIME, RIGHT_PRIME, LEFT_PRIME};
+            case BACK:
+                return new Turn[]{UP, DOWN, LEFT, RIGHT, BACK, BACK};
+            case BACK_PRIME:
+                return new Turn[]{UP_PRIME, DOWN_PRIME, LEFT_PRIME, RIGHT_PRIME, BACK_PRIME, BACK_PRIME};
+            case LEFT:
+                return new Turn[]{LEFT, LEFT, FRONT, BACK, DOWN, UP};
+            case LEFT_PRIME:
+                return new Turn[]{LEFT_PRIME, LEFT_PRIME, FRONT_PRIME, BACK_PRIME, DOWN_PRIME, UP_PRIME};
+
+            case MIDDLE:
+                return new Turn[]{MIDDLE, MIDDLE, STANDING_PRIME, STANDING, EQUATORIAL_PRIME, EQUATORIAL};
+            case MIDDLE_PRIME:
+                return new Turn[]{MIDDLE_PRIME, MIDDLE_PRIME, STANDING, STANDING_PRIME, EQUATORIAL, EQUATORIAL_PRIME};
+            case EQUATORIAL:
+                return new Turn[]{STANDING_PRIME, STANDING, EQUATORIAL, EQUATORIAL, MIDDLE_PRIME, MIDDLE};
+            case EQUATORIAL_PRIME:
+                return new Turn[]{STANDING, STANDING_PRIME, EQUATORIAL_PRIME, EQUATORIAL_PRIME, MIDDLE, MIDDLE_PRIME};
+            case STANDING:
+                return new Turn[]{EQUATORIAL, EQUATORIAL_PRIME, MIDDLE_PRIME, MIDDLE, STANDING, STANDING};
+            case STANDING_PRIME:
+                return new Turn[]{EQUATORIAL_PRIME, EQUATORIAL, MIDDLE, MIDDLE_PRIME, STANDING_PRIME, STANDING_PRIME};
+            case X:
+                return new Turn[]{X, X, Z_PRIME, Z, Y_PRIME, Y};
+            case X_PRIME:
+                return new Turn[]{X_PRIME, X_PRIME, Z, Z_PRIME, Y, Y_PRIME};
+            case Y:
+                return new Turn[]{Z_PRIME, Z, Y, Y, X, X_PRIME};
+            case Y_PRIME:
+                return new Turn[]{Z, Z_PRIME, Y_PRIME, Y_PRIME, X_PRIME, X};
+            case Z:
+                return new Turn[]{Y, Y_PRIME, X, X_PRIME, Z, Z_PRIME};
+            case Z_PRIME:
+                return new Turn[]{Y_PRIME, Y_PRIME, X_PRIME, X, Z_PRIME, Z};
+
+            case UP_WIDE:
+                return new Turn[]{FRONT_WIDE, BACK_WIDE, UP_WIDE, UP_WIDE, LEFT_WIDE, RIGHT_WIDE};
+            case UP_WIDE_PRIME:
+                return new Turn[]{FRONT_WIDE_PRIME, BACK_WIDE_PRIME, UP_WIDE_PRIME, UP_WIDE_PRIME, LEFT_WIDE_PRIME, RIGHT_WIDE_PRIME};
+            case FRONT_WIDE:
+                return new Turn[]{DOWN_WIDE, UP_WIDE, RIGHT_WIDE, LEFT_WIDE, FRONT_WIDE, FRONT_WIDE};
+            case FRONT_WIDE_PRIME:
+                return new Turn[]{DOWN_WIDE_PRIME, UP_WIDE_PRIME, RIGHT_WIDE_PRIME, LEFT_WIDE_PRIME, FRONT_WIDE_PRIME, FRONT_WIDE_PRIME};
+            case RIGHT_WIDE:
+                return new Turn[]{RIGHT_WIDE, RIGHT_WIDE, BACK_WIDE, FRONT_WIDE, UP_WIDE, DOWN_WIDE};
+            case RIGHT_WIDE_PRIME:
+                return new Turn[]{RIGHT_WIDE_PRIME, RIGHT_WIDE_PRIME, BACK_WIDE_PRIME, FRONT_WIDE_PRIME, UP_WIDE_PRIME, DOWN_WIDE_PRIME};
+
+            case DOWN_WIDE:
+                return new Turn[]{BACK_WIDE, FRONT_WIDE, DOWN_WIDE, DOWN_WIDE, RIGHT_WIDE, LEFT_WIDE};
+            case DOWN_WIDE_PRIME:
+                return new Turn[]{BACK_WIDE_PRIME, FRONT_WIDE_PRIME, DOWN_WIDE_PRIME, DOWN_WIDE_PRIME, RIGHT_WIDE_PRIME, LEFT_WIDE_PRIME};
+            case BACK_WIDE:
+                return new Turn[]{UP_WIDE, DOWN_WIDE, LEFT_WIDE, RIGHT_WIDE, BACK_WIDE, BACK_WIDE};
+            case BACK_WIDE_PRIME:
+                return new Turn[]{UP_WIDE_PRIME, DOWN_WIDE_PRIME, LEFT_WIDE_PRIME, RIGHT_WIDE_PRIME, BACK_WIDE_PRIME, BACK_WIDE_PRIME};
+            case LEFT_WIDE:
+                return new Turn[]{LEFT_WIDE, LEFT_WIDE, FRONT_WIDE, BACK_WIDE, DOWN_WIDE, UP_WIDE};
+            case LEFT_WIDE_PRIME:
+                return new Turn[]{LEFT_WIDE_PRIME, LEFT_WIDE_PRIME, FRONT_WIDE_PRIME, BACK_WIDE_PRIME, DOWN_WIDE_PRIME, UP_WIDE_PRIME};
+            default:
+                return null;
+        }
     }
 
     //
@@ -100,6 +195,7 @@ public enum Turn {
     /**
      * @return the inverse Turn of the current one.
      */
+
     public Turn inverse() {
         return Turn.values()[this.ordinal() ^ 1];
     }
@@ -125,6 +221,10 @@ public enum Turn {
         return this.ordinal() >= 18 && this.ordinal() < 24;
     }
 
+    public boolean isSliceTurn() {
+        return this.ordinal() >= 12 && this.ordinal() < 18;
+    }
+
     /**
      * @return the axis on which the Turn operates on
      */
@@ -132,9 +232,12 @@ public enum Turn {
         return axis;
     }
 
-    public Turn tranlateTurn(Axis axis) {
-        //TODO
-        return this;
+    public Turn translateTurn(Turn translation) {
+        if (this.translations == null)
+            this.translations = lookUpTranslations(this);
+        if (!translation.isCubeRotation())
+            return null;
+        return this.translations[translation.ordinal() - 18];
     }
 
     //

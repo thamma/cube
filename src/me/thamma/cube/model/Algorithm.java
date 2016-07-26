@@ -6,8 +6,10 @@ import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.Unexpec
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.utils.CubeUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,77 @@ public class Algorithm extends ArrayList<Turn> {
     //
     //  public methods
     //
+
+    public Algorithm translate(Turn translation) {
+        if (!translation.isCubeRotation())
+            return null;
+      //  System.out.printf("%s.translate(%s) = ", this, translation);
+        for (int i = 0; i < super.size(); i++) {
+            if (this.get(i) == translation) {
+                //this.remove(i++);
+            } else
+                super.set(i, this.get(i).translateTurn(translation));
+        }
+        //System.out.println(this);
+        this.rawInput = null;
+        return this;
+    }
+
+    public Algorithm purgeRotations() {
+        // TODO debug
+        Algorithm newAlg = new Algorithm();
+        for (int i = 0; i < super.size(); i++) {
+            if (super.get(i).isCubeRotation()) {
+                this.translate(super.get(i));
+                System.out.println(this + " \t\t" + super.get(i));
+            } else
+                newAlg.add(super.get(i));
+        }
+        super.clear();
+        super.addAll(newAlg);
+        this.rawInput = null;
+        return this;
+    }
+
+
+    public Algorithm purgeSliceTurns() {
+        Algorithm newAlg = new Algorithm();
+        for (int i = 0; i < super.size(); i++) {
+            if (super.get(i).isSliceTurn()) {
+                switch (super.get(i)) {
+                    case MIDDLE: {
+                        newAlg.addAll(Arrays.asList(Turn.LEFT_PRIME, Turn.X_PRIME, Turn.RIGHT));
+                        break;
+                    }
+                    case MIDDLE_PRIME: {
+                        newAlg.addAll(Arrays.asList(Turn.LEFT, Turn.X, Turn.RIGHT_PRIME));
+                        break;
+                    }
+                    case EQUATORIAL: {
+                        newAlg.addAll(Arrays.asList(Turn.UP, Turn.Y_PRIME, Turn.DOWN_PRIME));
+                        break;
+                    }
+                    case EQUATORIAL_PRIME: {
+                        newAlg.addAll(Arrays.asList(Turn.UP_PRIME, Turn.Y, Turn.DOWN));
+                        break;
+                    }
+                    case STANDING: {
+                        newAlg.addAll(Arrays.asList(Turn.FRONT_PRIME, Turn.Z_PRIME, Turn.BACK));
+                        break;
+                    }
+                    case STANDING_PRIME: {
+                        newAlg.addAll(Arrays.asList(Turn.FRONT, Turn.Z, Turn.BACK_PRIME));
+                        break;
+                    }
+                }
+            } else
+                newAlg.add(super.get(i));
+        }
+        super.clear();
+        super.addAll(newAlg);
+        this.rawInput = null;
+        return this;
+    }
 
     /**
      * Inverses the algorithm. That is the algorithm will now cancel out the original one.
@@ -132,7 +205,7 @@ public class Algorithm extends ArrayList<Turn> {
             return "1";
         if (this.rawInput != null)
             return this.rawInput;
-        return String.join("", Arrays.stream(this.toArray()).map(Object::toString).collect(Collectors.toList()));
+        return String.join(" ", Arrays.stream(this.toArray()).map(Object::toString).collect(Collectors.toList()));
         // return Arrays.toString(Arrays.stream(this.toArray()).map(a -> a.toString()).toArray()).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "");
     }
 
