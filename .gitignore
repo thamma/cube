@@ -9,6 +9,7 @@
 
 # Compiled sources
 /out
+/docs
 
 # Package Files #
 *.jar
