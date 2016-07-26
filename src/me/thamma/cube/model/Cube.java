@@ -205,7 +205,7 @@ public class Cube {
 
     /**
      * Rotates the given piece by the specified rotation. For example
-     * (5610, 1) -> 5611
+     * (5612, 1) -> 5610
      *
      * @param movedPiece the integral encoding of the piece to be rotate7
      * @param rotation   the number of times the piece is supposed to be rotated clockwise

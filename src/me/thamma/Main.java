@@ -36,11 +36,11 @@ public class Main {
         // System.out.println(alg + " foils to " + alg.cancelOut() + "  ord(" + alg + ") = " + alg.getOrder());
         // Cube cube = Cube.fromScramble("L' B F D U B' F' L2 R2 D B' R' B D2 U' B2 F2 D' U2 R B D' U' B F' R' U2 L2 B F");
         // System.out.println(new Cycles(cube));
-
-        Cube cube = Cube.fromScramble("R2");
-        for (Piece p : CubeConstants.corners)
-            if (cube.getCurrentStickerAt(p.getCanonicalSticker()).getPiece() == Piece.URF)
-                System.out.println("at " + p);
+        Algorithm algorithm = new Algorithm("MEM'E'");
+        //System.out.printf("%s", algorithm.translate(Turn.Z));
+        System.out.println("purgeslice:\n" + algorithm.purgeSliceTurns());
+        System.out.println(algorithm.purgeSliceTurns().purgeRotations());
+        //System.out.println(algorithm.length(Metrics.QTM));
 
     }
 }

@@ -11,6 +11,9 @@
 /out
 /docs
 
+# docs
+/docs
+
 # Package Files #
 *.jar
 *.war

@@ -1,16 +1,13 @@
 package me.thamma.cube.model;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public enum Metrics {
 
-    QTM(algorithm -> {
-        throw new NotImplementedException();
-        //return 0;
-    }),
+    QTM(algorithm ->
+            algorithm.purgeSliceTurns().purgeRotations().size()
+    ),
+
     HTM(algorithm -> {
-        throw new NotImplementedException();
-        //return 0;
+        return 0;
     }),
     STM(algorithm -> purgeSTM(algorithm).length(HTM));
 
@@ -73,9 +70,6 @@ public enum Metrics {
 
     private Algorithm groupAlgorithm(Algorithm algorithm) {
         Algorithm out = algorithm.clone();
-
-
-
         return out;
     }
 
