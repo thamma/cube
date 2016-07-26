@@ -71,6 +71,7 @@ public enum Turn {
      * @param children             The Turns the current Turn is composed of. Must (obviously) not be recursive!
      */
     Turn(String[] stringRepresentation, Axis axis, Turn... children) {
+        //TODO handle axis
         this.stringRepresentation = stringRepresentation;
         this.axis = axis;
         this.axis = axis;
@@ -89,8 +90,8 @@ public enum Turn {
      * @param axis                 The axis on which the Turn operates on
      * @see {@link me.thamma.cube.model.Cube#turn(Turn)} for more detail
      */
-    Turn(String[] stringRepresentation, int offset, Sticker[] target, int[] rotation,
-         Axis axis) {
+    Turn(String[] stringRepresentation, int offset, Sticker[] target, int[] rotation, Axis axis) {
+        //TODO handle axis
         this.stringRepresentation = stringRepresentation;
         this.offset = offset;
         this.target = target;

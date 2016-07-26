@@ -5,6 +5,7 @@ public enum Metrics {
     QTM(algorithm ->
             algorithm.purgeSliceTurns().purgeRotations().size()
     ),
+
     HTM(algorithm -> {
         return 0;
     }),
@@ -69,8 +70,6 @@ public enum Metrics {
 
     private Algorithm groupAlgorithm(Algorithm algorithm) {
         Algorithm out = algorithm.clone();
-
-
         return out;
     }
 
