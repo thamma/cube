@@ -53,10 +53,24 @@ public class Algorithm extends ArrayList<Turn> {
     //  public methods
     //
 
+    /**
+     * Whether two algorithms are congruent. That is they are equal apart from initial cube rotations.
+     *
+     * @param algorithm The algorithm to compare to
+     * @return null iff the algorithms are not congruent. Else the algorithm A, such that (this = A * algorithm)
+     */
+    public Algorithm isCongruent(Algorithm algorithm) {
+        Cube local = new Cube(this);
+        for (Algorithm setup : CubeConstants.cubeOrientations)
+            if (local.equals(new Cube().turn(setup).turn(algorithm)))
+                return setup;
+        return null;
+    }
+
     public Algorithm translate(Turn translation) {
         if (!translation.isCubeRotation())
             return null;
-      //  System.out.printf("%s.translate(%s) = ", this, translation);
+        //  System.out.printf("%s.translate(%s) = ", this, translation);
         for (int i = 0; i < super.size(); i++) {
             if (this.get(i) == translation) {
                 //this.remove(i++);

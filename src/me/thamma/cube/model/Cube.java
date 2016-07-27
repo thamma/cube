@@ -249,12 +249,12 @@ public class Cube {
      * @param target   the stickers to be cycled
      * @param rotation the rotation applied to each sticker upon cycling.
      */
-    private void cyclePieces(int offset, Sticker[] target, int[] rotation) {
+    private void cyclePieces(int offset, Piece[] target, int[] rotation) {
         offset = (offset + target.length) % target.length;
         int[] piecesClone = this.pieces.clone();
         for (int i = 0; i < target.length; i++) {
-            Sticker a = target[(i + offset) % target.length];
-            piecesClone[a.getPiece().ordinal()] = rotate(pieces[target[i].getPiece().ordinal()], rotation[i]);
+            Piece a = target[(i + offset) % target.length];
+            piecesClone[a.ordinal()] = rotate(pieces[target[i].ordinal()], rotation[i]);
         }
         this.pieces = piecesClone;
     }
