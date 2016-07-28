@@ -99,6 +99,11 @@ public class Algorithm extends ArrayList<Turn> {
     }
 
 
+    /**
+     * Removes all slice turns from the current Algorithm and replaces them with basic turns and cube rotations, accordingly
+     *
+     * @return A reference to the current Algorithm Object
+     */
     public Algorithm purgeSliceTurns() {
         Algorithm newAlg = new Algorithm();
         for (int i = 0; i < super.size(); i++) {
