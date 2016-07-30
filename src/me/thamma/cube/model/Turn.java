@@ -23,12 +23,12 @@ public enum Turn {
     STANDING(new String[]{"S"}, 2, new Piece[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}, Axis.Z),
     STANDING_PRIME(new String[]{"S'"}, -2, new Piece[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}, Axis.Z),
 
-    X(new String[]{"X", "x"}, Axis.X, LEFT_PRIME, MIDDLE_PRIME, RIGHT),
-    X_PRIME(new String[]{"X'", "x'"}, Axis.X, LEFT, MIDDLE, RIGHT_PRIME),
-    Y(new String[]{"Y", "y"}, Axis.Y, UP, EQUATORIAL_PRIME, DOWN_PRIME),
-    Y_PRIME(new String[]{"Y'", "y'"}, Axis.Y, UP_PRIME, EQUATORIAL, DOWN),
-    Z(new String[]{"Z", "z"}, Axis.Z, FRONT, STANDING, BACK_PRIME),
-    Z_PRIME(new String[]{"Z'", "z'"}, Axis.Z, FRONT_PRIME, STANDING_PRIME, BACK),
+    X(new String[]{ "x","X"}, Axis.X, LEFT_PRIME, MIDDLE_PRIME, RIGHT),
+    X_PRIME(new String[]{"x'", "X'"}, Axis.X, LEFT, MIDDLE, RIGHT_PRIME),
+    Y(new String[]{"y", "Y"}, Axis.Y, UP, EQUATORIAL_PRIME, DOWN_PRIME),
+    Y_PRIME(new String[]{"y'", "Y'"}, Axis.Y, UP_PRIME, EQUATORIAL, DOWN),
+    Z(new String[]{"z", "Z"}, Axis.Z, FRONT, STANDING, BACK_PRIME),
+    Z_PRIME(new String[]{"z'", "Z'"}, Axis.Z, FRONT_PRIME, STANDING_PRIME, BACK),
 
     UP_WIDE(new String[]{"u", "Uw"}, Axis.Y, UP, EQUATORIAL_PRIME),
     UP_WIDE_PRIME(new String[]{"u'", "Uw'"}, Axis.Y, UP_PRIME, EQUATORIAL),
@@ -103,7 +103,7 @@ public enum Turn {
      * @param turn The turn whose translations shall be looked up
      * @return a Turn[6] array containing the x, x', y, y', z and z' translations of the current turn.
      * <p>
-     * For instance, given Turn T und rotations X, ..., Z', returns the array [t1, ..., t6] = [X T, ..., Z' T]
+     * For instance, given Turn T und rotations X, ..., Z', returns the array [t1, ..., t6] such that t1 is the same
      */
     private Turn[] lookUpTranslations(Turn turn) {
         switch (turn) {
@@ -120,7 +120,7 @@ public enum Turn {
             case RIGHT_PRIME:
                 return new Turn[]{RIGHT_PRIME, RIGHT_PRIME, BACK_PRIME, FRONT_PRIME, UP_PRIME, DOWN_PRIME};
             case DOWN:
-                return new Turn[]{BACK, FRONT, DOWN, DOWN, LEFT, RIGHT};
+                return new Turn[]{BACK, FRONT, DOWN, DOWN, RIGHT, LEFT};
             case DOWN_PRIME:
                 return new Turn[]{BACK_PRIME, FRONT_PRIME, DOWN_PRIME, DOWN_PRIME, RIGHT_PRIME, LEFT_PRIME};
             case BACK:
@@ -144,18 +144,19 @@ public enum Turn {
                 return new Turn[]{EQUATORIAL, EQUATORIAL_PRIME, MIDDLE_PRIME, MIDDLE, STANDING, STANDING};
             case STANDING_PRIME:
                 return new Turn[]{EQUATORIAL_PRIME, EQUATORIAL, MIDDLE, MIDDLE_PRIME, STANDING_PRIME, STANDING_PRIME};
+
             case X: // Z X = Y_P
-                return new Turn[]{X, X, Z, Z_PRIME, Y, Y_PRIME};
+                return new Turn[]{X, X, Z_PRIME, Z, Y, Y_PRIME};
             case X_PRIME:
-                return new Turn[]{X_PRIME, X_PRIME, Z_PRIME, Z, Y_PRIME, Y};
+                return new Turn[]{X_PRIME, X_PRIME, Z, Z_PRIME, Y_PRIME, Y};
             case Y:
                 return new Turn[]{Z, Z_PRIME, Y, Y, X_PRIME, X};
             case Y_PRIME:
                 return new Turn[]{Z_PRIME, Z, Y_PRIME, Y_PRIME, X, X_PRIME};
             case Z:
-                return new Turn[]{Y, Y_PRIME, X, X_PRIME, Z, Z};
+                return new Turn[]{Y_PRIME, Y, X, X_PRIME, Z, Z};
             case Z_PRIME:
-                return new Turn[]{Y_PRIME, Y_PRIME, X_PRIME, X, Z_PRIME, Z_PRIME};
+                return new Turn[]{Y, Y_PRIME, X_PRIME, X, Z_PRIME, Z_PRIME};
 
             case UP_WIDE:
                 return new Turn[]{FRONT_WIDE, BACK_WIDE, UP_WIDE, UP_WIDE, LEFT_WIDE, RIGHT_WIDE};
@@ -224,6 +225,10 @@ public enum Turn {
         return this.ordinal() >= 12 && this.ordinal() < 18;
     }
 
+    public boolean isWideTurn() {
+        return this.ordinal() >= 24 && this.ordinal() < 36;
+    }
+
     /**
      * @return the axis on which the Turn operates on
      */
@@ -278,5 +283,4 @@ public enum Turn {
     int[] getRotation() {
         return this.rotation;
     }
-
 }

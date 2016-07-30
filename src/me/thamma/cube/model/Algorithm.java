@@ -1,12 +1,12 @@
 package me.thamma.cube.model;
 
+import com.sun.javafx.geom.AreaOp;
 import me.thamma.cube.algorithmInterpreter.Interpreter;
 import me.thamma.cube.algorithmInterpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.utils.CubeUtils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -88,14 +88,13 @@ public class Algorithm extends ArrayList<Turn> {
     public Algorithm purgeRotations() {
         for (int i = 0; i < super.size(); i++) {
             Turn translation = super.get(i);
-            if (!translation.isCubeRotation())
-                continue;
-            super.remove(i);
-            for (int j = i; j < super.size(); j++){
-//                System.out.printf("%s -> %s  (%s)\n", super.get(i), super.get(i).translateTurn(translation), translation    );
-                super.set(j, super.get(j).translateTurn(translation));}
-
+            if (!translation.isCubeRotation()) continue;
+            for (int j = i + 1; j < super.size(); j++)
+                super.set(j, super.get(j).translateTurn(translation));
         }
+        for (int i = 0; i < super.size(); i++)
+            if (super.get(i).isCubeRotation())
+                super.remove(i--);
         this.rawInput = null;
         return this;
     }
@@ -135,6 +134,24 @@ public class Algorithm extends ArrayList<Turn> {
                         break;
                     }
                 }
+            } else
+                newAlg.add(super.get(i));
+        }
+        super.clear();
+        super.addAll(newAlg);
+        this.rawInput = null;
+        return this;
+    }
+
+    public Algorithm purge() {
+        return this.purgeWideTurns().purgeSliceTurns().purgeRotations();
+    }
+
+    public Algorithm purgeWideTurns() {
+        Algorithm newAlg = new Algorithm();
+        for (int i = 0; i < super.size(); i++) {
+            if (super.get(i).isWideTurn()) {
+                newAlg.addAll(Arrays.asList(super.get(i).getChildren()));
             } else
                 newAlg.add(super.get(i));
         }

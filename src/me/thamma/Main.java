@@ -1,11 +1,7 @@
 package me.thamma;
 
-import me.thamma.cube.model.*;
-import me.thamma.utils.CubeUtils;
-import me.thamma.utils.solverModel.Search;
-
-import java.util.Collection;
-import java.util.Objects;
+import me.thamma.cube.model.Algorithm;
+import me.thamma.cube.model.Turn;
 
 public class Main {
 
@@ -47,6 +43,9 @@ public class Main {
         //System.out.println(algorithm.length(Metrics.QTM));
 
         //CubeUtils.perfectSolve(Cube.fromScramble("[[F':RU2R',D']:x2y']"));
-        System.out.println(Cube.fromScramble("R U R' U' R' F R2 U' R' U' R U R' F'").getFaceletDefinition());
+        //System.out.println(Cube.fromScramble("R U R' U' R' F R2 U' R' U' R U R' F'").getFaceletDefinition());
+        System.out.println(new Algorithm("[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]"));
+        System.out.println(new Algorithm("[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]").purgeSliceTurns());
+        System.out.println(new Algorithm("[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]").purgeRotations());
     }
 }
