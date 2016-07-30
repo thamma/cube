@@ -3,7 +3,7 @@ package me.thamma.cube.model;
 public enum Metrics {
 
     QTM(algorithm ->
-            algorithm.purgeSliceTurns().purgeRotations().size()
+            algorithm.purgeSliceTurns().purgeRotations().cancelOut().size()
     ),
 
     HTM(algorithm -> {

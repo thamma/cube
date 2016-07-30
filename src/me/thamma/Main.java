@@ -1,6 +1,11 @@
 package me.thamma;
 
 import me.thamma.cube.model.*;
+import me.thamma.utils.CubeUtils;
+import me.thamma.utils.solverModel.Search;
+
+import java.util.Collection;
+import java.util.Objects;
 
 public class Main {
 
@@ -36,11 +41,12 @@ public class Main {
         // System.out.println(alg + " foils to " + alg.cancelOut() + "  ord(" + alg + ") = " + alg.getOrder());
         // Cube cube = Cube.fromScramble("L' B F D U B' F' L2 R2 D B' R' B D2 U' B2 F2 D' U2 R B D' U' B F' R' U2 L2 B F");
         // System.out.println(new Cycles(cube));
-        Algorithm algorithm = new Algorithm("MEM'E'");
+//        Algorithm algorithm = new Algorithm("(M'U)4");
         //System.out.printf("%s", algorithm.translate(Turn.Z));
-        System.out.println("purgeslice:\n" + algorithm.purgeSliceTurns());
-        System.out.println(algorithm.purgeSliceTurns().purgeRotations());
+        //System.out.println("purgeslice:\n" + algorithm.purgeSliceTurns());
         //System.out.println(algorithm.length(Metrics.QTM));
 
+        //CubeUtils.perfectSolve(Cube.fromScramble("[[F':RU2R',D']:x2y']"));
+        System.out.println(Cube.fromScramble("R U R' U' R' F R2 U' R' U' R U R' F'").getFaceletDefinition());
     }
 }

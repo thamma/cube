@@ -194,7 +194,7 @@ public class Cube {
      */
     public String getFaceletDefinition() {
         String out = "";
-        for (Sticker sticker : CubeConstants.faceletDefinition)
+        for (Sticker sticker : CubeConstants.faceletDefinition) // defines the order
             out += this.getCurrentStickerAt(sticker).toString().substring(0, 1);
         return out;
     }

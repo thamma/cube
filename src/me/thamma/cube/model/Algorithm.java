@@ -67,37 +67,38 @@ public class Algorithm extends ArrayList<Turn> {
         return null;
     }
 
-    public Algorithm translate(Turn translation) {
+    private Algorithm translate(Turn translation, int startindex) {
         if (!translation.isCubeRotation())
             return null;
-        //  System.out.printf("%s.translate(%s) = ", this, translation);
         for (int i = 0; i < super.size(); i++) {
             if (this.get(i) == translation) {
                 //this.remove(i++);
             } else
                 super.set(i, this.get(i).translateTurn(translation));
         }
-        //System.out.println(this);
         this.rawInput = null;
         return this;
     }
 
+    /**
+     * Removes all cube rotations from the current Algorithm and translates the algorithm along these rotations, accordingly
+     *
+     * @return A reference to the current Algorithm Object
+     */
     public Algorithm purgeRotations() {
-        // TODO debug
-        Algorithm newAlg = new Algorithm();
         for (int i = 0; i < super.size(); i++) {
-            if (super.get(i).isCubeRotation()) {
-                this.translate(super.get(i));
-                System.out.println(this + " \t\t" + super.get(i));
-            } else
-                newAlg.add(super.get(i));
+            Turn translation = super.get(i);
+            if (!translation.isCubeRotation())
+                continue;
+            super.remove(i);
+            for (int j = i; j < super.size(); j++){
+//                System.out.printf("%s -> %s  (%s)\n", super.get(i), super.get(i).translateTurn(translation), translation    );
+                super.set(j, super.get(j).translateTurn(translation));}
+
         }
-        super.clear();
-        super.addAll(newAlg);
         this.rawInput = null;
         return this;
     }
-
 
     /**
      * Removes all slice turns from the current Algorithm and replaces them with basic turns and cube rotations, accordingly

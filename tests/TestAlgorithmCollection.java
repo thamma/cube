@@ -14,7 +14,7 @@ public class TestAlgorithmCollection {
             new Algorithm(Turn.UP, Turn.RIGHT, Turn.UP_PRIME)
     };
 
-    public static String[] parsedAlgorithms =  new String[]{
+    public static String[] parsedAlgorithms = new String[]{
             "D",
             "D R",
             "D x R",
@@ -30,7 +30,31 @@ public class TestAlgorithmCollection {
             "M2 U M U2 M' U M2",
             "R U R' U' R' F R2 U' R' U' R U R' F'",
             "y' L' R' U2 L R (y) L U' R U2 L' U R' U2",
-            "x' R U' R' D R U R' Uw2 R' U R D R' U' R"
-    };
+            "x' R U' R' D R U R' Uw2 R' U R D R' U' R"};
+    public static String[] PLLAlgorithms = {
+            "l' U R' D2 R U' R' D2 R2",
+            "l' R' D2 R U R' D2 R U' R x'",
+            "y x' R U' R' D R U R' D' R U R' D R U' R' D' x",
+            "y R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+            "R2 u R' U R' U' R u' R2 y' R' U R",
+            "R' U' R y R2 u R' U R U' R u' R2",
+            "R2 u' R U' R U R' u R2 y R U' R'",
+            "R U R' y' R2 u' R U' R' U R' u R2",
+            "M2 U M2 U2 M2 U M2",
+            "R' U L' U2 R U' R' U2 R L",
+            "R U R' F' R U R' U' R' F R2 U' R' U'",
+            "R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'",
+            "R' U L' U2 R U' L R' U L' U2 R U' L",
+            "L U2 L' U2 L F' L' U' L U L F L2",
+            "R' U2 R U2 R' F R U R' U' R' F' R2",
+            "R U R' U' R' F R2 U' R' U' R U R' F'",
+            "R2 U' R' U' R U R U R U' R",
+            "R' U R' U' R' U' R' U R U R2",
+            "R' U R' d' R' F' R2 U' R' U R' F R F",
+            "F R U' R' U' R U R' F' R U R' U' R' F R F'",
+            "M2 U M2 U M' U2 M2 U2 M'",
+            "y M2' U' M2' U' M' U2' M2' U2' M'",
+            "M' U' M2' U' M2' U' M' U2' M2'",
+            "R' U' R2 U R U R' U' R U R U' R U' R'"};
 
 }

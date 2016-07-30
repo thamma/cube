@@ -107,7 +107,7 @@ public enum Turn {
      */
     private Turn[] lookUpTranslations(Turn turn) {
         switch (turn) {
-            case UP:
+            case UP: // Z UP = LEFT
                 return new Turn[]{FRONT, BACK, UP, UP, LEFT, RIGHT};
             case UP_PRIME:
                 return new Turn[]{FRONT_PRIME, BACK_PRIME, UP_PRIME, UP_PRIME, LEFT_PRIME, RIGHT_PRIME};
@@ -144,18 +144,18 @@ public enum Turn {
                 return new Turn[]{EQUATORIAL, EQUATORIAL_PRIME, MIDDLE_PRIME, MIDDLE, STANDING, STANDING};
             case STANDING_PRIME:
                 return new Turn[]{EQUATORIAL_PRIME, EQUATORIAL, MIDDLE, MIDDLE_PRIME, STANDING_PRIME, STANDING_PRIME};
-            case X:
-                return new Turn[]{X, X, Z_PRIME, Z, Y_PRIME, Y};
+            case X: // Z X = Y_P
+                return new Turn[]{X, X, Z, Z_PRIME, Y, Y_PRIME};
             case X_PRIME:
-                return new Turn[]{X_PRIME, X_PRIME, Z, Z_PRIME, Y, Y_PRIME};
+                return new Turn[]{X_PRIME, X_PRIME, Z_PRIME, Z, Y_PRIME, Y};
             case Y:
-                return new Turn[]{Z_PRIME, Z, Y, Y, X, X_PRIME};
+                return new Turn[]{Z, Z_PRIME, Y, Y, X_PRIME, X};
             case Y_PRIME:
-                return new Turn[]{Z, Z_PRIME, Y_PRIME, Y_PRIME, X_PRIME, X};
+                return new Turn[]{Z_PRIME, Z, Y_PRIME, Y_PRIME, X, X_PRIME};
             case Z:
-                return new Turn[]{Y, Y_PRIME, X, X_PRIME, Z, Z_PRIME};
+                return new Turn[]{Y, Y_PRIME, X, X_PRIME, Z, Z};
             case Z_PRIME:
-                return new Turn[]{Y_PRIME, Y_PRIME, X_PRIME, X, Z_PRIME, Z};
+                return new Turn[]{Y_PRIME, Y_PRIME, X_PRIME, X, Z_PRIME, Z_PRIME};
 
             case UP_WIDE:
                 return new Turn[]{FRONT_WIDE, BACK_WIDE, UP_WIDE, UP_WIDE, LEFT_WIDE, RIGHT_WIDE};
