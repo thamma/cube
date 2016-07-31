@@ -184,9 +184,12 @@ public class Algorithm extends ArrayList<Turn> {
      * @return A reference to the current Algorithm Object
      */
     public Algorithm inverse() {
-        if (super.size() > 0)
-            for (int i = 0; i < super.size(); i++)
-                super.add(i, super.remove(super.size() - 1).inverse());
+        Algorithm temp = new Algorithm();
+        for (int i = this.size() - 1; i >= 0; i--) {
+            temp.add(this.get(i).inverse());
+        }
+        this.clear();
+        this.addAll(temp);
         this.rawInput = null;
         return this;
     }
