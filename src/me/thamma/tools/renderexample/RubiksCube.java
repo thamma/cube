@@ -1,6 +1,7 @@
 package me.thamma.tools.renderexample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.image.Image;
@@ -18,9 +19,11 @@ import me.thamma.cube.model.Sticker;
 import me.thamma.cube.algorithmInterpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.utils.CubeUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -123,10 +126,10 @@ public class RubiksCube extends Application {
     private boolean prime;
 
     @Override
-    public void start(Stage primaryStage) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
+    public void start(Stage primaryStage) {
         prime = false;
         cube = new Cube();
-        cube.turn(new Algorithm("[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]"));
+        //cube.turn(new Algorithm("[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]"));
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.BLACK);
@@ -142,20 +145,41 @@ public class RubiksCube extends Application {
         });
         scene.setOnKeyTyped(e -> {
 
-                Algorithm a = new Algorithm("" + e.getCharacter().toUpperCase() + (prime ? "'" : ""));
-                cube.turn(a);
-                sceneRoot.getChildren().clear();
-                loadCube(cube);
-                renderCube(scene, sceneRoot, primaryStage);
-                //int sum = 0;
-                //for (Piece piece: Piece.corners)
-                //   sum += cube.getPiece(piece)[3];
-                //System.out.println("par: "+sum);
-                //System.out.println("par % 3: "+(sum % 3));
+            Algorithm a = new Algorithm("" + e.getCharacter().toUpperCase() + (prime ? "'" : ""));
+            cube.turn(a);
+            sceneRoot.getChildren().clear();
+            loadCube(cube);
+            renderCube(scene, sceneRoot, primaryStage);
+            //int sum = 0;
+            //for (Piece piece: Piece.corners)
+            //   sum += cube.getPiece(piece)[3];
+            //System.out.println("par: "+sum);
+            //System.out.println("par % 3: "+(sum % 3));
 
         });
+        primaryStage.setOnCloseRequest(e -> System.exit(0));
         loadCube(cube);
         renderCube(scene, sceneRoot, primaryStage);
+        Scanner scanner = new Scanner(System.in);
+        new Thread(() -> {
+            while (true) {
+                String s = scanner.nextLine();
+                if (s.equals("solve")) {
+                    this.cube = new Cube();
+                } else if (s.equals("solution")) {
+                    System.out.printf("Computing solution...\n");
+                    System.out.printf("> %s\n",CubeUtils.anySolve(this.cube));
+                    continue;
+                } else {
+                    Algorithm algorithm = new Algorithm(s);
+                    this.cube.turn(algorithm);
+                }
+                Platform.runLater(() -> {
+                    loadCube(cube);
+                    renderCube(scene, sceneRoot, primaryStage);
+                });
+            }
+        }).start();
     }
 
     private void renderCube(Scene scene, Group sceneRoot, Stage primaryStage) {
