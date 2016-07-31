@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 public class TurnTests {
 
     @Test
-    public void turnSelfinverse() {
+    public void turnSelfInverse() {
         for (Turn t : Turn.values())
             assertTrue(t.inverse().inverse() == t);
     }

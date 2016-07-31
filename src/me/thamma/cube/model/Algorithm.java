@@ -1,16 +1,12 @@
 package me.thamma.cube.model;
 
-import com.sun.javafx.geom.AreaOp;
 import me.thamma.cube.algorithmInterpreter.Interpreter;
 import me.thamma.cube.algorithmInterpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.utils.CubeUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Algorithm extends ArrayList<Turn> {
@@ -30,12 +26,19 @@ public class Algorithm extends ArrayList<Turn> {
         this.addAll(Arrays.asList(turns));
     }
 
-    public Algorithm(String input) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
+    /**
+     * Algorithm constructor parsing the given scramble throwing the exceptions thrown by the interpreter
+     *
+     * @param scramble
+     * @throws UnexpectedEndOfLineException Thrown if the very last token was not valid
+     * @throws UnexpectedTokenException     Thrown if the given was not parsable
+     * @throws IllegalCharacterException    Thrown if an illegal character was provided to the lexer
+     */
+    public Algorithm(String scramble) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
         this();
-        this.addAll(Interpreter.interprete(input));
-        System.out.printf("Could not construct Algorithm from %s.\n", input);
+        this.addAll(Interpreter.interprete(scramble));
         if (this.size() > 0)
-            this.rawInput = input;
+            this.rawInput = scramble;
     }
 
     public static Algorithm fromScramble(String scramble) {
@@ -58,10 +61,10 @@ public class Algorithm extends ArrayList<Turn> {
     //
 
     /**
-     * Whether two algorithms are congruent. That is they are equal apart from initial cube rotations.
+     * Whether two algorithms are congruent. That is they are equal apart from initial cube rotations
      *
      * @param algorithm The algorithm to compare to
-     * @return null iff the algorithms are not congruent. Else the algorithm A, such that (this = A * algorithm)
+     * @return null iff the algorithms are not congruent. Else the algorithm A, such that (this = A ∘ algorithm)
      */
     public Algorithm isCongruent(Algorithm algorithm) {
         Cube local = new Cube(this);
@@ -213,12 +216,36 @@ public class Algorithm extends ArrayList<Turn> {
      */
     public Algorithm cancelOut() {
         int i;
-        do {
+        do { // tries to simplifyLoops as long as the algorithm's size decrements
             i = super.size();
-            this.simplifyLoops();
+            this.simplifyLoop();
         } while (i != super.size());
         this.rawInput = null;
         return this;
+    }
+
+    /**
+     * Sorts an algorithm such that subsequent turns operating on the same axis (which commute) become grouped.
+     * For example: "R U D' U F R L x L R'" becomes "R D' U U F R R L L x"
+     *
+     * @return the properly sorted Algorithm
+     */
+    public Algorithm groupTurns() {
+        Algorithm out = new Algorithm();
+        Axis curr = null;
+        List<Turn> temp = new ArrayList<>();
+        for (int i = 0; i < super.size(); i++) {
+            Turn turn = super.get(i);
+            if (curr != null && turn.getAxis() != curr) {
+                temp.sort((t1, t2) -> Integer.compare(t1.ordinal(), t2.ordinal()));
+                out.addAll(temp);
+                temp.clear();
+            }
+            temp.add(turn);
+            curr = turn.getAxis();
+        }
+        out.addAll(temp);
+        return out;
     }
 
     /**
@@ -257,10 +284,9 @@ public class Algorithm extends ArrayList<Turn> {
         if (this.rawInput != null)
             return this.rawInput;
         return String.join(" ", Arrays.stream(this.toArray()).map(Object::toString).collect(Collectors.toList()));
-        // return Arrays.toString(Arrays.stream(this.toArray()).map(a -> a.toString()).toArray()).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "");
     }
 
-    private void simplifyLoops() {
+    private void simplifyLoop() {
         int lower = Integer.MAX_VALUE;
         int upper = 0;
         int range = 0;

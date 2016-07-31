@@ -52,7 +52,7 @@ public class CubeUtils {
             status = Search.solution(cube.normalizeRotation().getFaceletDefinition(), i, 30, false);
             System.out.println("\tfound: " + status);
         }
-        return new Algorithm(last);
+        return Algorithm.fromScramble(last);
     }
 
     public static Algorithm anySolve(Cube cube) {
@@ -60,7 +60,7 @@ public class CubeUtils {
     }
 
     public static Algorithm solve(Cube cube, int cap) {
-        return new Algorithm(Search.solution(cube.normalizeRotation().getFaceletDefinition(), cap, 300, false));
+        return Algorithm.fromScramble(Search.solution(cube.normalizeRotation().getFaceletDefinition(), cap, 300, false));
     }
 
 }

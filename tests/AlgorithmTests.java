@@ -9,25 +9,25 @@ import static org.junit.Assert.assertTrue;
 public class AlgorithmTests {
 
     @Test
-    public void testPurgeSliceTurns() {
+    public void pPurgeSliceTurns() {
         for (String s : bigSet) {
-            Algorithm alg = new Algorithm(s);
+            Algorithm alg = Algorithm.fromScramble(s);
             assertTrue(alg.clone().purgeSliceTurns().isCongruent(alg) != null);
         }
     }
 
     @Test
-    public void testPurgeRotations() {
+    public void purgeRotations() {
         for (String s : bigSet) {
-            Algorithm alg = new Algorithm(s);
+            Algorithm alg = Algorithm.fromScramble(s);
             assertTrue(alg.clone().purgeSliceTurns().purgeRotations().isCongruent(alg) != null);
         }
     }
 
     @Test
-    public void testCorrectSyntax() {
+    public void correctSyntax() {
         for (int i = 0; i < rawAlgorithms.length; i++)
-            assertTrue(rawAlgorithms[i].equals(new Algorithm(parsedAlgorithms[i])));
+            assertTrue(rawAlgorithms[i].equals(Algorithm.fromScramble(parsedAlgorithms[i])));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class AlgorithmTests {
     @Test
     public void selfInverseInverse() {
         for (String s : bigSet) {
-            Algorithm alg = new Algorithm(s);
+            Algorithm alg =Algorithm.fromScramble(s);
             Cube cube = new Cube();
             cube.turn(alg).turn(alg.inverse());
             assertTrue(cube.isSolved());

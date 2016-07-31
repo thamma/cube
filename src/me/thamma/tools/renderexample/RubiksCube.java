@@ -145,7 +145,7 @@ public class RubiksCube extends Application {
         });
         scene.setOnKeyTyped(e -> {
 
-            Algorithm a = new Algorithm("" + e.getCharacter().toUpperCase() + (prime ? "'" : ""));
+            Algorithm a = Algorithm.fromScramble("" + e.getCharacter().toUpperCase() + (prime ? "'" : ""));
             cube.turn(a);
             sceneRoot.getChildren().clear();
             loadCube(cube);
@@ -171,7 +171,7 @@ public class RubiksCube extends Application {
                     System.out.printf("> %s\n",CubeUtils.anySolve(this.cube));
                     continue;
                 } else {
-                    Algorithm algorithm = new Algorithm(s);
+                    Algorithm algorithm = Algorithm.fromScramble(s);
                     this.cube.turn(algorithm);
                 }
                 Platform.runLater(() -> {
