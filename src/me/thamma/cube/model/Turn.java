@@ -23,7 +23,7 @@ public enum Turn {
     STANDING(new String[]{"S"}, 2, new Piece[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}, Axis.Z),
     STANDING_PRIME(new String[]{"S'"}, -2, new Piece[]{UL, U, UR, R, DR, D, DL, L}, new int[]{1, 0, 1, 0, 1, 0, 1, 0}, Axis.Z),
 
-    X(new String[]{ "x","X"}, Axis.X, LEFT_PRIME, MIDDLE_PRIME, RIGHT),
+    X(new String[]{"x", "X"}, Axis.X, LEFT_PRIME, MIDDLE_PRIME, RIGHT),
     X_PRIME(new String[]{"x'", "X'"}, Axis.X, LEFT, MIDDLE, RIGHT_PRIME),
     Y(new String[]{"y", "Y"}, Axis.Y, UP, EQUATORIAL_PRIME, DOWN_PRIME),
     Y_PRIME(new String[]{"y'", "Y'"}, Axis.Y, UP_PRIME, EQUATORIAL, DOWN),
@@ -53,8 +53,6 @@ public enum Turn {
     private Axis axis;
     private Turn[] children;
     private String[] stringRepresentation;
-    private Turn[] translations;
-    private Turn[] mirrors;
 
     //
     //  constructors
@@ -69,9 +67,7 @@ public enum Turn {
      * @param children             The Turns the current Turn is composed of. Must (obviously) not be recursive!
      */
     Turn(String[] stringRepresentation, Axis axis, Turn... children) {
-        //TODO handle axis
         this.stringRepresentation = stringRepresentation;
-        this.axis = axis;
         this.axis = axis;
         this.children = children;
     }
@@ -89,25 +85,103 @@ public enum Turn {
      * @see {@link me.thamma.cube.model.Cube#turn(Turn)} for more detail
      */
     Turn(String[] stringRepresentation, int offset, Piece[] target, int[] rotation, Axis axis) {
-        //TODO handle axis
         this.stringRepresentation = stringRepresentation;
         this.offset = offset;
         this.target = target;
         this.rotation = rotation;
         this.axis = axis;
-        this.translations = null;
-        //this.mirrors = null;
+    }
+
+    private Turn[] lookupMirrors() {
+        switch (this) {
+            case UP:
+                return new Turn[]{UP_PRIME, DOWN_PRIME, UP_PRIME};
+            case UP_PRIME:
+                return new Turn[]{UP, DOWN, UP};
+            case FRONT:
+                return new Turn[]{FRONT_PRIME, FRONT_PRIME, BACK_PRIME};
+            case FRONT_PRIME:
+                return new Turn[]{FRONT, FRONT, BACK};
+            case RIGHT:
+                return new Turn[]{LEFT_PRIME, RIGHT_PRIME, RIGHT_PRIME};
+            case RIGHT_PRIME:
+                return new Turn[]{LEFT, RIGHT, RIGHT};
+            case DOWN:
+                return new Turn[]{DOWN_PRIME, UP_PRIME, DOWN_PRIME};
+            case DOWN_PRIME:
+                return new Turn[]{DOWN, UP, DOWN};
+            case BACK:
+                return new Turn[]{BACK_PRIME, BACK_PRIME, FRONT_PRIME};
+            case BACK_PRIME:
+                return new Turn[]{BACK, BACK, FRONT};
+            case LEFT:
+                return new Turn[]{RIGHT_PRIME, LEFT_PRIME, LEFT_PRIME};
+            case LEFT_PRIME:
+                return new Turn[]{RIGHT, LEFT, LEFT};
+
+            case MIDDLE:
+                return new Turn[]{MIDDLE, MIDDLE_PRIME, MIDDLE_PRIME};
+            case MIDDLE_PRIME:
+                return new Turn[]{MIDDLE_PRIME, MIDDLE, MIDDLE};
+            case EQUATORIAL:
+                return new Turn[]{EQUATORIAL_PRIME, EQUATORIAL, EQUATORIAL_PRIME};
+            case EQUATORIAL_PRIME:
+                return new Turn[]{EQUATORIAL, EQUATORIAL_PRIME, EQUATORIAL};
+            case STANDING:
+                return new Turn[]{STANDING_PRIME, STANDING_PRIME, STANDING};
+            case STANDING_PRIME:
+                return new Turn[]{STANDING, STANDING, STANDING_PRIME};
+
+            case X:
+                return new Turn[]{X, X_PRIME, X_PRIME};
+            case X_PRIME:
+                return new Turn[]{X_PRIME, X, X};
+            case Y:
+                return new Turn[]{Y_PRIME, Y, Y_PRIME};
+            case Y_PRIME:
+                return new Turn[]{Y, Y_PRIME, Y};
+            case Z:
+                return new Turn[]{Z_PRIME, Z_PRIME, Z};
+            case Z_PRIME:
+                return new Turn[]{Z, Z, Z_PRIME};
+
+            case UP_WIDE:
+                return new Turn[]{UP_WIDE_PRIME, DOWN_WIDE_PRIME, UP_WIDE_PRIME};
+            case UP_WIDE_PRIME:
+                return new Turn[]{UP_WIDE, DOWN_WIDE, UP_WIDE};
+            case FRONT_WIDE:
+                return new Turn[]{FRONT_WIDE_PRIME, FRONT_WIDE_PRIME, BACK_WIDE_PRIME};
+           case FRONT_WIDE_PRIME:
+                return new Turn[]{FRONT_WIDE, FRONT_WIDE, BACK_WIDE};
+            case RIGHT_WIDE:
+                return new Turn[]{LEFT_WIDE_PRIME, RIGHT_WIDE_PRIME, RIGHT_WIDE_PRIME};
+           case RIGHT_WIDE_PRIME:
+                return new Turn[]{LEFT_WIDE, RIGHT_WIDE, RIGHT_WIDE};
+            case DOWN_WIDE:
+                return new Turn[]{DOWN_WIDE_PRIME, UP_WIDE_PRIME, DOWN_WIDE_PRIME};
+            case DOWN_WIDE_PRIME:
+                return new Turn[]{DOWN_WIDE, UP_WIDE, DOWN_WIDE};
+            case BACK_WIDE:
+                return new Turn[]{BACK_WIDE_PRIME, BACK_WIDE_PRIME, FRONT_WIDE_PRIME};
+            case BACK_WIDE_PRIME:
+                return new Turn[]{BACK_WIDE, BACK_WIDE, FRONT_WIDE};
+            case LEFT_WIDE:
+                return new Turn[]{RIGHT_WIDE_PRIME, LEFT_WIDE_PRIME, LEFT_WIDE_PRIME};
+            case LEFT_WIDE_PRIME:
+                return new Turn[]{RIGHT_WIDE, LEFT_WIDE, LEFT_WIDE};
+            default:
+                return null;
+        }
     }
 
     /**
-     * @param turn The turn whose translations shall be looked up
      * @return a Turn[6] array containing the x, x', y, y', z and z' translations of the current turn.
      * <p>
      * For instance, given Turn T und rotations X, ..., Z', returns the array [t1, ..., t6] such that t1 is the same
      */
-    private Turn[] lookUpTranslations(Turn turn) {
-        switch (turn) {
-            case UP: // Z UP = LEFT
+    private Turn[] lookUpTranslations() {
+        switch (this) {
+            case UP:
                 return new Turn[]{FRONT, BACK, UP, UP, LEFT, RIGHT};
             case UP_PRIME:
                 return new Turn[]{FRONT_PRIME, BACK_PRIME, UP_PRIME, UP_PRIME, LEFT_PRIME, RIGHT_PRIME};
@@ -137,15 +211,15 @@ public enum Turn {
             case MIDDLE_PRIME:
                 return new Turn[]{MIDDLE_PRIME, MIDDLE_PRIME, STANDING, STANDING_PRIME, EQUATORIAL, EQUATORIAL_PRIME};
             case EQUATORIAL:
-                return new Turn[]{STANDING_PRIME, STANDING, EQUATORIAL, EQUATORIAL, MIDDLE_PRIME, MIDDLE};
+                return new Turn[]{STANDING, STANDING_PRIME, EQUATORIAL, EQUATORIAL, MIDDLE, MIDDLE_PRIME};
             case EQUATORIAL_PRIME:
-                return new Turn[]{STANDING, STANDING_PRIME, EQUATORIAL_PRIME, EQUATORIAL_PRIME, MIDDLE, MIDDLE_PRIME};
+                return new Turn[]{STANDING_PRIME, STANDING, EQUATORIAL_PRIME, EQUATORIAL_PRIME, MIDDLE_PRIME, MIDDLE};
             case STANDING:
-                return new Turn[]{EQUATORIAL, EQUATORIAL_PRIME, MIDDLE_PRIME, MIDDLE, STANDING, STANDING};
+                return new Turn[]{EQUATORIAL_PRIME, EQUATORIAL, MIDDLE, MIDDLE_PRIME, STANDING, STANDING};
             case STANDING_PRIME:
-                return new Turn[]{EQUATORIAL_PRIME, EQUATORIAL, MIDDLE, MIDDLE_PRIME, STANDING_PRIME, STANDING_PRIME};
+                return new Turn[]{EQUATORIAL, EQUATORIAL_PRIME, MIDDLE_PRIME, MIDDLE, STANDING_PRIME, STANDING_PRIME};
 
-            case X: // Z X = Y_P
+            case X:
                 return new Turn[]{X, X, Z_PRIME, Z, Y, Y_PRIME};
             case X_PRIME:
                 return new Turn[]{X_PRIME, X_PRIME, Z, Z_PRIME, Y_PRIME, Y};
@@ -237,11 +311,13 @@ public enum Turn {
     }
 
     public Turn translateTurn(Turn translation) {
-        if (this.translations == null)
-            this.translations = lookUpTranslations(this);
         if (!translation.isCubeRotation())
             return null;
-        return this.translations[translation.ordinal() - 18];
+        return this.lookUpTranslations()[translation.ordinal() - 18];
+    }
+
+    public Turn mirrorTurn(Turn translation) {
+        return this.lookupMirrors()[translation.getAxis().ordinal()];
     }
 
     //

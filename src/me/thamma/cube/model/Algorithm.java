@@ -30,23 +30,27 @@ public class Algorithm extends ArrayList<Turn> {
         this.addAll(Arrays.asList(turns));
     }
 
-    public Algorithm(String input) {
+    public Algorithm(String input) throws UnexpectedEndOfLineException, UnexpectedTokenException, IllegalCharacterException {
         this();
-        try {
-            this.addAll(Interpreter.interprete(input));
-        } catch (UnexpectedTokenException |
-                IllegalCharacterException |
-                UnexpectedEndOfLineException e) {
-            System.out.printf("Could not construct Algorithm from %s.\n", input);
-            e.printStackTrace();
-        }
+        this.addAll(Interpreter.interprete(input));
+        System.out.printf("Could not construct Algorithm from %s.\n", input);
         if (this.size() > 0)
             this.rawInput = input;
     }
 
-    public Algorithm(Cube cube) {
-        this();
-        this.addAll(CubeUtils.anySolve(cube));
+    public static Algorithm fromScramble(String scramble) {
+        try {
+            return new Algorithm(scramble);
+        } catch (UnexpectedEndOfLineException | UnexpectedTokenException | IllegalCharacterException e) {
+            e.printStackTrace();
+        }
+        return new Algorithm();
+    }
+
+    public static Algorithm fromCube(Cube cube) {
+        Algorithm out = new Algorithm();
+        out.addAll(CubeUtils.anySolve(cube));
+        return out;
     }
 
     //
@@ -67,16 +71,26 @@ public class Algorithm extends ArrayList<Turn> {
         return null;
     }
 
-    private Algorithm translate(Turn translation, int startindex) {
+    public Algorithm translate(Turn translation) {
+        Algorithm temp = new Algorithm();
         if (!translation.isCubeRotation())
             return null;
-        for (int i = 0; i < super.size(); i++) {
-            if (this.get(i) == translation) {
-                //this.remove(i++);
-            } else
-                super.set(i, this.get(i).translateTurn(translation));
-        }
+        for (int i = 0; i < super.size(); i++)
+            temp.add(super.get(i).translateTurn(translation));
         this.rawInput = null;
+        this.clear();
+        this.addAll(temp);
+        return this;
+    }
+
+
+    public Algorithm mirror(Turn translation) {
+        Algorithm temp = new Algorithm();
+        for (int i = 0; i < super.size(); i++)
+            temp.add(super.get(i).mirrorTurn(translation));
+        this.rawInput = null;
+        this.clear();
+        this.addAll(temp);
         return this;
     }
 
