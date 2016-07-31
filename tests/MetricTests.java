@@ -10,13 +10,12 @@ public class MetricTests {
             new Algorithm("[R,U]"),
             new Algorithm("R2 U"),
             new Algorithm("M' U2"),
-            new Algorithm("x2 F R2 u"),
-            new Algorithm(),
-            new Algorithm()
+            new Algorithm("x2 F R2 u")
     };
     int[][] lengths = new int[][]{
             {4, 4, 4},
             {3, 2, 2},
+            {4, 3, 2},
             {4, 3, 2}
     };
 

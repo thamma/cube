@@ -1,5 +1,6 @@
 import me.thamma.cube.model.Algorithm;
 import me.thamma.cube.model.Cube;
+import me.thamma.cube.model.Metrics;
 import me.thamma.cube.model.Turn;
 import org.junit.Test;
 
@@ -19,9 +20,6 @@ public class AlgorithmTests {
     public void testPurgeRotations() {
         for (String s : bigSet) {
             Algorithm alg = new Algorithm(s);
-            System.out.println( );
-            System.out.println(alg);
-            System.out.println(alg.clone().purgeSliceTurns().purgeRotations());
             assertTrue(alg.clone().purgeSliceTurns().purgeRotations().isCongruent(alg) != null);
         }
     }
@@ -40,11 +38,20 @@ public class AlgorithmTests {
 
     @Test
     public void selfInverseInverse() {
-        for (Algorithm alg : rawAlgorithms) {
-            System.out.println("testing: " + alg);
+        for (String s : bigSet) {
+            Algorithm alg = new Algorithm(s);
             Cube cube = new Cube();
             cube.turn(alg).turn(alg.inverse());
             assertTrue(cube.isSolved());
+        }
+    }
+
+    @Test
+    public void cancelSelfInverse() {
+        for (Algorithm alg : rawAlgorithms) {
+            Algorithm compose = alg.clone();
+            compose.addAll(alg.inverse());
+            assertTrue(compose.cancelOut().length(Metrics.QTM) == 0);
         }
     }
 
