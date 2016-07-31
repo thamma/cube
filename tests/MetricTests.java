@@ -7,16 +7,18 @@ import static org.junit.Assert.assertTrue;
 public class MetricTests {
 
     Algorithm[] algorithms = new Algorithm[]{
-            new Algorithm("[R,U]"),
-            new Algorithm("R2 U"),
-            new Algorithm("M' U2"),
-            new Algorithm("x2 F R2 u")
+            Algorithm.fromScramble("[R,U]"),
+            Algorithm.fromScramble("R2 U"),
+            Algorithm.fromScramble("M' U2"),
+            Algorithm.fromScramble("x2 F R2 u"),
+            Algorithm.fromScramble("[M,E] x R"),
     };
     int[][] lengths = new int[][]{
             {4, 4, 4},
             {3, 2, 2},
             {4, 3, 2},
-            {4, 3, 2}
+            {4, 3, 3},
+            {9, 9, 5}
     };
 
     @Test
@@ -36,7 +38,7 @@ public class MetricTests {
     @Test
     public void testSTM() {
         for (int i = 0; i < algorithms.length; i++) {
-            assertTrue(algorithms[i].length(Metrics.QTM) == lengths[i][2]);
+            assertTrue(algorithms[i].length(Metrics.STM) == lengths[i][2]);
         }
     }
 }

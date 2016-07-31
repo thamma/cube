@@ -59,7 +59,7 @@ public class Cube {
      * @param scramble the String representation of the algorithm to initialize the cube with.
      */
     public static Cube fromScramble(String scramble) {
-        return new Cube(new Algorithm(scramble));
+        return new Cube(Algorithm.fromScramble(scramble));
     }
     //
     //  public methods

@@ -3,11 +3,21 @@ package me.thamma.cube.model;
 public enum Metrics {
 
     QTM(algorithm ->
-            algorithm.purgeSliceTurns().purgeRotations().cancelOut().size()
+            algorithm.clone().purgeSliceTurns().purgeRotations().cancelOut().size()
     ),
-    STM(algorithm -> 0),
-    HTM(algorithm -> algorithm.purgeSliceTurns().length(Metrics.STM))
-    ;
+    STM(algorithm -> {
+        Algorithm alg = algorithm.clone().groupTurns().purgeRotations();
+        int count = 0;
+        Turn curr = null;
+        for (int i = 0; i < alg.size(); i++) {
+            if (curr == null || curr != alg.get(i)) {
+                count++;
+            }
+            curr = alg.get(i);
+        }
+        return count;
+    }),
+    HTM(algorithm -> algorithm.clone().purgeSliceTurns().length(Metrics.STM));
 
     private AlgorithmMetric metric;
 
@@ -18,11 +28,4 @@ public enum Metrics {
     public int length(Algorithm algorithm) {
         return this.metric.run(algorithm);
     }
-
-    private Algorithm groupAlgorithm(Algorithm algorithm) {
-        Algorithm out = algorithm.clone();
-
-        return out;
-    }
-
 }
