@@ -68,7 +68,7 @@ public class Algorithm extends ArrayList<Turn> {
      */
     public Algorithm isCongruent(Algorithm algorithm) {
         Cube local = new Cube(this);
-        for (Algorithm setup : CubeConstants.cubeOrientations)
+        for (Algorithm setup : CubeConstants.Algorithms.cubeOrientations)
             if (local.equals(new Cube().turn(setup).turn(algorithm)))
                 return setup;
         return null;
@@ -203,12 +203,14 @@ public class Algorithm extends ArrayList<Turn> {
     public Algorithm power(int exponent) {
         if (exponent == 0)
             this.clear();
-
-        for (int j = 0; j < Math.abs(exponent) - 1; j++)
-            super.addAll(this);
+        Algorithm temp = new Algorithm();
+        for (int j = 0; j < Math.abs(exponent); j++)
+            temp.addAll(this);
         if (exponent < 0)
-            this.inverse();
+            temp.inverse();
         this.rawInput = null;
+        this.clear();
+        this.addAll(temp);
         return this;
     }
 
@@ -287,6 +289,10 @@ public class Algorithm extends ArrayList<Turn> {
         if (this.rawInput != null)
             return this.rawInput;
         return String.join(" ", Arrays.stream(this.toArray()).map(Object::toString).collect(Collectors.toList()));
+    }
+
+    public String rawString() {
+        return super.toString();
     }
 
     private void simplifyLoop() {
