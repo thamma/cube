@@ -2,6 +2,7 @@ import me.thamma.cube.model.Cube;
 import me.thamma.cube.model.regex.CubeRegex;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CubeRegexTests {
@@ -36,7 +37,15 @@ public class CubeRegexTests {
         assertTrue(CubeRegex.compile("UF......U.D...........................................").matches(scrambledCube));
         // exact match should override pattern:
         assertTrue(CubeRegex.compile("(URF:U, ULB:U, UB:F, FU:D)LL......L.L...........................................").matches(scrambledCube));
+
+        assertFalse(CubeRegex.compile("(URF:R, ULB:U, UB:F, FU:D)").matches(scrambledCube));
+        assertFalse(CubeRegex.compile("(.)45...LLLLLL").matches(Cube.fromScramble("F")));
     }
 
+    @Test
+    public void matchScramble() {
+        Cube scrambledCube = Cube.fromScramble("L2 U R2 B' L U' B2 R2 F D' R' L' D L2 F2 U F2 D2 F2 R2 ");
+        assertTrue(scrambledCube.matches("BBLLUFBDBLBRUFDDURDDFRRFDFBLFFUDRUBUULLLBLRRRUDDULBFRF"));
+    }
 
 }

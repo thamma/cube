@@ -1,5 +1,7 @@
 package me.thamma.cube.model;
 
+import me.thamma.cube.model.regex.CubeRegex;
+
 import java.util.Arrays;
 
 public class Cube {
@@ -91,6 +93,10 @@ public class Cube {
     public Cube turn(Algorithm a) {
         a.forEach(this::turn);
         return this;
+    }
+
+    public boolean matches(String cubeRegex) {
+        return CubeRegex.compile(cubeRegex).matches(this);
     }
 
     public int getColor(Sticker s) {
