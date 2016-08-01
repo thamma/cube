@@ -27,13 +27,9 @@ public class CubeRegex {
      * @param pattern
      * @return
      */
-    public static CubeRegex compile(String pattern) {
+    public static CubeRegex compile(String pattern) throws Exception {
         CubeRegex cubeRegex = new CubeRegex();
-        try {
-            cubeRegex.parse(pattern);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        cubeRegex.parse(pattern);
         return cubeRegex;
     }
 
@@ -97,7 +93,7 @@ public class CubeRegex {
                     return false;
                 }
             } else if (!this.exactMatch[i].matches(cube.getCurrentStickerAt(sticker))) {
-                    return false;
+                return false;
             }
         }
         return true;

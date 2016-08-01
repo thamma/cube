@@ -9,37 +9,32 @@ public class CubeRegexTests {
 
     @Test
     public void trivialRegex() {
-        assertTrue(CubeRegex.compile("(.)54").matches(new Cube()));
-        assertTrue(CubeRegex.compile("......................................................").matches(new Cube()));
-        assertTrue(CubeRegex.compile("").matches(new Cube()));
-        assertTrue(CubeRegex.compile("(.)54").matches(Cube.fromScramble("[R,UFD]")));
-        assertTrue(CubeRegex.compile("......................................................").matches(Cube.fromScramble("[R,UFD]")));
-        assertTrue(CubeRegex.compile("").matches(Cube.fromScramble("[R,UFD]")));
+        assertTrue(new Cube().matches("(.)54"));
+        assertTrue((new Cube().matches("......................................................")));
+        assertTrue(new Cube().matches(""));
+        assertTrue(Cube.fromScramble("[R,UFD]").matches("(.)54"));
+        assertTrue(Cube.fromScramble("[R,UFD]").matches("......................................................"));
+        assertTrue(Cube.fromScramble("[R,UFD]").matches(""));
     }
 
     @Test
     public void oneSide() {
         Cube oneSideSolvedCube = Cube.fromScramble("r F r' d L D2 L'");
-        assertTrue(CubeRegex.compile("(U)9(.)45").matches(oneSideSolvedCube));
-        assertTrue(CubeRegex.compile("(U)9").matches(oneSideSolvedCube));
-        assertTrue(CubeRegex.compile("UUUUUUUUU.............................................").matches(oneSideSolvedCube));
-        assertTrue(CubeRegex.compile("UUUUUUUUU").matches(oneSideSolvedCube));
+        assertTrue(oneSideSolvedCube.matches("(U)9(.)45"));
+        assertTrue(oneSideSolvedCube.matches("(U)9"));
+        assertTrue(oneSideSolvedCube.matches("UUUUUUUUU............................................."));
+        assertTrue(oneSideSolvedCube.matches("UUUUUUUUU"));
     }
 
     @Test
     public void exactMatch() {
         Cube scrambledCube = Cube.fromScramble("M'");
-        // exact matches
-        assertTrue(CubeRegex.compile("(URF:U, ULB:U, UB:F, FU:D)").matches(scrambledCube));
-        // exact match ignores wildcard anyway
-        assertTrue(CubeRegex.compile("(URF:U, ULB:U, UB:F, FU:D)......................................................").matches(scrambledCube));
-        // match pattern
-        assertTrue(CubeRegex.compile("UF......U.D...........................................").matches(scrambledCube));
-        // exact match should override pattern:
-        assertTrue(CubeRegex.compile("(URF:U, ULB:U, UB:F, FU:D)LL......L.L...........................................").matches(scrambledCube));
-
-        assertFalse(CubeRegex.compile("(URF:R, ULB:U, UB:F, FU:D)").matches(scrambledCube));
-        assertFalse(CubeRegex.compile("(.)45...LLLLLL").matches(Cube.fromScramble("F")));
+        assertTrue(scrambledCube.matches("(URF:U, ULB:U, UB:F, FU:D)"));
+        assertTrue(scrambledCube.matches("(URF:U, ULB:U, UB:F, FU:D)......................................................"));
+        assertTrue(scrambledCube.matches("UF......U.D..........................................."));
+        assertTrue(scrambledCube.matches("(URF:U, ULB:U, UB:F, FU:D)LL......L.L..........................................."));
+        assertFalse(scrambledCube.matches("(URF:R, ULB:U, UB:F, FU:D)"));
+        assertFalse(Cube.fromScramble("F").matches("(.)45...LLLLLL"));
     }
 
     @Test

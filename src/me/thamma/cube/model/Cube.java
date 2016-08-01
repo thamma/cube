@@ -96,7 +96,11 @@ public class Cube {
     }
 
     public boolean matches(String cubeRegex) {
-        return CubeRegex.compile(cubeRegex).matches(this);
+        try {
+            return CubeRegex.compile(cubeRegex).matches(this);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int getColor(Sticker s) {
