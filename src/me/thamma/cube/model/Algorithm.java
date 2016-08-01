@@ -68,7 +68,7 @@ public class Algorithm extends ArrayList<Turn> {
      */
     public Algorithm isCongruent(Algorithm algorithm) {
         Cube local = new Cube(this);
-        for (Algorithm setup : CubeConstants.cubeOrientations)
+        for (Algorithm setup : CubeConstants.Algorithms.cubeOrientations)
             if (local.equals(new Cube().turn(setup).turn(algorithm)))
                 return setup;
         return null;
@@ -184,9 +184,12 @@ public class Algorithm extends ArrayList<Turn> {
      * @return A reference to the current Algorithm Object
      */
     public Algorithm inverse() {
-        if (super.size() > 0)
-            for (int i = 0; i < super.size(); i++)
-                super.add(i, super.remove(super.size() - 1).inverse());
+        Algorithm temp = new Algorithm();
+        for (int i = this.size() - 1; i >= 0; i--) {
+            temp.add(this.get(i).inverse());
+        }
+        this.clear();
+        this.addAll(temp);
         this.rawInput = null;
         return this;
     }
@@ -198,14 +201,18 @@ public class Algorithm extends ArrayList<Turn> {
      * @return A reference to the current Algorithm Object
      */
     public Algorithm power(int exponent) {
-        if (exponent == 0)
+        if (exponent == 0) {
             this.clear();
-
-        for (int j = 0; j < Math.abs(exponent) - 1; j++)
-            super.addAll(this);
+            return this;
+        }
+        Algorithm temp = new Algorithm();
+        for (int j = 0; j < Math.abs(exponent); j++)
+            temp.addAll(this);
         if (exponent < 0)
-            this.inverse();
+            temp.inverse();
         this.rawInput = null;
+        this.clear();
+        this.addAll(temp);
         return this;
     }
 
@@ -286,14 +293,18 @@ public class Algorithm extends ArrayList<Turn> {
         return String.join(" ", Arrays.stream(this.toArray()).map(Object::toString).collect(Collectors.toList()));
     }
 
+    public String rawString() {
+        return super.toString();
+    }
+
     private void simplifyLoop() {
         int lower = Integer.MAX_VALUE;
         int upper = 0;
         int range = 0;
         Cube c = new Cube();
         List<Cube> copies = new ArrayList<>(super.size());
-        for (int i = 0; i < this.size(); i++) {
-            Turn t = this.get(i);
+        for (int i = 0; i < super.size(); i++) {
+            Turn t = super.get(i);
             copies.add(c.clone());
             c.turn(t); //ok
             if (copies.contains(c)) {

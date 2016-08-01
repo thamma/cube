@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class AlgorithmTests {
 
     @Test
-    public void pPurgeSliceTurns() {
+    public void purgeSliceTurns() {
         for (String s : bigSet) {
             Algorithm alg = Algorithm.fromScramble(s);
             assertTrue(alg.clone().purgeSliceTurns().isCongruent(alg) != null);
@@ -39,7 +39,7 @@ public class AlgorithmTests {
     @Test
     public void selfInverseInverse() {
         for (String s : bigSet) {
-            Algorithm alg =Algorithm.fromScramble(s);
+            Algorithm alg = Algorithm.fromScramble(s);
             Cube cube = new Cube();
             cube.turn(alg).turn(alg.inverse());
             assertTrue(cube.isSolved());
@@ -52,6 +52,16 @@ public class AlgorithmTests {
             Algorithm compose = alg.clone();
             compose.addAll(alg.inverse());
             assertTrue(compose.cancelOut().length(Metrics.QTM) == 0);
+        }
+    }
+
+    @Test
+    public void raiseToOrderCancel() {
+        for (String s : bigSet) {
+            Algorithm alg = Algorithm.fromScramble(s);
+            // this would also work, however some high order algorithms explode if risen to their order, thus taking long to terminate
+            // assertTrue(alg.clone().power(alg.getOrder()).cancelOut().isCongruent(Algorithm.fromScramble(""))!= null);
+            assertTrue(alg.clone().power(alg.getOrder()).getOrder() == 1);
         }
     }
 
