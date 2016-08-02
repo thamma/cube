@@ -17,6 +17,9 @@
 # docs
 /docs
 
+# metainf
+/META-INF
+
 # Package Files #
 *.jar
 *.war
