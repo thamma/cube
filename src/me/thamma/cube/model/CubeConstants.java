@@ -23,10 +23,10 @@ public class CubeConstants {
         public static final Sticker[][] faceStickers = {upFace, frontFace, rightFace, downFace, backFace, leftFace};
 
         // Used for the alien solverModel
-        public static final Sticker[] alienFaceletDefinition = (Sticker[]) CubeUtils.mergeArrays(upFace, rightFace, frontFace,
+        public static final Sticker[] alienFaceletDefinition = (Sticker[]) CubeUtils.joinStickerArrays(upFace, rightFace, frontFace,
                 downFace, leftFace, backFace);
 
-        public static final Sticker[] defaultFaceletDefinition = (Sticker[]) CubeUtils.mergeArrays(upFace, frontFace, rightFace,
+        public static final Sticker[] defaultFaceletDefinition = (Sticker[]) CubeUtils.joinStickerArrays(upFace, frontFace, rightFace,
                 downFace, backFace, leftFace);
 
     }
@@ -34,8 +34,6 @@ public class CubeConstants {
     public static class Pieces {
         public static Piece[] corners = {Piece.ULB, Piece.UBR, Piece.UFL, Piece.URF, Piece.DLF, Piece.DFR, Piece.DBL, Piece.DRB};
         public static Piece[] edges = {Piece.UB, Piece.UL, Piece.UR, Piece.UF, Piece.BL, Piece.FL, Piece.FR, Piece.BR, Piece.DF, Piece.DL, Piece.DR, Piece.DB};
-        public static Piece[] cornersNEdges = {Piece.ULB, Piece.UBR, Piece.UFL, Piece.URF, Piece.DLF, Piece.DFR, Piece.DBL, Piece.DRB,
-                Piece.UB, Piece.UL, Piece.UR, Piece.UF, Piece.BL, Piece.FL, Piece.FR, Piece.BR, Piece.DF, Piece.DL, Piece.DR, Piece.DB};
     }
 
     public static class Cubes {

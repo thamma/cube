@@ -1,6 +1,7 @@
 package me.thamma.cube.model;
 
-import javax.print.DocFlavor;
+import me.thamma.cube.model.regex.CubeRegex;
+
 import java.util.Arrays;
 
 public class Cube {
@@ -31,7 +32,7 @@ public class Cube {
      * The default constructor. Initializes as a solved Cube.
      */
     public Cube() {
-        this(CubeConstants.DEFAULT_CUBE.clone());
+        this(CubeConstants.Cubes.DEFAULT_CUBE.clone());
     }
 
     /**
@@ -94,6 +95,15 @@ public class Cube {
         return this;
     }
 
+    public boolean matches(String cubeRegex) {
+        try {
+            return CubeRegex.compile(cubeRegex).matches(this);
+        } catch (Exception e) {
+            System.out.println("parse error");
+            return false;
+        }
+    }
+
     public int getColor(Sticker s) {
         int[] piece = this.getPiece(s.getPiece());
         return piece[2 - (s.getRotation() + piece[3]) % order(piece)];
@@ -135,7 +145,7 @@ public class Cube {
      */
     public Cube normalizeRotation() {
         Cube c;
-        for (Algorithm alg : CubeConstants.cubeOrientations) {
+        for (Algorithm alg : CubeConstants.Algorithms.cubeOrientations) {
             c = this.clone();
             c.turn(alg);
             if (c.getCurrentStickerAt(Sticker.U) == Sticker.U && c.getCurrentStickerAt(Sticker.F) == Sticker.F) {
@@ -181,9 +191,9 @@ public class Cube {
             return false;
         Cube local = this.normalizeRotation();
         Cube ref = ((Cube) o).normalizeRotation();
-        for (int i = 0; i < CubeConstants.faceStickers.length; i++)
-            for (int j = 0; j < CubeConstants.faceStickers[i].length; j++) {
-                if (local.getCurrentStickerAt(CubeConstants.faceStickers[i][j]) != ref.getCurrentStickerAt(CubeConstants.faceStickers[i][j]))
+        for (int i = 0; i < CubeConstants.Stickers.faceStickers.length; i++)
+            for (int j = 0; j < CubeConstants.Stickers.faceStickers[i].length; j++) {
+                if (local.getCurrentStickerAt(CubeConstants.Stickers.faceStickers[i][j]) != ref.getCurrentStickerAt(CubeConstants.Stickers.faceStickers[i][j]))
                     return false;
             }
         return true;
@@ -194,8 +204,20 @@ public class Cube {
      */
     public String getFaceletDefinition() {
         String out = "";
-        for (Sticker sticker : CubeConstants.faceletDefinition) // defines the order
+        for (Sticker sticker : CubeConstants.Stickers.defaultFaceletDefinition) // defines the order
             out += this.getCurrentStickerAt(sticker).toString().substring(0, 1);
+        return out;
+    }
+
+    /**
+     * @param faceletTour The order of facelets to be joined
+     * @return the facelet definition as used by the 2-phase algorithms cube implementation or null if the given tour was invalid
+     */
+    public String getFaceletDefinition(Sticker[] faceletTour) {
+        if (faceletTour.length != 54) return null;
+        String out = "";
+        for (Sticker sticker : faceletTour)
+            out += this.getCurrentStickerAt(sticker).toString().charAt(0);
         return out;
     }
 

@@ -26,21 +26,21 @@ public class MetricTests {
     };
 
     @Test
-    public void testQTM() {
+    public void correctQTM() {
         for (int i = 0; i < algorithms.length; i++) {
             assertTrue(algorithms[i].length(Metrics.QTM) == lengths[i][0]);
         }
     }
 
     @Test
-    public void testHTM() {
+    public void correctHTM() {
         for (int i = 0; i < algorithms.length; i++) {
             assertTrue(algorithms[i].length(Metrics.HTM) == lengths[i][1]);
         }
     }
 
     @Test
-    public void testSTM() {
+    public void correctSTM() {
         for (int i = 0; i < algorithms.length; i++) {
             assertTrue(algorithms[i].length(Metrics.STM) == lengths[i][2]);
         }

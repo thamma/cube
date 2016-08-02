@@ -201,8 +201,10 @@ public class Algorithm extends ArrayList<Turn> {
      * @return A reference to the current Algorithm Object
      */
     public Algorithm power(int exponent) {
-        if (exponent == 0)
+        if (exponent == 0) {
             this.clear();
+            return this;
+        }
         Algorithm temp = new Algorithm();
         for (int j = 0; j < Math.abs(exponent); j++)
             temp.addAll(this);
@@ -301,8 +303,8 @@ public class Algorithm extends ArrayList<Turn> {
         int range = 0;
         Cube c = new Cube();
         List<Cube> copies = new ArrayList<>(super.size());
-        for (int i = 0; i < this.size(); i++) {
-            Turn t = this.get(i);
+        for (int i = 0; i < super.size(); i++) {
+            Turn t = super.get(i);
             copies.add(c.clone());
             c.turn(t); //ok
             if (copies.contains(c)) {
