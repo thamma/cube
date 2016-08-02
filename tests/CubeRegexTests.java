@@ -1,5 +1,8 @@
+import me.thamma.cube.model.Algorithm;
 import me.thamma.cube.model.Cube;
 import org.junit.Test;
+
+import java.util.Random;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -49,8 +52,30 @@ public class CubeRegexTests {
     }
 
     @Test
+    public void edgeOrientation() {
+        Algorithm[] invariants = new Algorithm[]{Algorithm.fromScramble("F2"), Algorithm.fromScramble("B2"), Algorithm.fromScramble("R"), Algorithm.fromScramble("L"), Algorithm.fromScramble("U"), Algorithm.fromScramble("D")};
+        Random random = new Random();
+        Cube cube = new Cube();
+        for (int i = 0; i < 100; i++) {
+            cube.turn(invariants[random.nextInt(6)]);
+            assertTrue(cube.matches(".o.o.o.o.(.)18.o.o.o.o.(.)18"));
+        }
+    }
+
+    @Test
+    public void cornerOrientation() {
+        Algorithm[] invariants = new Algorithm[]{Algorithm.fromScramble("F2"), Algorithm.fromScramble("B2"), Algorithm.fromScramble("R2"), Algorithm.fromScramble("L2"), Algorithm.fromScramble("U"), Algorithm.fromScramble("D")};
+        Random random = new Random();
+        Cube cube = new Cube();
+        for (int i = 0; i < 100; i++) {
+            cube.turn(invariants[random.nextInt(6)]);
+            assertTrue(cube.matches("o.o...o.o(.)18o.o...o.o(.)18"));
+        }
+    }
+
+    @Test
     public void matchScramble() {
-        for (String s: AlgorithmTests.bigSet) {
+        for (String s : AlgorithmTests.bigSet) {
             Cube scrambledCube = Cube.fromScramble(s);
             assertTrue(scrambledCube.clone().normalizeRotation().matches(scrambledCube.clone().normalizeRotation().getFaceletDefinition()));
         }

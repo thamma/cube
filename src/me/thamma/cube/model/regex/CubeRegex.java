@@ -10,10 +10,10 @@ import java.util.Arrays;
 
 public class CubeRegex {
 
-    public RegexToken[][] pattern;
+    private RegexToken[][] pattern;
     private RegexToken[][] exactMatch;
 
-    public CubeRegex() {
+    private CubeRegex() {
         this.pattern = new RegexToken[54][];
         this.exactMatch = new RegexToken[54][];
         Arrays.fill(this.pattern, new RegexToken[]{RegexToken.ANY});
@@ -36,7 +36,7 @@ public class CubeRegex {
             if (input.charAt(0) == '(') {
                 if (!input.contains(")")) throw new Exception("no ')'");
                 String inner = input.substring(1, input.indexOf(")"));
-                input = input.replace(String.format("(%s)", inner), "");
+                input = input.substring(inner.length() + 2);
                 if (!inner.contains(":")) {
                     int factor = -1;
                     for (int i = 0; i < input.length(); i++) {
@@ -110,6 +110,7 @@ public class CubeRegex {
         for (int i = 0; i < tokens.length; i++)
             if (tokens[i].matches(sticker, piece))
                 return true;
+        System.out.println(sticker + " failed on " + Arrays.toString(piece));
         return false;
     }
 }
