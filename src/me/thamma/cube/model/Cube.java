@@ -99,6 +99,7 @@ public class Cube {
         try {
             return CubeRegex.compile(cubeRegex).matches(this);
         } catch (Exception e) {
+            System.out.println("parse error");
             return false;
         }
     }

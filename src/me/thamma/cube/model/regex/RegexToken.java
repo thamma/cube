@@ -4,34 +4,46 @@ import me.thamma.cube.model.Sticker;
 
 public enum RegexToken {
 
-    UP, FRONT, RIGHT, DOWN, BACK, LEFT, ANY;
+    UP, FRONT, RIGHT, DOWN, BACK, LEFT, ANY, ORIENTED;
 
     RegexToken() {
 
     }
 
-    public boolean matches(Sticker sticker) {
-        return (this == ANY || sticker.toString().charAt(0) == this.name().charAt(0));
+    public boolean matches(Sticker sticker, int[] piece) {
+        return (this == ANY || sticker.toString().charAt(0) == this.name().charAt(0) || this == ORIENTED && piece[piece.length - 1] == 0);
     }
 
-    public static RegexToken fromRegex(String s) {
-        switch (s.toUpperCase()) {
-            case ".":
+    public static RegexToken fromRegex(char c) {
+        switch ((c + "").toUpperCase().charAt(0)) {
+            case '.':
                 return RegexToken.ANY;
-            case "U":
+            case 'U':
                 return RegexToken.UP;
-            case "F":
+            case 'F':
                 return RegexToken.FRONT;
-            case "R":
+            case 'R':
                 return RegexToken.RIGHT;
-            case "D":
+            case 'D':
                 return RegexToken.DOWN;
-            case "B":
+            case 'B':
                 return RegexToken.BACK;
-            case "L":
+            case 'L':
                 return RegexToken.LEFT;
+            case 'o':
+                return RegexToken.ORIENTED;
             default:
                 return null;
         }
+    }
+
+    public static RegexToken[] fromRegex(String s) {
+        RegexToken[] out = new RegexToken[s.split("\\|").length];
+        String[] split = s.split("\\|");
+        for (int i = 0; i < split.length; i++) {
+            String t = split[i];
+            out[i] = fromRegex(t.charAt(0));
+        }
+        return out;
     }
 }
