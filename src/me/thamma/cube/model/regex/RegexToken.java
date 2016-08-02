@@ -30,7 +30,7 @@ public enum RegexToken {
                 return RegexToken.BACK;
             case 'L':
                 return RegexToken.LEFT;
-            case 'o':
+            case 'O':
                 return RegexToken.ORIENTED;
             default:
                 return null;

@@ -49,6 +49,11 @@ public class CubeRegexTests {
     }
 
     @Test
+    public void matchOrientation() {
+        assertTrue(Cube.fromScramble("F2 B2 L2 R2").matches("(o)54"));
+    }
+
+    @Test
     public void matchScramble() {
         for (String s: AlgorithmTests.bigSet) {
             Cube scrambledCube = Cube.fromScramble(s);

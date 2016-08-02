@@ -76,11 +76,11 @@ public class CubeRegex {
                     }
                 }
             } else {
+                System.out.printf("doing %s, %s\n", input, input.charAt(0));
                 RegexToken token = RegexToken.fromRegex(input.charAt(0));
                 input = input.substring(1);
                 if (token == null)
-
-                    throw new Exception("illegal token found: " + input.charAt(0));
+                    throw new Exception(String.format("illegal token found: %s, input: %s", input.charAt(0), input));
                 this.pattern[slot++] = new RegexToken[]{token};
             }
         }
