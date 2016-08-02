@@ -24,8 +24,10 @@ public class Cycle extends ArrayList<Sticker> {
             start = start.rotate();
             this.parity = true;
         }
-        if (this.parity)
-            this.add(start);
+        if (this.parity) {
+            this.remove(0);
+            this.add(0, start);
+        }
     }
 
     private boolean containsPiece(Piece piece) {

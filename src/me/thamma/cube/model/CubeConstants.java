@@ -34,7 +34,7 @@ public class CubeConstants {
     public static class Pieces {
         public static Piece[] corners = {Piece.ULB, Piece.UBR, Piece.UFL, Piece.URF, Piece.DLF, Piece.DFR, Piece.DBL, Piece.DRB};
         public static Piece[] edges = {Piece.UB, Piece.UL, Piece.UR, Piece.UF, Piece.BL, Piece.FL, Piece.FR, Piece.BR, Piece.DF, Piece.DL, Piece.DR, Piece.DB};
-        public static Piece[] cube = Piece.values();
+        public static Piece[] cube = {Piece.ULB, Piece.UB, Piece.UBR, Piece.UL, Piece.UFL, Piece.UR, Piece.URF, Piece.UF, Piece.BL, Piece.FL, Piece.FR, Piece.BR, Piece.DLF, Piece.DF, Piece.DFR, Piece.DL, Piece.DR, Piece.DBL, Piece.DB, Piece.DRB};
     }
 
     public static class Cubes {

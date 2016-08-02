@@ -90,7 +90,8 @@ public class AlgorithmTests {
 
 
     public static String[] bigSet = {
-            " [[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]",
+            "U' R F' D2",
+            "[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]",
             "M2 U M U2 M' U M2",
             "R U R' U' R' F R2 U' R' U' R U R' F'",
             "y' L' R' U2 L R (y) L U' R U2 L' U R' U2",

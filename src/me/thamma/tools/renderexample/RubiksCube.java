@@ -13,9 +13,7 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
-import me.thamma.cube.model.Algorithm;
-import me.thamma.cube.model.Cube;
-import me.thamma.cube.model.Sticker;
+import me.thamma.cube.model.*;
 import me.thamma.utils.CubeUtils;
 
 import java.util.Arrays;
@@ -121,11 +119,12 @@ public class RubiksCube extends Application {
     private Rotate rotateY;
 
     private boolean prime;
+    private boolean blockinputs = false;
 
     @Override
     public void start(Stage primaryStage) {
         prime = false;
-        cube = new Cube();
+        cube = Cube.randomCube();
         //cube.turn(new Algorithm("[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]"));
         Group sceneRoot = new Group();
         Scene scene = new Scene(sceneRoot, 600, 600, true, SceneAntialiasing.BALANCED);
@@ -141,7 +140,8 @@ public class RubiksCube extends Application {
             //System.out.println(prime);
         });
         scene.setOnKeyTyped(e -> {
-
+            if (blockinputs)
+                return;
             Algorithm a = Algorithm.fromScramble("" + e.getCharacter().toUpperCase() + (prime ? "'" : ""));
             cube.turn(a);
             sceneRoot.getChildren().clear();
@@ -161,15 +161,36 @@ public class RubiksCube extends Application {
         new Thread(() -> {
             while (true) {
                 String s = scanner.nextLine();
+                if (blockinputs) continue;
                 if (s.equals("solve")) {
                     this.cube = new Cube();
                 } else if (s.equals("solution")) {
                     System.out.printf("Computing solution...\n");
-                    System.out.printf("> %s\n",CubeUtils.anySolve(this.cube));
+                    System.out.printf("> %s\n", CubeUtils.anySolve(this.cube));
                     continue;
+                } else if (s.equals("simulation")) {
+                    blockinputs = true;
+                    if (this.cube.isSolved()) this.cube = Cube.randomCube();
+                    Algorithm algorithm = Algorithm.fromCube(this.cube);
+                    new Thread(() -> {
+                        for (Turn t : algorithm) {
+                            this.cube.turn(t);
+                            Platform.runLater(() -> {
+                                loadCube(cube);
+                                renderCube(scene, sceneRoot, primaryStage);
+                            });
+                            try {
+                                Thread.sleep(750);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        blockinputs = false;
+                    }).start();
                 } else {
                     Algorithm algorithm = Algorithm.fromScramble(s);
                     this.cube.turn(algorithm);
+                    System.out.println(this.cube.matches(".o.o.o.o.(.)18.o.o.o.o.(.)18"));
                 }
                 Platform.runLater(() -> {
                     loadCube(cube);

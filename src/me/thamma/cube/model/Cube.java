@@ -2,7 +2,7 @@ package me.thamma.cube.model;
 
 import me.thamma.cube.model.regex.CubeRegex;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Cube {
 
@@ -62,6 +62,63 @@ public class Cube {
     public static Cube fromScramble(String scramble) {
         return new Cube(Algorithm.fromScramble(scramble));
     }
+
+    public static Cube fromStickers(Piece[] pieces, int[] rotations) {
+        List<String> list = new ArrayList<>(Piece.values().length);
+        for (int i = 0; i < pieces.length; i++) {
+            String temp = "";
+            for (char c : pieces[i].name().toCharArray())
+                temp = new int[]{5, 4, 2, 6, 3, 1}[(Arrays.binarySearch("BDFLRU".toCharArray(), c))] + temp;
+            temp += rotations[i];
+            list.add(temp);
+        }
+        int[] construct = list.stream().mapToInt(Integer::parseInt).toArray();
+        return new Cube(construct);
+    }
+
+    public static Cube randomCube() {
+        Random random = new Random();
+        List<Integer> list = new ArrayList<>(8);
+        for (int i = 0; i < 8; i++) {
+            list.add(i);
+        }
+        Collections.shuffle(list);
+        int[] cornerPermutation = list.stream().mapToInt(Integer::intValue).toArray();
+        for (int i = 0; i < 4; i++) {
+            list.add(i + 8);
+        }
+        Collections.shuffle(list);
+        int[] edgePermutation = list.stream().mapToInt(Integer::intValue).toArray();
+        Piece[] pieces = new Piece[26];
+        int[] cornerSlots = {0, 2, 6, 8, 17, 19, 23, 25};
+        int[] edgeSlots = {1, 3, 5, 7, 9, 11, 13, 15, 18, 20, 22, 24};
+        int[] centerSlots = {4, 10, 12, 14, 16, 21};
+        for (int i = 0; i < cornerSlots.length; i++)
+            pieces[cornerSlots[i]] = Piece.values()[cornerSlots[cornerPermutation[i]]];
+        for (int i = 0; i < edgeSlots.length; i++)
+            pieces[edgeSlots[i]] = Piece.values()[edgeSlots[edgePermutation[i]]];
+        for (int i = 0; i < centerSlots.length; i++) {
+            pieces[centerSlots[i]] = Piece.values()[centerSlots[i]];
+        }
+        int[] rotations = new int[26];
+        for (int i = 0; i < cornerSlots.length; i++)
+            rotations[cornerSlots[i]] = random.nextInt(3);
+        for (int i = 0; i < edgeSlots.length; i++)
+            rotations[edgeSlots[i]] = random.nextInt(2);
+        Cube out = Cube.fromStickers(pieces, rotations);
+        while (out.hasOrientationParity()) {
+            out.pieces[0] = out.pieces[0] / 10 * 10 + ((out.pieces[0] % 10 + 1) % 3);
+            out.pieces[1] = out.pieces[1] / 10 * 10 + ((out.pieces[1] % 10 + 1) % 2);
+        }
+        if (out.hasPermutationParity()) {
+            int temp = out.pieces[0];
+            out.pieces[0] = out.pieces[2];
+            out.pieces[2] = temp;
+        }
+        return out;
+
+    }
+
     //
     //  public methods
     //
@@ -99,6 +156,7 @@ public class Cube {
         try {
             return CubeRegex.compile(cubeRegex).matches(this);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("parse error");
             return false;
         }
@@ -221,9 +279,39 @@ public class Cube {
         return out;
     }
 
+    public boolean hasParity() {
+        return this.hasPermutationParity() || this.hasOrientationParity();
+    }
+
     //
     //  private methods
     //
+
+    private boolean hasPermutationParity() {
+        Cube cube = this.clone().normalizeRotation();
+        Cycles cycles = new Cycles(cube);
+        int count = 0;
+        for (Cycle cycle : cycles)
+            if (cycle.size() % 2 == 0)
+                count++;
+        return (count % 2 != 0);
+    }
+
+    private boolean hasOrientationParity() {
+        int count = 0;
+        for (Piece piece : CubeConstants.Pieces.corners) {
+            int[] p = this.getPiece(piece);
+            count += p[p.length - 1];
+        }
+        if (count % 3 != 0)
+            return true;
+        count = 0;
+        for (Piece piece : CubeConstants.Pieces.edges) {
+            int[] p = this.getPiece(piece);
+            count += p[p.length - 1];
+        }
+        return count % 2 != 0;
+    }
 
     /**
      * Rotates the given piece by the specified rotation. For example
