@@ -1,27 +1,20 @@
 *.class
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
 # Intellij configuration
 /.idea
 *.iml
-
 # Compiled sources
 /out
 /docs
 /target
-
 # Debug main
-/src/me/thamma/cube/Main.java
-
+# /src/me/thamma/cube/Main.java
 # docs
 /docs
-
 # Package Files #
 *.jar
 *.war
 *.ear
-
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
