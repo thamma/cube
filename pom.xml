@@ -48,7 +48,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>me.thamma.tools.renderexample.RubiksCube</mainClass>
+                            <mainClass>me.thamma.tools.telegramBot.CubeBot</mainClass>
                         </manifest>
                     </archive>
                     <outputDirectory>${basedir}/target/assembly/</outputDirectory>
