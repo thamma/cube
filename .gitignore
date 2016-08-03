@@ -10,6 +10,7 @@
 # Compiled sources
 /out
 /docs
+/target
 
 # Debug main
 /src/me/thamma/cube/Main.java

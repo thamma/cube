@@ -225,7 +225,7 @@ public class RubiksCube extends Application {
 
         PhongMaterial mat = new PhongMaterial();
         // image can be found here http://i.stack.imgur.com/uN4dv.png
-        mat.setDiffuseMap(new Image(getClass().getResourceAsStream("palette.png")));
+        mat.setDiffuseMap(new Image(getClass().getResourceAsStream("/palette.png")));
 
         Group meshGroup = new Group();
 
