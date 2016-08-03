@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="260.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.thamma.tools.commutator.CommutatorGuiController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <children>
+      <VBox alignment="CENTER" layoutX="72.0" layoutY="41.0" prefHeight="364.0" prefWidth="475.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane />
+            <AnchorPane>
+               <children>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="✓" visible="false" />
+                        <Label text="▶" />
+                        <TextField fx:id="stickerTextField1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="65.0" text="URF">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </TextField>
+                        <Label text="▶" />
+                        <TextField fx:id="stickerTextField2" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="65.0" text="URF">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </TextField>
+                        <Label text="▶" />
+                        <TextField fx:id="stickerTextField3" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="65.0" text="URF">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </TextField>
+                        <Label text="✓" visible="false" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="42.0" prefWidth="411.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="394.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label fx:id="tickLabel13" text="✓" visible="false" />
+                                    <TextField fx:id="algorithmTextField1" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="350.0" />
+                                    <Label fx:id="tickLabel1" text="✓" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <Label fx:id="algorithmLabel1" text="Label">
+                           <font>
+                              <Font size="11.0" />
+                           </font></Label>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="23.0" prefWidth="411.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="▶" />
+                        <TextField fx:id="cycleTextField1" alignment="CENTER" disable="true" editable="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="65.0" text="URF">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </TextField>
+                        <Label text="▶" />
+                        <TextField fx:id="cycleTextField2" alignment="CENTER" disable="true" editable="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="65.0" text="URF">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </TextField>
+                        <Label text="▶" />
+                        <TextField fx:id="cycleTextField3" alignment="CENTER" disable="true" editable="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="65.0" text="URF">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="42.0" prefWidth="459.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="394.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label fx:id="tickLabel12" text="✓" visible="false" />
+                                    <TextField fx:id="algorithmTextField2" disable="true" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="350.0" />
+                                    <Label fx:id="tickLabel2" text="✓" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <Label fx:id="algorithmLabel2" text="Label">
+                           <font>
+                              <Font size="11.0" />
+                           </font></Label>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="411.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="button" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="8.0" left="8.0" right="8.0" top="10.0" />
+   </padding>
+</AnchorPane>
