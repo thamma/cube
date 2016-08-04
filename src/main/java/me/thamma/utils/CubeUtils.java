@@ -46,7 +46,8 @@ public class CubeUtils {
     public static Algorithm perfectSolve(Cube cube) {
         String solution = "Error";
         for (int i = 0; i < 21 && solution.contains("Error"); i++) {
-            solution = Search.solution(cube.normalizeRotation().getFaceletDefinition(CubeConstants.Stickers.alienFaceletDefinition), i, 35, false);
+            System.out.println("Trying depth: " + i);
+            solution = Search.solution(cube.normalizeRotation().getFaceletDefinition(CubeConstants.Stickers.alienFaceletDefinition), i, 12, false);
         }
         return Algorithm.fromScramble(solution);
     }
