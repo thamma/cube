@@ -21,6 +21,15 @@ public class CubeBot extends TelegramLongPollingBot {
 
     private String botToken;
 
+    public CubeBot(String token) {
+        this();
+        this.botToken = token;
+    }
+
+    public CubeBot() {
+
+    }
+
     @Override
     public String getBotToken() {
         if (this.botToken == null) {
@@ -55,12 +64,12 @@ public class CubeBot extends TelegramLongPollingBot {
                             "/minimize [algorithm]\t-\tdisplays the 2-Phase optimal solution of the given algorithm\n",
                     message);
         else if (message.getText().toLowerCase().startsWith("/analyze")) {
-            String scramble = message.getText().substring(10);
+            String scramble = message.getText().substring(8);
             if (CubeUtils.isValidAlgorithm(scramble)) {
                 analyzeAlgorithm(Algorithm.fromScramble(scramble), message);
             } else sendMessage("Could not parse the given algorithm!", message);
         } else if (message.getText().toLowerCase().startsWith("/minimize")) {
-            String scramble = message.getText().substring(10);
+            String scramble = message.getText().substring(9);
             if (CubeUtils.isValidAlgorithm(scramble)) {
                 Algorithm algorithm = Algorithm.fromScramble(scramble);
                 sendMessage("This might take some time…");
@@ -113,11 +122,16 @@ public class CubeBot extends TelegramLongPollingBot {
     }
 
     public static void main(String... args) {
-        CubeBot echoBot = new CubeBot();
+        CubeBot cubeBot;
+        if (args.length > 0)
+            cubeBot = new CubeBot(args[0]);
+        else
+            cubeBot = new CubeBot();
+        CubeBot finalCubeBot = cubeBot;
         new Thread(() -> {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             try {
-                telegramBotsApi.registerBot(echoBot);
+                telegramBotsApi.registerBot(finalCubeBot);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
