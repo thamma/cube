@@ -45,11 +45,8 @@ public class CubeUtils {
 
     public static Algorithm perfectSolve(Cube cube) {
         String solution = "Error";
-        int[] smartOrder = {0, 20, 1, 19, 2, 18, 3, 17, 4, 16, 5, 15, 6, 14, 7, 13, 8, 12, 9, 11, 10}; //to iterate extreme cases much faster
         for (int i = 0; i < 21 && solution.contains("Error"); i++) {
-            System.out.println("Trying depth: " + smartOrder[i]);
-            solution = Search.solution(cube.normalizeRotation().getFaceletDefinition(CubeConstants.Stickers.alienFaceletDefinition), smartOrder[i], 30, false);
-            System.out.println("\tfound: " + solution);
+            solution = Search.solution(cube.normalizeRotation().getFaceletDefinition(CubeConstants.Stickers.alienFaceletDefinition), i, 35, false);
         }
         return Algorithm.fromScramble(solution);
     }

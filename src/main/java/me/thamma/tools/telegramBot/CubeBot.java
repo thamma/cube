@@ -1,6 +1,8 @@
 package me.thamma.tools.telegramBot;
 
+import me.thamma.cube.model.Algorithm;
 import me.thamma.cube.model.Cube;
+import me.thamma.cube.model.Metrics;
 import me.thamma.utils.CubeUtils;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.TelegramBotsApi;
@@ -49,14 +51,29 @@ public class CubeBot extends TelegramLongPollingBot {
             sendMessage("Welcome!\nType /help for a list of commands!", message);
         else if (message.getText().equalsIgnoreCase("/help"))
             sendMessage("/help\t-\tdisplay this help page\n" +
-                    "/minimize [algorithm]\t-\treturns a minimized version of the provided algorithm", message);
-        else if (message.getText().toLowerCase().startsWith("/minimize")) {
-            String alg = message.getText().substring(10);
-            sendMessage(String.format("I'll try my best!"), message);
-            if (CubeUtils.isValidAlgorithm(alg)) {
-                sendMessage(String.format("Minimized version: %s", CubeUtils.solve(Cube.fromScramble(alg), 20)), message);
+                            "/analyze [algorithm]\t-\tdisplays general information about the given algorithm\n" +
+                            "/minimize [algorithm]\t-\tdisplays the 2-Phase optimal solution of the given algorithm\n",
+                    message);
+        else if (message.getText().toLowerCase().startsWith("/analyze")) {
+            String scramble = message.getText().substring(10);
+            if (CubeUtils.isValidAlgorithm(scramble)) {
+                analyzeAlgorithm(Algorithm.fromScramble(scramble), message);
+            } else sendMessage("Could not parse the given algorithm!", message);
+        } else if (message.getText().toLowerCase().startsWith("/minimize")) {
+            String scramble = message.getText().substring(10);
+            if (CubeUtils.isValidAlgorithm(scramble)) {
+                Algorithm algorithm = Algorithm.fromScramble(scramble);
+                sendMessage("This might take some time…");
+                sendMessage(String.format("Optimal solution: %s", CubeUtils.perfectSolve(new Cube().turn(algorithm)).cancelOut()));
             } else sendMessage("Could not parse the given algorithm!", message);
         }
+    }
+
+    private void analyzeAlgorithm(Algorithm raw, Message recipient) {
+        String spacer = new String(new char[raw.toString().length() + 2]).replace("\0", "-");
+        Algorithm algorithm = raw.clone().cancelOut();
+        sendMessage(String.format("Raw input: %s\n%s\nCancelled out version: %s\nRotation purged version: %s\nCycles: %s\nOrder: %d\nLength (Q/H/S): %d/%d/%d\n2-Phase suboptimal solution: %s\nFor an optimal solution, see /minimize",
+                raw, spacer, algorithm, algorithm.clone().purgeRotations(), algorithm.getCycles(), algorithm.getOrder(), algorithm.length(Metrics.QTM), algorithm.length(Metrics.HTM), algorithm.length(Metrics.STM), CubeUtils.anySolve(new Cube().turn(algorithm)).cancelOut()), recipient);
 
     }
 
