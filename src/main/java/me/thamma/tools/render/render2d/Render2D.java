@@ -12,9 +12,15 @@ public class Render2D {
     private Cube cube;
 
     private final int HEIGHT = 9, WIDTH = 12;
-    private final Pixel[] colorPixelMap = {new Pixel(0, 0, 0),
-            new Pixel(0, 255, 0), new Pixel(255, 0, 0), new Pixel(255, 255, 0),
-            new Pixel(0, 0, 255), new Pixel(255, 165, 0), new Pixel(255, 255, 255)};
+    Pixel black = new Pixel(0, 0, 0);
+    Pixel blue = new Pixel(0, 0, 255);
+    Pixel red = new Pixel(255, 0, 0);
+    Pixel yellow = new Pixel(255,255, 0);
+    Pixel green = new Pixel(0, 255, 0);
+    Pixel orange = new Pixel(255, 165, 0);
+    Pixel white = new Pixel(255, 255, 255);
+
+    private final Pixel[] colorPixelMap = {black, blue, red, yellow, green, orange, white};
     //* U F R D B L null
     //* 1 2 3 4 5 6  0
 
@@ -64,10 +70,7 @@ public class Render2D {
     }
 
     private Pixel getPixelFor(int i, int j) {
-        if (stickerTour[i * this.WIDTH + j] == null)
-            return new Pixel(0, 0, 0);
-        else
-            return this.colorPixelMap[this.cube.getColor(stickerTour[i * this.WIDTH + j])].clone();
+        return this.colorPixelMap[stickerTour[i * this.WIDTH + j] == null ? 0 : this.cube.getColor(stickerTour[i * this.WIDTH + j])].clone();
     }
 
 }
