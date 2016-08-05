@@ -1,4 +1,4 @@
-package me.thamma.tools.renderexample;
+package me.thamma.tools.render.render3d;
 
 import javafx.application.Application;
 import javafx.application.Platform;
