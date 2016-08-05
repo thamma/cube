@@ -59,14 +59,14 @@ public class CubeBot extends TelegramLongPollingBot {
 
         Message message = update.getMessage();
 
-        if (message.getText().equalsIgnoreCase("/start"))
+        if (message.getText().equalsIgnoreCase("/start")) {
             sendMessage("Welcome!\nType /help for a list of commands!", message);
-        else if (message.getText().equalsIgnoreCase("/help"))
+        } else if (message.getText().equalsIgnoreCase("/help")) {
             sendMessage("/help\t-\tdisplay this help page\n" +
                             "/analyze [algorithm]\t-\tdisplays general information about the given algorithm\n" +
                             "/minimize [algorithm]\t-\tdisplays the 2-Phase optimal solution of the given algorithm\n",
                     message);
-        else if (message.getText().toLowerCase().startsWith("/testFile")) {
+        } else if (message.getText().toLowerCase().startsWith("/testFile")) {
             sendFile("TestString", message);
         } else if (message.getText().toLowerCase().startsWith("/analyze")) {
             String scramble = message.getText().substring(8);
