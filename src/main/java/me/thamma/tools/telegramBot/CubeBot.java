@@ -68,7 +68,7 @@ public class CubeBot extends TelegramLongPollingBot {
         } else if (message.getText().equalsIgnoreCase("/help")) {
             sendMessage("/help\t-\tdisplay this help page\n" +
                             "/analyze [algorithm]\t-\tdisplays general information about the given algorithm\n",
-                     //       "/minimize [algorithm]\t-\tdisplays the 2-Phase optimal solution of the given algorithm\n",
+                    //       "/minimize [algorithm]\t-\tdisplays the 2-Phase optimal solution of the given algorithm\n",
                     message);
         } else if (message.getText().toLowerCase().startsWith("/analyze")) {
             String scramble = message.getText().substring(8);
@@ -76,14 +76,13 @@ public class CubeBot extends TelegramLongPollingBot {
                 sendCube(Cube.fromScramble(scramble), "", message);
                 analyzeAlgorithm(Algorithm.fromScramble(scramble), message);
             } else sendMessage("Could not parse the given algorithm!", message);
-        //} else if (message.getText().toLowerCase().startsWith("/minimize")) {
-        //    String scramble = message.getText().substring(9);
-        //    if (CubeUtils.isValidAlgorithm(scramble)) {
-        //        Algorithm algorithm = Algorithm.fromScramble(scramble);
-        //        sendMessage("This might take some time...");
-        //        sendMessage(String.format("Optimal solution: %s", CubeUtils.perfectSolve(new Cube().turn(algorithm)).cancelOut()));
-        //    } else sendMessage("Could not parse the given algorithm!", message);
-        //
+            //} else if (message.getText().toLowerCase().startsWith("/minimize")) {
+            //    String scramble = message.getText().substring(9);
+            //    if (CubeUtils.isValidAlgorithm(scramble)) {
+            //        Algorithm algorithm = Algorithm.fromScramble(scramble);
+            //        sendMessage("This might take some time...");
+            //        sendMessage(String.format("Optimal solution: %s", CubeUtils.perfectSolve(new Cube().turn(algorithm)).cancelOut()));
+            //    } else sendMessage("Could not parse the given algorithm!", message);
         }
     }
 
