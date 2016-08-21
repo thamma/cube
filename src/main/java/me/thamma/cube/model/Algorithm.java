@@ -86,15 +86,18 @@ public class Algorithm extends ArrayList<Turn> {
         return this;
     }
 
-
-    public Algorithm mirror(Turn translation) {
+    public Algorithm mirror(Axis axis) {
         Algorithm temp = new Algorithm();
         for (int i = 0; i < super.size(); i++)
-            temp.add(super.get(i).mirrorTurn(translation));
+            temp.add(super.get(i).mirrorTurn(axis));
         this.rawInput = null;
         this.clear();
         this.addAll(temp);
         return this;
+    }
+
+    public Algorithm mirror(Turn translation) {
+        return mirror(translation.getAxis());
     }
 
     /**

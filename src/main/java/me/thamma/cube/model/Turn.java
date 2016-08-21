@@ -317,7 +317,11 @@ public enum Turn {
     }
 
     public Turn mirrorTurn(Turn translation) {
-        return this.lookupMirrors()[translation.getAxis().ordinal()];
+        return mirrorTurn(translation.getAxis());
+    }
+
+    public Turn mirrorTurn(Axis axis) {
+        return this.lookupMirrors()[axis.ordinal()];
     }
 
     //
