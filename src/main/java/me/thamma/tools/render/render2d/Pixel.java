@@ -9,6 +9,10 @@ public class Pixel {
         this.blue = b;
     }
 
+    public Pixel() {
+        this(0,0,0);
+    }
+
     public int getBlue() {
         return this.blue;
     }

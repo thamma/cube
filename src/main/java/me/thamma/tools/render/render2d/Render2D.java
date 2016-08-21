@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 import static me.thamma.cube.model.Sticker.*;
 
-public class Render2D {
+public class    Render2D {
 
     private Cube cube;
 

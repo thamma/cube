@@ -13,6 +13,9 @@ public class PixMap {
         this.height = height;
         this.width = width;
         this.pixels = new Pixel[height][width];
+        for (int i = 0; i < this.pixels.length; i++)
+            for (int j = 0; j < this.pixels[i].length; j++)
+                this.pixels[i][j] = new Pixel();
     }
 
     public PixMap scale(int factor) {
@@ -22,6 +25,16 @@ public class PixMap {
                 for (int k = factor * i; k < factor * (i + 1); k++)
                     for (int l = factor * j; l < factor * (j + 1); l++)
                         out.setPixel(this.getPixel(i, j).clone(), k, l);
+        return out;
+    }
+
+    public PixMap border(int size) {
+        PixMap out = new PixMap(this.height + 2 * size, this.width + 2 * size);
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                out.setPixel(this.getPixel(i, j).clone(), i + size, j + size);
+            }
+        }
         return out;
     }
 

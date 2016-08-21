@@ -5,8 +5,11 @@ import me.thamma.cube.algorithmInterpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.utils.CubeUtils;
+import me.thamma.utils.MathUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Algorithm extends ArrayList<Turn> {
@@ -288,13 +291,33 @@ public class Algorithm extends ArrayList<Turn> {
     public String toString() {
         if (this.size() == 0)
             return "1";
-        if (this.rawInput != null)
-            return this.rawInput;
-        return String.join(" ", Arrays.stream(this.toArray()).map(Object::toString).collect(Collectors.toList()));
+        if (this.rawInput == null)
+            generateRawInput();
+        return this.rawInput;
+    }
+
+    private void generateRawInput() {
+        Algorithm alg = this.clone().groupTurns();
+        StringBuilder out = new StringBuilder();
+        int amount = 0;
+        Turn prev = null;
+        for (int i = 0; i < alg.size(); i++) {
+            if (prev != alg.get(i)) {
+                if (prev != null) {
+                    out.append(prev.toString() + (amount == 1 ? "" : amount + "") + " ");
+                }
+                amount = 0;
+            }
+            prev = alg.get(i);
+            amount++;
+        }
+        if (prev != null)
+            out.append(prev.toString() + (amount == 1 ? "" : amount + "") + " ");
+        this.rawInput = out.toString();
     }
 
     public String rawString() {
-        return super.toString();
+        return String.join(" ", Arrays.stream(this.toArray()).map(Object::toString).collect(Collectors.toList()));
     }
 
     private void simplifyLoop() {
@@ -316,6 +339,7 @@ public class Algorithm extends ArrayList<Turn> {
                 }
             }
         }
+        System.out.printf("lower: %d, upper: %d, range: %d\n", lower, upper, range);
         if (range > 0)
             this.removeRange(lower, upper + 1);
     }
@@ -332,6 +356,11 @@ public class Algorithm extends ArrayList<Turn> {
     }
 
     public int getOrder() {
-        return new Cycles(this).getOrder();
+        //TODO this needs love again for the bottom variant to work
+        int order = 1;
+        for (Cycle cycle : this.getCycles())
+            order = MathUtils.lcm(order, cycle.getOrder());
+        return order;
+        //return new Cycles(this).getOrder();
     }
 }

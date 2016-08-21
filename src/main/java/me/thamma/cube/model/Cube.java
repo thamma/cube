@@ -1,7 +1,13 @@
 package me.thamma.cube.model;
 
 import me.thamma.cube.model.regex.CubeRegex;
+import me.thamma.tools.render.render2d.PixMap;
+import me.thamma.tools.render.render2d.Render2D;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class Cube {
@@ -78,17 +84,20 @@ public class Cube {
 
     public static Cube randomCube() {
         Random random = new Random();
+        // setup corner permutation array
         List<Integer> list = new ArrayList<>(8);
         for (int i = 0; i < 8; i++) {
             list.add(i);
         }
         Collections.shuffle(list);
         int[] cornerPermutation = list.stream().mapToInt(Integer::intValue).toArray();
+        // setup edge permutation array
         for (int i = 0; i < 4; i++) {
             list.add(i + 8);
         }
         Collections.shuffle(list);
         int[] edgePermutation = list.stream().mapToInt(Integer::intValue).toArray();
+        // init cube
         Piece[] pieces = new Piece[26];
         int[] cornerSlots = {0, 2, 6, 8, 17, 19, 23, 25};
         int[] edgeSlots = {1, 3, 5, 7, 9, 11, 13, 15, 18, 20, 22, 24};
@@ -97,15 +106,16 @@ public class Cube {
             pieces[cornerSlots[i]] = Piece.values()[cornerSlots[cornerPermutation[i]]];
         for (int i = 0; i < edgeSlots.length; i++)
             pieces[edgeSlots[i]] = Piece.values()[edgeSlots[edgePermutation[i]]];
-        for (int i = 0; i < centerSlots.length; i++) {
+        for (int i = 0; i < centerSlots.length; i++)
             pieces[centerSlots[i]] = Piece.values()[centerSlots[i]];
-        }
+        // append rotations
         int[] rotations = new int[26];
         for (int i = 0; i < cornerSlots.length; i++)
             rotations[cornerSlots[i]] = random.nextInt(3);
         for (int i = 0; i < edgeSlots.length; i++)
             rotations[edgeSlots[i]] = random.nextInt(2);
         Cube out = Cube.fromStickers(pieces, rotations);
+        //fix parities
         while (out.hasOrientationParity()) {
             out.pieces[0] = out.pieces[0] / 10 * 10 + ((out.pieces[0] % 10 + 1) % 3);
             out.pieces[1] = out.pieces[1] / 10 * 10 + ((out.pieces[1] % 10 + 1) % 2);
@@ -247,7 +257,7 @@ public class Cube {
     public boolean equals(Object o) {
         if (!(o instanceof Cube))
             return false;
-        Cube local = this.normalizeRotation();
+        Cube local = this.clone().normalizeRotation();
         Cube ref = ((Cube) o).normalizeRotation();
         for (int i = 0; i < CubeConstants.Stickers.faceStickers.length; i++)
             for (int j = 0; j < CubeConstants.Stickers.faceStickers[i].length; j++) {
@@ -282,6 +292,24 @@ public class Cube {
     public boolean hasParity() {
         return this.hasPermutationParity() || this.hasOrientationParity();
     }
+
+    public void printGrid(String filename) {
+
+        Render2D render2D = new Render2D(this);
+        PixMap pixMap = render2D.getPixmap().scale(50).border(20);
+
+        BufferedImage img = new BufferedImage(pixMap.getWidth(), pixMap.getHeight(), BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < pixMap.getHeight(); i++)
+            for (int j = 0; j < pixMap.getWidth(); j++)
+                img.setRGB(j, i, pixMap.getPixel(i, j).getRGB());
+
+        try {
+            ImageIO.write(img, "png", new File(filename + ".png"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     //
     //  private methods
