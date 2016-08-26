@@ -1,0 +1,21 @@
+apply plugin: 'application'
+
+mainClassName = "me.thamma.tools.telegramBot.CubeBot"
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.rubenlagus:TelegramBots:v2.3.4'
+	testCompile 'junit:junit:4.12'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName,
+            'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
+    }
+}
