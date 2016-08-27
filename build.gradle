@@ -30,7 +30,7 @@ task bot (type: Jar) {
 }
 
 task jar2(type: Jar) {
-	baseName = 'jar2'
+	basName = 'jar2'
 	manifest {
 		attributes 'Main-Class': mainClassName,
 				   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
@@ -40,7 +40,7 @@ task jar2(type: Jar) {
 	}
     from (sourceSets.main.output)
     exclude('me/thamma/tools/render/*')
-} 
+}
 
 jar {
 	exclude 'me/thamma/tools/render/*'
