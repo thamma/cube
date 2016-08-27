@@ -8,6 +8,13 @@
 /out
 /docs
 /target
+# gradle files
+build/*
+gradle/*
+gradlew
+gradlew.bat
+settings.gradle
+.gradle/*
 # Debug main
 # /src/me/thamma/cube/Main.java
 # docs
