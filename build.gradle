@@ -1,21 +1,47 @@
+apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = "me.thamma.tools.telegramBot.CubeBot"
 
 repositories {
-    jcenter()
-    mavenCentral()
-    maven { url "https://jitpack.io" }
+	jcenter()
+		mavenCentral()
+		maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    compile 'com.github.rubenlagus:TelegramBots:v2.3.4'
-	testCompile 'junit:junit:4.12'
+	compile 'com.github.rubenlagus:TelegramBots:v2.3.4'
+		testCompile 'junit:junit:4.12'
 }
 
+task bot (type: Jar) {
+	baseName 'telegramBot'
+	manifest {
+		attributes 'Main-Class': mainClassName,
+				   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
+	}
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+	from (sourceSets.main.output) {
+	}
+	exclude 'me/thamma/tools/render/*'
+}
+
+task jar2(type: Jar) {
+	baseName = 'core'
+    dependsOn classes
+    from sourceSets.main.classes
+    exclude('me/thamma/tools/*')
+} 
+
 jar {
-    manifest {
-        attributes 'Main-Class': mainClassName,
-            'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
-    }
+	exclude 'me/thamma/tools/render/*'
+	manifest {
+		attributes 'Main-Class': mainClassName,
+				   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
+	}
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
