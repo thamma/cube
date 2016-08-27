@@ -5,7 +5,6 @@ import me.thamma.cube.algorithmInterpreter.lexer.IllegalCharacterException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
 import me.thamma.utils.CubeUtils;
-import me.thamma.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,6 +61,15 @@ public class Algorithm extends ArrayList<Turn> {
     //
     //  public methods
     //
+
+    public Algorithm concat(Algorithm algorithm) {
+        this.addAll(algorithm);
+        return this;
+    }
+    public Algorithm concat(Turn turn) {
+        this.add(turn);
+        return this;
+    }
 
     /**
      * Whether two algorithms are congruent. That is they are equal apart from initial cube rotations
@@ -342,7 +350,7 @@ public class Algorithm extends ArrayList<Turn> {
                 }
             }
         }
-        System.out.printf("lower: %d, upper: %d, range: %d\n", lower, upper, range);
+        //System.out.printf("lower: %d, upper: %d, range: %d\n", lower, upper, range);
         if (range > 0)
             this.removeRange(lower, upper + 1);
     }
@@ -359,11 +367,6 @@ public class Algorithm extends ArrayList<Turn> {
     }
 
     public int getOrder() {
-        //TODO this needs love again for the bottom variant to work
-        int order = 1;
-        for (Cycle cycle : this.getCycles())
-            order = MathUtils.lcm(order, cycle.getOrder());
-        return order;
-        //return new Cycles(this).getOrder();
+        return new Cycles(this).getOrder();
     }
 }

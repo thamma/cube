@@ -2,12 +2,14 @@ package me.thamma.cube.algorithmInterpreter.parser;
 
 import me.thamma.cube.algorithmInterpreter.lexer.Token;
 import me.thamma.cube.algorithmInterpreter.lexer.tokens.*;
-import me.thamma.cube.algorithmInterpreter.parser.expressions.*;
-import me.thamma.cube.model.Turn;
+import me.thamma.cube.algorithmInterpreter.parser.expressions.CommutatorExpression;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedEndOfLineException;
 import me.thamma.cube.algorithmInterpreter.parser.expressions.Exceptions.UnexpectedTokenException;
+import me.thamma.cube.algorithmInterpreter.parser.expressions.ParenthesesExpression;
+import me.thamma.cube.algorithmInterpreter.parser.expressions.SeriesExpression;
+import me.thamma.cube.algorithmInterpreter.parser.expressions.TurnExpression;
+import me.thamma.cube.model.Turn;
 
-import java.util.AbstractCollection;
 import java.util.List;
 
 public class Parser {
@@ -103,7 +105,7 @@ public class Parser {
                     }
                     out.add(new TurnExpression(rotation, amount));
                 } else {
-                    Expression commutatorExpression = parseCommutatorExpression2(tokenList);
+                    Expression commutatorExpression = parseCommutatorExpression(tokenList);
                     tokenList.remove(0);//pop RBRAC
                     boolean inverse = false;
                     if (tokenList.size() > 0 && tokenList.get(0) instanceof TokenInverse) {
@@ -147,44 +149,6 @@ public class Parser {
 
     private static Expression parseCommutatorExpression(List<Token> tokenList) throws UnexpectedTokenException, UnexpectedEndOfLineException {
         Expression exp1 = parseExpression(tokenList);
-        if (tokenList.size() == 0)
-            throw new UnexpectedEndOfLineException();
-        Token head = tokenList.remove(0);
-        if (head instanceof TokenComma) {
-            //only commutator
-            Expression exp2 = parseExpression(tokenList);
-            if (tokenList.size() == 0)
-                throw new UnexpectedEndOfLineException();
-            if (!(tokenList.get(0) instanceof TokenRBRAC))
-                throw new UnexpectedTokenException("Commutator, found " + tokenList.get(0));
-            return new CommutatorExpression(null, exp1, exp2);
-        } else if (head instanceof TokenColon) {
-            Expression exp2 = parseExpression(tokenList);
-            if (tokenList.size() == 0)
-                throw new UnexpectedEndOfLineException();
-            head = tokenList.get(0);
-            if (head instanceof TokenRBRAC) {
-                //only conjugate
-                return new CommutatorExpression(exp1, exp2, null);
-            } else if (head instanceof TokenComma) {
-                tokenList.remove(0); //pop head
-                //mixed commutator
-                Expression exp3 = parseExpression(tokenList);
-                if (tokenList.size() == 0)
-                    throw new UnexpectedEndOfLineException();
-                if (!(tokenList.get(0) instanceof TokenRBRAC))
-                    throw new UnexpectedTokenException("Commutator, found" + tokenList.get(0));
-                return new CommutatorExpression(exp1, exp2, exp3);
-            } else {
-                throw new UnexpectedTokenException(head);
-            }
-        } else {
-            throw new UnexpectedTokenException(head);
-        }
-    }
-
-    private static Expression parseCommutatorExpression2(List<Token> tokenList) throws UnexpectedTokenException, UnexpectedEndOfLineException {
-        Expression exp1 = parseExpression(tokenList);
         if (tokenList.size() == 0 )
             throw new UnexpectedEndOfLineException();
         Token head = tokenList.get(0);
@@ -199,7 +163,7 @@ public class Parser {
             return exp1;
         } else
             throw new UnexpectedTokenException(head);
-        Expression exp2 = parseCommutatorExpression2(tokenList);
+        Expression exp2 = parseCommutatorExpression(tokenList);
         if (commutator)
             return new CommutatorExpression(null, exp1, exp2);
         return new CommutatorExpression(exp1, exp2, null);

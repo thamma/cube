@@ -65,6 +65,19 @@ public class AlgorithmTests {
         }
     }
 
+    @Test
+    public void order() {
+        for (String s : bigSet) {
+            Algorithm alg = Algorithm.fromScramble(s);
+            int order = 1;
+            Cube cube = new Cube(alg);
+            while (!cube.isSolved()) {
+                cube.turn(alg);
+                order++;
+            }
+            assertTrue(alg.getOrder() == order);
+        }
+    }
 
     public static Algorithm[] rawAlgorithms = new Algorithm[]{
             new Algorithm(Turn.DOWN),
@@ -90,6 +103,7 @@ public class AlgorithmTests {
 
 
     public static String[] bigSet = {
+            "R' y",
             "U' R F' D2",
             "[[RBU: RU' RU RU RU' R'U' R2], x2 y'] [B2: R U2 R' U' R U' R' L' U2 L U L' U L]",
             "M2 U M U2 M' U M2",

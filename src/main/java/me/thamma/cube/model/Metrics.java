@@ -26,6 +26,6 @@ public enum Metrics {
     }
 
     public int length(Algorithm algorithm) {
-        return this.metric.run(algorithm);
+        return this.metric.eval(algorithm);
     }
 }

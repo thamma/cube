@@ -1,7 +1,6 @@
 import me.thamma.cube.model.Turn;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TurnTests {
@@ -31,21 +30,21 @@ public class TurnTests {
     }
 
     @Test
-    public void turnTranslationsXY() {
+    public void turnTranslationsXYInvariant() {
         Turn t1 = Turn.X, t2 = Turn.Y;
         for (Turn t : Turn.values())
             assertTrue(String.format("Invariant broke for Turn %s\n", t), t.translateTurn(t1).translateTurn(t2).translateTurn(t1).translateTurn(t2).translateTurn(t1).translateTurn(t2) == t);
     }
 
     @Test
-    public void turnTranslationsXZ() {
+    public void turnTranslationsXZInvariant() {
         Turn t1 = Turn.X, t2 = Turn.Z;
         for (Turn t : Turn.values())
             assertTrue(String.format("Invariant broke for Turn %s\n", t),t.translateTurn(t1).translateTurn(t2).translateTurn(t1).translateTurn(t2).translateTurn(t1).translateTurn(t2) == t);
     }
 
     @Test
-    public void turnTranslationsYZ() {
+    public void turnTranslationsYZInvariant() {
         Turn t1 = Turn.Y, t2 = Turn.Z;
         for (Turn t : Turn.values())
             assertTrue(String.format("Invariant broke for Turn %s\n", t),t.translateTurn(t1).translateTurn(t2).translateTurn(t1).translateTurn(t2).translateTurn(t1).translateTurn(t2) == t);
