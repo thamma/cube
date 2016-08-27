@@ -25,7 +25,7 @@ public class BadEdgesMain {
             c.turn(alg);
 
             System.out.println("Your misoriented edges are:");
-            //for (int i = 0; i < edges.run; i++)
+            //for (int i = 0; i < edges.eval; i++)
             //    if (c.getPiece(edges[i])[3] == 1)
              //       System.out.print(edgestrings[i] + " ");
             System.out.println();
