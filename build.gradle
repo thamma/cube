@@ -1,7 +1,7 @@
 apply plugin: 'java'
-apply plugin: 'application'
+//apply plugin: 'application'
 
-mainClassName = "me.thamma.tools.telegramBot.CubeBot"
+//mainClassName = "me.thamma.tools.telegramBot.CubeBot"
 
 repositories {
 	jcenter()
@@ -14,38 +14,19 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 }
 
-task bot (type: Jar) {
-	baseName 'cube'
-	appendix 'telegramBot'
-	manifest {
-		attributes 'Main-Class': mainClassName,
-				   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
-	}
-	from {
-		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-	}
-	//exclude 'me/thamma/tools/render/render3d/*'
-	from (sourceSets.main.output)
-	exclude 'me/thamma/tools/render/render3d/*'
-}
-
-task jar2(type: Jar) {
-	basName = 'jar2'
-	manifest {
-		attributes 'Main-Class': mainClassName,
-				   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
-	}
-	from {
-		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-	}
-    from (sourceSets.main.output)
-    exclude('me/thamma/tools/render/*')
+sourceSets {
+    jar {
+        java {
+            srcDir 'src/main/java'
+			exclude 'me/thamma/tools/render/render3d/*'
+        }
+    }
 }
 
 jar {
-	exclude 'me/thamma/tools/render/*'
+	//exclude 'me/thamma/tools/render/*'
 	manifest {
-		attributes 'Main-Class': mainClassName,
+		attributes 'Main-Class': 'me.thamma.tools.telegramBot.CubeBot',
 				   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
 	}
 	from {
