@@ -244,7 +244,7 @@ public class Cube {
 
     @Override
     public int hashCode() {
-        return 31 * Arrays.hashCode(sideStrings) + Arrays.hashCode(pieces);
+        return 31 * Arrays.hashCode(pieces);
     }
 
     /**
