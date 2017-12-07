@@ -1,18 +1,20 @@
 package me.thamma.cube;
 
-import me.thamma.cube.model.Algorithm;
-import me.thamma.cube.model.Cube;
+import me.thamma.cube.model.BandageCube;
+import me.thamma.cube.model.Sticker;
 import me.thamma.cube.model.Turn;
-import me.thamma.utils.CubeUtils;
+import me.thamma.tools.Bandage;
 
-import static me.thamma.cube.model.Turn.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String... args) {
-        Cube.fromScramble("[M2U:M',U2]").printGrid("test");
-        Algorithm alg = CubeUtils.bfsSolution(Cube.fromScramble("[M2U:M',U2]"), new Turn[]{UP, RIGHT,UP_PRIME, RIGHT_PRIME});
-        System.out.println(alg);
+        List<Bandage> bandage = new ArrayList<>();
+        bandage.add(new Bandage(Sticker.UR, Sticker.U));
+        BandageCube cube = new BandageCube(bandage);
+        System.out.println(cube.canTurn(Turn.RIGHT));
     }
 
 }

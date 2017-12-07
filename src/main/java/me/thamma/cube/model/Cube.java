@@ -28,6 +28,7 @@ public class Cube {
      */
 
     private String[] sideStrings = {null, "U", "F", "R", "D", "B", "L"};
+    private Map<Sticker, Sticker> reverseLookupTable = null;
 
     private int[] pieces;
     //
@@ -161,6 +162,10 @@ public class Cube {
         a.forEach(this::turn);
         return this;
     }
+    
+    public boolean canTurn(Turn t) {
+        return true;
+    }
 
     public boolean matches(String cubeRegex) {
         try {
@@ -171,6 +176,20 @@ public class Cube {
             return false;
         }
     }
+
+    public Map<Sticker, Sticker> getReverseStickerLookup() {
+        if (this.reverseLookupTable != null)
+            return this.reverseLookupTable;
+        HashMap<Sticker, Sticker> out = new HashMap<>();
+        for (Sticker sticker: Sticker.values()) {
+            Sticker target = this.getCurrentStickerAt(sticker);
+            out.put(target, sticker);
+        }
+        this.reverseLookupTable = out;
+        return this.reverseLookupTable;
+    }
+
+
 
     public int getColor(Sticker s) {
         int[] piece = this.getPiece(s.getPiece());
@@ -387,7 +406,7 @@ public class Cube {
      * @param target   the stickers to be cycled
      * @param rotation the rotation applied to each sticker upon cycling.
      */
-    private void cyclePieces(int offset, Piece[] target, int[] rotation) {
+    protected void cyclePieces(int offset, Piece[] target, int[] rotation) {
         offset = (offset + target.length) % target.length;
         int[] piecesClone = this.pieces.clone();
         for (int i = 0; i < target.length; i++) {

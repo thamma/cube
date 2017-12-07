@@ -28,11 +28,133 @@ public enum Sticker {
 
     private int rotation;
     private Piece piece;
+    //private Sticker[] adjacents;
 
     Sticker(Piece piece, int rotation) {
         this.piece = piece;
         this.rotation = rotation;
+       // this.adjacents = adjacentLookup();
     }
+
+    public Sticker[] adjacentLookup(Sticker sticker) {
+        switch (sticker) {
+            case ULB:
+                return new Sticker[]{Sticker.UB, Sticker.UL};
+            case UB:
+                return new Sticker[]{Sticker.ULB, Sticker.U, Sticker.UBR};
+            case UBR:
+                return new Sticker[]{Sticker.UB, Sticker.UR};
+            case UL:
+                return new Sticker[]{Sticker.ULB, Sticker.U, Sticker.UFL};
+            case U:
+                return new Sticker[]{Sticker.UB, Sticker.UL, Sticker.UR, Sticker.UF};
+            case UR:
+                return new Sticker[]{Sticker.ULB, Sticker.U, Sticker.URF};
+            case UFL:
+                return new Sticker[]{Sticker.UL, Sticker.UF};
+            case UF:
+                return new Sticker[]{Sticker.UFL, Sticker.U, Sticker.URF};
+            case URF:
+                return new Sticker[]{Sticker.UF, Sticker.UL};
+            case FLU:
+                return new Sticker[]{Sticker.FU, Sticker.FL};
+            case FU:
+                return new Sticker[]{Sticker.FLU, Sticker.U, Sticker.FUR};
+            case FUR:
+                return new Sticker[]{Sticker.FU, Sticker.FR};
+            case FL:
+                return new Sticker[]{Sticker.FLU, Sticker.F, Sticker.FDL};
+            case F:
+                return new Sticker[]{Sticker.FU, Sticker.FL, Sticker.FR, Sticker.FD};
+            case FR:
+                return new Sticker[]{Sticker.FLU, Sticker.F, Sticker.FUR};
+            case FDL:
+                return new Sticker[]{Sticker.FL, Sticker.FD};
+            case FD:
+                return new Sticker[]{Sticker.FDL, Sticker.F, Sticker.FRD};
+            case FRD:
+                return new Sticker[]{Sticker.FR, Sticker.FD};
+            case RFU:
+                return new Sticker[]{Sticker.RF, Sticker.RU};
+            case RU:
+                return new Sticker[]{Sticker.RFU, Sticker.R, Sticker.RUB};
+            case RUB:
+                return new Sticker[]{Sticker.RU, Sticker.RB};
+            case RF:
+                return new Sticker[]{Sticker.RFU, Sticker.R, Sticker.RDF};
+            case R:
+                return new Sticker[]{Sticker.RU, Sticker.RF, Sticker.RB, Sticker.RD};
+            case RB:
+                return new Sticker[]{Sticker.RUB, Sticker.R, Sticker.RBD};
+            case RDF:
+                return new Sticker[]{Sticker.RF, Sticker.RD};
+            case RD:
+                return new Sticker[]{Sticker.RDF, Sticker.R, Sticker.RBD};
+            case RBD:
+                return new Sticker[]{Sticker.RB, Sticker.RD};
+            case DLF:
+                return new Sticker[]{Sticker.DL, Sticker.DF};
+            case DF:
+                return new Sticker[]{Sticker.DLF, Sticker.D, Sticker.DFR};
+            case DFR:
+                return new Sticker[]{Sticker.DF, Sticker.DR};
+            case DL:
+                return new Sticker[]{Sticker.DLF, Sticker.D, Sticker.DFR};
+            case D:
+                return new Sticker[]{Sticker.DF, Sticker.DR, Sticker.DL, Sticker.DB};
+            case DR:
+                return new Sticker[]{Sticker.DRB, Sticker.D, Sticker.DBL};
+            case DBL:
+                return new Sticker[]{Sticker.DB, Sticker.DL};
+            case DB:
+                return new Sticker[]{Sticker.DBL, Sticker.D, Sticker.DRB};
+            case DRB:
+                return new Sticker[]{Sticker.DR, Sticker.DB};
+            case BRU:
+                return new Sticker[]{Sticker.UB, Sticker.UR};
+            case BU:
+                return new Sticker[]{Sticker.BRU, Sticker.B, Sticker.BUL};
+            case BUL:
+                return new Sticker[]{Sticker.BU, Sticker.BL};
+            case BL:
+                return new Sticker[]{Sticker.BUL, Sticker.B, Sticker.BRU};
+            case B:
+                return new Sticker[]{Sticker.BU, Sticker.BR, Sticker.BL, Sticker.BD};
+            case BR:
+                return new Sticker[]{Sticker.BDR, Sticker.B, Sticker.BLD};
+            case BDR:
+                return new Sticker[]{Sticker.BR, Sticker.BD};
+            case BD:
+                return new Sticker[]{Sticker.BLD, Sticker.B, Sticker.BDR};
+            case BLD:
+                return new Sticker[]{Sticker.BL, Sticker.BD};
+            case LBU:
+                return new Sticker[]{Sticker.LB, Sticker.LU};
+            case LU:
+                return new Sticker[]{Sticker.LBU, Sticker.L, Sticker.LUF};
+            case LUF:
+                return new Sticker[]{Sticker.LU, Sticker.LF};
+            case LB:
+                return new Sticker[]{Sticker.LBU, Sticker.L, Sticker.LDB};
+            case L:
+                return new Sticker[]{Sticker.LU, Sticker.LF, Sticker.LB, Sticker.LD};
+            case LF:
+                return new Sticker[]{Sticker.LUF, Sticker.L, Sticker.LFD};
+            case LDB:
+                return new Sticker[]{Sticker.LD, LB};
+            case LD:
+                return new Sticker[]{Sticker.LDB, Sticker.L, Sticker.LFD};
+            case LFD:
+                return new Sticker[]{Sticker.LF, Sticker.LD};
+            default:
+                throw new RuntimeException("unreachable code");
+        }
+    }
+
+    public Sticker[] getAdjacentsStickers() {
+        return this.adjacentLookup(this);
+    }
+
 
     public int getOrder() {
         return this.name().length();

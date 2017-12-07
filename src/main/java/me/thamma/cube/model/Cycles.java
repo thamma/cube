@@ -13,7 +13,7 @@ public class Cycles extends ArrayList<Cycle> {
 
     public Cycles(Cube cube) {
         pieces = new HashSet<>();
-        for (Piece piece : CubeConstants.Pieces.cube) {
+        for (Piece piece : CubeConstants.Pieces.corners) {
             Cycle cycle = new Cycle(cube, piece);
             if (pieces.contains(cycle.get(0).getPiece()))
                 continue;
