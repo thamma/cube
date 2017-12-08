@@ -57,6 +57,29 @@ public class CubeUtils {
         return Algorithm.fromScramble(solution);
     }
 
+    public static Algorithm bfsBandageSolution(BandageCube cube, Turn[] turns) {
+        Set<Cube> visited = new HashSet<>();
+        Queue<Algorithm> solutions = new LinkedList<>();
+        for (Turn t : turns)
+            if (cube.canTurn(t))
+                solutions.add(new Algorithm(t));
+        while (!solutions.isEmpty()) {
+            Algorithm head = solutions.poll();
+            BandageCube curr = (BandageCube) cube.clone().turn(head);
+            if (curr.isSolved())
+                return head;
+            if (visited.contains(curr))
+                continue;
+            visited.add(curr);
+            for (Turn turn : turns) {
+                if (!curr.canTurn(turn))
+                    continue;
+                solutions.add(head.clone().concat(turn));
+            }
+        }
+        return null;
+    }
+
     public static Algorithm bfsSolution(Cube cube) {
         return bfsSolution(cube, new Turn[]{UP, FRONT, RIGHT, DOWN, BACK, LEFT});
     }
@@ -106,7 +129,7 @@ public class CubeUtils {
         while (!solutions.isEmpty()) {
             Algorithm head = solutions.poll();
             if (head.size() > currSize)
-                System.out.printf("%d\t%d\n",++currSize, System.currentTimeMillis() - time);
+                System.out.printf("%d\t%d\n", ++currSize, System.currentTimeMillis() - time);
             Cube currCube = start.clone().turn(head);
             if (end.matches(currCube))
                 return head;

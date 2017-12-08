@@ -49,7 +49,7 @@ public enum Sticker {
             case U:
                 return new Sticker[]{Sticker.UB, Sticker.UL, Sticker.UR, Sticker.UF};
             case UR:
-                return new Sticker[]{Sticker.ULB, Sticker.U, Sticker.URF};
+                return new Sticker[]{Sticker.UBR, Sticker.U, Sticker.URF};
             case UFL:
                 return new Sticker[]{Sticker.UL, Sticker.UF};
             case UF:
@@ -117,7 +117,7 @@ public enum Sticker {
             case BUL:
                 return new Sticker[]{Sticker.BU, Sticker.BL};
             case BL:
-                return new Sticker[]{Sticker.BUL, Sticker.B, Sticker.BRU};
+                return new Sticker[]{Sticker.BUL, Sticker.B, Sticker.BLD};
             case B:
                 return new Sticker[]{Sticker.BU, Sticker.BR, Sticker.BL, Sticker.BD};
             case BR:

@@ -43,11 +43,19 @@ public class Cube {
     }
 
     /**
+     *
+     * @return The internal cube representation
+     */
+    protected int[] getPieces() {
+        return pieces;
+    }
+
+    /**
      * Constructs a cube from the intern piece definition.
      *
      * @param pieces the integral piece encoding of the cube
      */
-    private Cube(int[] pieces) {
+    protected Cube(int[] pieces) {
         this.pieces = pieces;
     }
 
@@ -70,7 +78,7 @@ public class Cube {
         return new Cube(Algorithm.fromScramble(scramble));
     }
 
-    public static Cube fromStickers(Piece[] pieces, int[] rotations) {
+    private static Cube fromStickers(Piece[] pieces, int[] rotations) {
         List<String> list = new ArrayList<>(Piece.values().length);
         for (int i = 0; i < pieces.length; i++) {
             String temp = "";
