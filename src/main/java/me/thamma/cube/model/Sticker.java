@@ -67,7 +67,7 @@ public enum Sticker {
             case F:
                 return new Sticker[]{Sticker.FU, Sticker.FL, Sticker.FR, Sticker.FD};
             case FR:
-                return new Sticker[]{Sticker.FLU, Sticker.F, Sticker.FUR};
+                return new Sticker[]{Sticker.FUR, Sticker.F, Sticker.FRD};
             case FDL:
                 return new Sticker[]{Sticker.FL, Sticker.FD};
             case FD:
@@ -99,11 +99,11 @@ public enum Sticker {
             case DFR:
                 return new Sticker[]{Sticker.DF, Sticker.DR};
             case DL:
-                return new Sticker[]{Sticker.DLF, Sticker.D, Sticker.DFR};
+                return new Sticker[]{Sticker.DLF, Sticker.D, Sticker.DBL};
             case D:
                 return new Sticker[]{Sticker.DF, Sticker.DR, Sticker.DL, Sticker.DB};
             case DR:
-                return new Sticker[]{Sticker.DRB, Sticker.D, Sticker.DBL};
+                return new Sticker[]{Sticker.DRB, Sticker.D, Sticker.DLF};
             case DBL:
                 return new Sticker[]{Sticker.DB, Sticker.DL};
             case DB:
@@ -111,7 +111,7 @@ public enum Sticker {
             case DRB:
                 return new Sticker[]{Sticker.DR, Sticker.DB};
             case BRU:
-                return new Sticker[]{Sticker.UB, Sticker.UR};
+                return new Sticker[]{Sticker.BU, Sticker.BR};
             case BU:
                 return new Sticker[]{Sticker.BRU, Sticker.B, Sticker.BUL};
             case BUL:
@@ -121,7 +121,7 @@ public enum Sticker {
             case B:
                 return new Sticker[]{Sticker.BU, Sticker.BR, Sticker.BL, Sticker.BD};
             case BR:
-                return new Sticker[]{Sticker.BDR, Sticker.B, Sticker.BLD};
+                return new Sticker[]{Sticker.BDR, Sticker.B, Sticker.BRU};
             case BDR:
                 return new Sticker[]{Sticker.BR, Sticker.BD};
             case BD:
